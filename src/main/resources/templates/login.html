@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Thymeleaf hello world</title>
+
+
+</head>
+
+
+<body>
+
+
+<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+
+    <label for="email">Email</label>
+    <input type="text" th:field="${user.email}" id="email" placeholder="Email">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+    <label for="password">Password</label>
+    <input type="password" th:field="${user.password}" id="password" placeholder="Password">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+    <input type="submit" value="Login">
+</form>
+
+
+</body>
+
+
+</html>
