@@ -35,6 +35,26 @@ public class AdminController {
         return "/admin/edit-user";
     }
 
+
+    @GetMapping("/admin/add-user")
+    public String addUserPage(User theUser) {
+
+        return "admin/add-user";
+    }
+
+    @PostMapping("/admin/add-user-account")
+    public String addUserAccount(@Valid User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "admin/add-user";
+        }
+
+        userService.saveOrUpdateUser(user);
+
+        model.addAttribute("users", userService.findAllUsers());
+        return "admin/user-portal";
+    }
+
+
     @PostMapping("/admin/update-user/{id}")
     public String updateUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
 
@@ -49,11 +69,18 @@ public class AdminController {
         return "admin/edit-user";
     }
 
+    @GetMapping("/admin/delete-user/{id}")
+    public String deleteUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
 
+        if (result.hasErrors()) {
+            throw new RuntimeException("no user found with id :" + id);
+        }
 
+        userService.deleteUserById(id);
 
-
-
+        model.addAttribute("users", userService.findAllUsers());
+        return "admin/user-portal";
+    }
 
 
 }

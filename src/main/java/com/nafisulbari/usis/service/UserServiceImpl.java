@@ -58,9 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveOrUpdateUser(User theUser) {
-
         userRepository.save(theUser);
-
     }
 
     @Override

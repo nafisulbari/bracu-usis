@@ -1,0 +1,64 @@
+
+
+
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Thymeleaf hello world</title>
+
+
+
+</head>
+
+
+<body>
+
+
+
+<form action="#" th:action="@{/admin/add-user-account}" th:object="${user}" method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="${user.name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+    <label for="email">Email</label>
+    <input type="text" th:field="${user.email}" id="email" placeholder="Email">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+    <label for="password">Password</label>
+    <input type="text" th:field="${user.password}" id="password" placeholder="Passowrd">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+    <label for="mobile">mobile</label>
+    <input type="text" th:field="${user.mobile}" id="mobile" placeholder="Email">
+    <span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></span>
+
+    <label for="dept">dept</label>
+    <input type="text" th:field="${user.dept}" id="dept" placeholder="dept">
+    <span th:if="${#fields.hasErrors('dept')}" th:errors="*{dept}"></span>
+
+    <label for="credit">credit</label>
+    <input type="text" th:field="${user.credit}" id="credit" placeholder="credit">
+    <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"></span>
+
+    <label for="role">role</label>
+    <input type="text" th:field="${user.role}" id="role" placeholder="role">
+    <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
+
+    <label for="routine">routine</label>
+    <input type="text" th:field="${user.routine}" id="routine" placeholder="routine">
+    <span th:if="${#fields.hasErrors('routine')}" th:errors="*{routine}"></span>
+
+
+
+    <input type="submit" value="Add User">
+</form>
+
+
+
+</body>
+
+
+</html>

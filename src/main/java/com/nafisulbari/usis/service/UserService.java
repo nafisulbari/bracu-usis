@@ -17,7 +17,6 @@ public interface UserService {
     public List<User> findAllUsers();
 
 
-
     public String loginAuthenticator(User theUser);
 
 }
