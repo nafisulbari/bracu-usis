@@ -1,29 +1,30 @@
 package com.nafisulbari.usis.entity;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotBlank(message = "Name is mandatory")
+
     private String name;
-    @NotBlank(message = "Email is mandatory")
+
     private String email;
-    @NotBlank(message = "Password is mandatory")
+
     private String password;
-    @NotBlank(message = "Mobile is mandatory")
+
     private String mobile;
-    @NotBlank(message = "Department is mandatory")
+
     private String dept;
-    @NotBlank(message = "Credit is mandatory")
+
     private int credit;
-    @NotBlank(message = "Role is mandatory")
+
     private String role;
     private String routine;
 

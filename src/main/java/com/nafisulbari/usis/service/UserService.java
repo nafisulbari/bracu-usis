@@ -10,9 +10,11 @@ public interface UserService {
 
     public User findUserByEmail(User theUser);
 
-    public void saveUser(User theUser);
+    public void saveOrUpdateUser(User theUser);
 
     public void deleteUserById(int theID);
+
+    public List<User> findAllUsers();
 
 
 

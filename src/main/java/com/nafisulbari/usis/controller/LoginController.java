@@ -27,7 +27,6 @@ public class LoginController {
 
         String role = userService.loginAuthenticator(theUser);
 
-
         if (role.equals("admin"))
             return "admin/admin-home";
         if (role.equals("teacher"))
@@ -35,15 +34,11 @@ public class LoginController {
         if (role.equals("student"))
             return "student/student-home";
 
-
         theModel.addAttribute("user", theUser);
         return "login";
     }
 
-    @PostMapping("/error")
-    public String error() {
-        return "login";
-    }
+
 
 
 }
