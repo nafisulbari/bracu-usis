@@ -21,10 +21,10 @@
     <label for="password">Password</label>
     <input type="password" th:field="${user.password}" id="password" placeholder="Password">
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-
+<p>wrong credential</p>
     <input type="submit" value="Login">
 </form>
-<a th:href="@{/forgot-password}">forgot password</a>
+
 
 </body>
 

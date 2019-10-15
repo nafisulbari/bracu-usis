@@ -19,10 +19,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private EntityManager entityManager;
 
+
     @Autowired
     public UserServiceImpl(UserRepository theUserRepository, EntityManager theEntityManager) {
         userRepository = theUserRepository;
         entityManager = theEntityManager;
+
     }
 
     @Override
@@ -78,20 +80,25 @@ public class UserServiceImpl implements UserService {
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select u from User u where u.email=:email");
         theQuery.setParameter("email", theUser.getEmail());
+        try {
+            User user = null;
+            //TODO error solve
 
-        User user = null;
-        //TODO error solve
-        user = (User) theQuery.getSingleResult();
+            user = (User) theQuery.getSingleResult();
 
 
-        if (user == null) {
-            throw new RuntimeException("no users found with email " + theUser.getEmail());
+            if (user == null) {
+                throw new RuntimeException("no users found with email " + theUser.getEmail());
+            }
+
+
+            if (user.getPassword().equals(theUser.getPassword())) {
+                return user.getRole();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (user.getPassword().equals(theUser.getPassword())) {
-            System.out.println("password did not match");
-            return user.getRole();
-        }
-        //password and email DID not match
+        //password DID not match
         return "FAILED";
     }
 }

@@ -1,6 +1,8 @@
 package com.nafisulbari.usis.controller;
 
+import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +19,11 @@ public class AdminController {
 
 
     private UserService userService;
+    private PasswordRequestService passwordRequestService;
 
-    public AdminController(UserService theUserService) {
+    public AdminController(UserService theUserService, PasswordRequestService pthePasswordRequestService) {
         userService = theUserService;
+        passwordRequestService = pthePasswordRequestService;
     }
 
     @GetMapping("/admin/user-portal")
@@ -82,5 +86,38 @@ public class AdminController {
         return "admin/user-portal";
     }
 
+    //------------------------------------------------------------------------------------
+    @GetMapping("/admin/password-accept/{id}")
+    public String passwordAccept(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            throw new RuntimeException("no user found with id :" + id);
+        }
+        //might be wrong TODO
+        passwordRequestService.acceptByPasswordEmail(id);
+
+        model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
+        return "admin/password-request";
+    }
+
+    @GetMapping("/admin/password-reject/{id}")
+    public String passwordReject(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            throw new RuntimeException("no user found with id :" + id);
+        }
+        //might be wrong TODO
+        passwordRequestService.rejectByPasswordId(id);
+
+        model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
+        return "admin/password-request";
+    }
+
+
+    @GetMapping("/admin/password-request")
+    public String passwordRequestPage(Model model) {
+        model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
+        return "/admin/password-request";
+    }
 
 }
