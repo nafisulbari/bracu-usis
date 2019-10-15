@@ -51,21 +51,27 @@ public class AdminController {
     public String addUserAccount(@Valid User user, BindingResult result, Model model) {
 
         User tempUser =userService.findUserByEmail(user);
-        if (tempUser.getEmail().equals(user.getEmail())){
-            return "admin/add-user-exists";
-        }
+try {
+    if (tempUser.getEmail().equals(user.getEmail())) {
+        return "admin/add-user-exists";
+    }
+}catch (NullPointerException npe){
 
-        if (result.hasErrors()) {
-            return "admin/add-user";
-        }
-        MD5 md5 = new MD5();
-        String hashed = md5.getMd5(user.getPassword());
-        user.setPassword(hashed);
+}finally {
 
-        userService.saveOrUpdateUser(user);
 
-        model.addAttribute("users", userService.findAllUsers());
-        return "admin/user-portal";
+    if (result.hasErrors()) {
+        return "admin/add-user";
+    }
+    MD5 md5 = new MD5();
+    String hashed = md5.getMd5(user.getPassword());
+    user.setPassword(hashed);
+
+    userService.saveOrUpdateUser(user);
+
+    model.addAttribute("users", userService.findAllUsers());
+    return "admin/user-portal";
+}
     }
 
 

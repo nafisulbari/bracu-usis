@@ -26,9 +26,8 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Mobile</th>
                 <th>Dept</th>
-                <th>Credit</th>
+
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -36,9 +35,9 @@
             <tbody>
             <tr th:each="user : ${users}">
                 <td th:text="${user.name}"></td>
-                <td th:text="${user.mobile}"></td>
+                <td th:text="${user.email}"></td>
                 <td th:text="${user.dept}"></td>
-                <td th:text="${user.credit}"></td>
+
                 <td><a th:href="@{/admin/edit-user/{id}(id=${user.id})}">Edit</a></td>
                 <td><a th:href="@{/admin/delete-user/{id}(id=${user.id})}">Delete</a></td>
             </tr>

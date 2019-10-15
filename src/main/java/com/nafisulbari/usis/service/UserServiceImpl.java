@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
@@ -47,13 +48,16 @@ public class UserServiceImpl implements UserService {
         theQuery.setParameter("email", theUser.getEmail());
 
         User user = null;
-        user = (User) theQuery.getSingleResult();
-
-        if (user == null) {
-            throw new RuntimeException("no users found with email " + theUser.getEmail());
+        try {
+            user = (User) theQuery.getSingleResult();
+        }catch (NoResultException nre){
 
         }
-        return user;
+        finally {
+            return user;
+        }
+
+
     }
 
     @Override
