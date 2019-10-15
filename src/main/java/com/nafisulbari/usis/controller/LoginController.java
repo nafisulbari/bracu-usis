@@ -2,6 +2,7 @@ package com.nafisulbari.usis.controller;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.security.MD5;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public String homePage(User theUser, Model theModel) {
+
+        MD5 md5 = new MD5();
+        String hashed = md5.getMd5(theUser.getPassword());
+
+        System.out.println(hashed);
 
         String role = userService.loginAuthenticator(theUser);
 

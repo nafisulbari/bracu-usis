@@ -2,6 +2,7 @@ package com.nafisulbari.usis.controller;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.security.MD5;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -48,9 +49,13 @@ public class AdminController {
 
     @PostMapping("/admin/add-user-account")
     public String addUserAccount(@Valid User user, BindingResult result, Model model) {
+
         if (result.hasErrors()) {
             return "admin/add-user";
         }
+        MD5 md5 = new MD5();
+        String hashed = md5.getMd5(user.getPassword());
+        user.setPassword(hashed);
 
         userService.saveOrUpdateUser(user);
 
@@ -62,10 +67,16 @@ public class AdminController {
     @PostMapping("/admin/update-user/{id}")
     public String updateUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
 
+
         if (result.hasErrors()) {
             theUser.setId(id);
             return "admin/edit-user";
         }
+
+        MD5 md5 = new MD5();
+        String hashed = md5.getMd5(theUser.getPassword());
+        theUser.setPassword(hashed);
+
 
         userService.saveOrUpdateUser(theUser);
 
