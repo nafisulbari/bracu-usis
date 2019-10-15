@@ -18,41 +18,41 @@
 
 
 <form action="#" th:action="@{/admin/update-user/{id}(id=${user.id})}" th:object="${user}" method="post">
-    <label for="name">Name</label>
-    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <label for="name">Name</label><br>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name"><br>
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
-    <label for="email">Email</label>
-    <input type="text" th:field="*{email}" id="email" placeholder="Email">
+    <label for="email">Email</label><br>
+    <input type="text" th:field="*{email}" id="email" placeholder="Email"><br>
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 
-    <label for="password">Password</label>
-    <input type="text" th:field="*{password}" id="password" placeholder="Password">
+    <label for="password">Password</label><br>
+    <input type="text" th:field="*{password}" id="password" placeholder="Password"><br>
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-    <label for="mobile">Mobile</label>
-    <input type="text" th:field="*{mobile}" id="mobile" placeholder="Mobile">
+    <label for="mobile">Mobile</label><br>
+    <input type="text" th:field="*{mobile}" id="mobile" placeholder="Mobile"><br>
     <span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></span>
 
-    <label for="dept">Dept</label>
-    <input type="text" th:field="*{dept}" id="dept" placeholder="Dept">
+    <label for="dept">Dept</label><br>
+    <input type="text" th:field="*{dept}" id="dept" placeholder="Dept"><br>
     <span th:if="${#fields.hasErrors('dept')}" th:errors="*{dept}"></span>
 
-    <label for="credit">Credit</label>
-    <input type="text" th:field="*{credit}" id="credit" placeholder="Credit">
+    <label for="credit">Credit</label><br>
+    <input type="text" th:field="*{credit}" id="credit" placeholder="Credit"><br>
     <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"></span>
 
-    <label for="role">Role</label>
-    <input type="text" th:field="*{role}" id="role" placeholder="Role">
+    <label for="role">Role</label><br>
+    <input type="text" th:field="*{role}" id="role" placeholder="Role"><br>
     <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
 
-    <label for="routine">Routine</label>
-    <input type="text" th:field="*{routine}" id="routine" placeholder="Routine">
+    <label for="routine">Routine</label><br>
+    <input type="text" th:field="*{routine}" id="routine" placeholder="Routine"><br>
     <span th:if="${#fields.hasErrors('routine')}" th:errors="*{routine}"></span>
 
 
 
-
+    <br>
 
     <input type="submit" value="Update User">
 </form>

@@ -18,7 +18,7 @@
 
 
 <form action="#" th:action="@{/admin/add-user-account}" th:object="${user}" method="post">
-
+<br>
     <label for="name">Name</label><br>
     <input type="text" th:field="${user.name}" id="name" placeholder="Name"><br>
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
@@ -26,6 +26,7 @@
     <label for="email">Email</label><br>
     <input type="text" th:field="${user.email}" id="email" placeholder="Email"><br>
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+Email already exists<br>
 
     <label for="password">Password</label><br>
     <input type="text" th:field="${user.password}" id="password" placeholder="Passowrd"><br>
@@ -52,9 +53,9 @@
     <span th:if="${#fields.hasErrors('routine')}" th:errors="*{routine}"></span>
 
 
+
+
     <br>
-
-
     <input type="submit" value="Add User">
 </form>
 

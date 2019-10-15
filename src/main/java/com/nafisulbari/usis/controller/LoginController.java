@@ -51,6 +51,12 @@ public class LoginController {
         return "login2";
     }
 
+
+    @GetMapping("/logout")
+    public String logout(){
+        return "/";
+    }
+
     @GetMapping("/forgot-password")
     public String editUserPage(User theUser) {
 

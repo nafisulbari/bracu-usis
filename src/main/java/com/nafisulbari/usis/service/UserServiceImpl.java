@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             throw new RuntimeException("no users found with email " + theUser.getEmail());
+
         }
         return user;
     }

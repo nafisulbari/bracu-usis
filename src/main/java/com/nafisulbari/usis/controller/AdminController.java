@@ -50,6 +50,11 @@ public class AdminController {
     @PostMapping("/admin/add-user-account")
     public String addUserAccount(@Valid User user, BindingResult result, Model model) {
 
+        User tempUser =userService.findUserByEmail(user);
+        if (tempUser.getEmail().equals(user.getEmail())){
+            return "admin/add-user-exists";
+        }
+
         if (result.hasErrors()) {
             return "admin/add-user";
         }
