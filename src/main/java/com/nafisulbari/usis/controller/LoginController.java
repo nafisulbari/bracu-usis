@@ -34,6 +34,7 @@ public class LoginController {
         String hashed = md5.getMd5(theUser.getPassword());
 
         System.out.println(hashed);
+        theUser.setPassword(hashed);
 
         String role = userService.loginAuthenticator(theUser);
 
