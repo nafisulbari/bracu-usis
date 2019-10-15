@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class LoginController {
 
-
     private UserService userService;
     private PasswordRequestService passwordRequestService;
-
 
     public LoginController(UserService theUserService, PasswordRequestService thePasswordRequestService) {
         userService = theUserService;

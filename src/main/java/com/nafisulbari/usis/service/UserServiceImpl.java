@@ -15,16 +15,13 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-
     private UserRepository userRepository;
     private EntityManager entityManager;
-
 
     @Autowired
     public UserServiceImpl(UserRepository theUserRepository, EntityManager theEntityManager) {
         userRepository = theUserRepository;
         entityManager = theEntityManager;
-
     }
 
     @Override
