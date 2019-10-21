@@ -14,14 +14,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PasswordRequestImpl implements PasswordRequestService {
+public class PasswordRequestServiceImpl implements PasswordRequestService {
 
    private PasswordRequestRepository passwordRequestRepository;
+   private UserService userService;
     private EntityManager entityManager;
 
    @Autowired
-   public PasswordRequestImpl(PasswordRequestRepository thePasswordRequestRepository, EntityManager theEntityManager){
+   public PasswordRequestServiceImpl(PasswordRequestRepository thePasswordRequestRepository, UserService theUserService, EntityManager theEntityManager){
        passwordRequestRepository=thePasswordRequestRepository;
+       userService=theUserService;
        entityManager=theEntityManager;
    }
 
@@ -30,7 +32,7 @@ public class PasswordRequestImpl implements PasswordRequestService {
 
         MD5 md5=new MD5();
         String hashed=md5.getMd5(thePasswordRequest.getPassword());
-        System.out.println(hashed);
+        System.out.println("hashing :"+hashed);
         thePasswordRequest.setPassword(hashed);
 
        passwordRequestRepository.save(thePasswordRequest);
@@ -41,9 +43,11 @@ public class PasswordRequestImpl implements PasswordRequestService {
     public void rejectByPasswordId(int theID) {
         passwordRequestRepository.deleteById(theID);
     }
+
     @Override
     public void acceptByPasswordEmail(int theID) {
        Optional<PasswordRequest> passwordRequest = passwordRequestRepository.findById(theID);
+
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select u from User u where u.email=:email");
         theQuery.setParameter("email", passwordRequest.get().getEmail());
@@ -55,6 +59,7 @@ public class PasswordRequestImpl implements PasswordRequestService {
             throw new RuntimeException("no users found with email " + passwordRequest.get().getEmail());
         }
         user.setPassword(passwordRequest.get().getPassword());
+        userService.saveOrUpdateUser(user);
 
         passwordRequestRepository.deleteById(passwordRequest.get().getId());
     }

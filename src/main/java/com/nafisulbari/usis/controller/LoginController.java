@@ -4,6 +4,7 @@ import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.security.MD5;
 import com.nafisulbari.usis.service.PasswordRequestService;
+import com.nafisulbari.usis.service.PreviousPasswordService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,12 @@ public class LoginController {
 
     private UserService userService;
     private PasswordRequestService passwordRequestService;
+    private PreviousPasswordService previousPasswordService;
 
-    public LoginController(UserService theUserService, PasswordRequestService thePasswordRequestService) {
+    public LoginController(UserService theUserService, PasswordRequestService thePasswordRequestService, PreviousPasswordService thePreviousPasswordService) {
         userService = theUserService;
         passwordRequestService = thePasswordRequestService;
+        previousPasswordService = thePreviousPasswordService;
     }
 
     @GetMapping("/")
@@ -53,21 +56,29 @@ public class LoginController {
 
 
     @GetMapping("/logout")
-    public String logout(){
+    public String logout() {
         return "/logout";
     }
 
     @GetMapping("/forgot-password")
-    public String editUserPage(User theUser) {
+    public String forgotPasswordPage(PasswordRequest thePasswordRequest) {
 
-        return "/forgot-password";
+        return "forgot-password";
     }
 
     @PostMapping("/request-password")
-    public String editUserPage(PasswordRequest thePasswordRequest) {
-        passwordRequestService.savePasswordRequest(thePasswordRequest);
+    public String passwordRequestService(PasswordRequest thePasswordRequest) {
+        System.out.println("ctn req 1"+thePasswordRequest.getPassword());
 
-        return "password-requested";
+        if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
+            System.out.println("found true cnt 6");
+            return "forgot-password";
+        } else {
+            passwordRequestService.savePasswordRequest(thePasswordRequest);
+            System.out.println("found false cnt 6");
+            return "password-requested";
+        }
+
     }
 
 //--------------------------------------------------------------------------------

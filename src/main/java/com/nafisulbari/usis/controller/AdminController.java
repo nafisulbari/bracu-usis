@@ -50,28 +50,28 @@ public class AdminController {
     @PostMapping("/admin/add-user-account")
     public String addUserAccount(@Valid User user, BindingResult result, Model model) {
 
-        User tempUser =userService.findUserByEmail(user);
-try {
-    if (tempUser.getEmail().equals(user.getEmail())) {
-        return "admin/add-user-exists";
-    }
-}catch (NullPointerException npe){
+        User tempUser = userService.findUserByEmail(user);
+        try {
+            if (tempUser.getEmail().equals(user.getEmail())) {
+                return "admin/add-user-exists";
+            }
+        } catch (NullPointerException npe) {
 
-}finally {
+        } finally {
 
 
-    if (result.hasErrors()) {
-        return "admin/add-user";
-    }
-    MD5 md5 = new MD5();
-    String hashed = md5.getMd5(user.getPassword());
-    user.setPassword(hashed);
+            if (result.hasErrors()) {
+                return "admin/add-user";
+            }
+            MD5 md5 = new MD5();
+            String hashed = md5.getMd5(user.getPassword());
+            user.setPassword(hashed);
 
-    userService.saveOrUpdateUser(user);
+            userService.saveOrUpdateUser(user);
 
-    model.addAttribute("users", userService.findAllUsers());
-    return "admin/user-portal";
-}
+            model.addAttribute("users", userService.findAllUsers());
+            return "admin/user-portal";
+        }
     }
 
 

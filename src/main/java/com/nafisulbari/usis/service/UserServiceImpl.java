@@ -1,6 +1,8 @@
 package com.nafisulbari.usis.service;
 
+import com.nafisulbari.usis.entity.PreviousPassword;
 import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.repo.PreviousPasswordRepository;
 import com.nafisulbari.usis.repo.UserRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,13 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private PreviousPasswordRepository previousPasswordRepository;
     private UserRepository userRepository;
     private EntityManager entityManager;
 
     @Autowired
-    public UserServiceImpl(UserRepository theUserRepository, EntityManager theEntityManager) {
+    public UserServiceImpl(UserRepository theUserRepository, PreviousPasswordRepository thePreviousPasswordRepository, EntityManager theEntityManager) {
+        previousPasswordRepository = thePreviousPasswordRepository;
         userRepository = theUserRepository;
         entityManager = theEntityManager;
     }
@@ -50,10 +54,9 @@ public class UserServiceImpl implements UserService {
         User user = null;
         try {
             user = (User) theQuery.getSingleResult();
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
 
-        }
-        finally {
+        } finally {
             return user;
         }
 
@@ -62,7 +65,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveOrUpdateUser(User theUser) {
+
+        PreviousPassword previousPassword = new PreviousPassword();
+        previousPassword.setEmail(theUser.getEmail());
+        previousPassword.setPassword(theUser.getPassword());
+
+        previousPasswordRepository.save(previousPassword);
+
         userRepository.save(theUser);
+
     }
 
     @Override

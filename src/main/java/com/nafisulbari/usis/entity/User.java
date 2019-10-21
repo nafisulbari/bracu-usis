@@ -27,6 +27,7 @@ public class User {
     private int credit;
 
     private String role;
+
     private String routine;
 
 
