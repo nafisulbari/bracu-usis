@@ -68,14 +68,11 @@ public class LoginController {
 
     @PostMapping("/request-password")
     public String passwordRequestService(PasswordRequest thePasswordRequest) {
-        System.out.println("ctn req 1"+thePasswordRequest.getPassword());
 
         if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
-            System.out.println("found true cnt 6");
             return "forgot-password";
         } else {
             passwordRequestService.savePasswordRequest(thePasswordRequest);
-            System.out.println("found false cnt 6");
             return "password-requested";
         }
 
