@@ -1,6 +1,6 @@
 package com.nafisulbari.usis.service;
 
-import com.nafisulbari.usis.entity.PasswordRequest;
+import com.nafisulbari.usis.model.PasswordRequest;
 
 import java.util.List;
 

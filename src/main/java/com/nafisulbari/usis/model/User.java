@@ -1,34 +1,64 @@
-package com.nafisulbari.usis.entity;
+package com.nafisulbari.usis.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "mobile")
     private String mobile;
 
+    @Column(name = "dept")
     private String dept;
 
+    @Column(name = "credit")
     private int credit;
 
-    private String role;
+    @Column(name = "active")
+    private int active;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    @Column(name = "routine")
     private String routine;
 
+
+    public User() {
+    }
+
+    public User(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.mobile = user.getMobile();
+        this.dept = user.getDept();
+        this.credit = user.getCredit();
+        this.active = user.getActive();
+        this.roles = user.getRoles();
+
+        this.routine=user.getRoutine();
+    }
 
     public int getId() {
         return id;
@@ -86,13 +116,22 @@ public class User {
         this.credit = credit;
     }
 
-    public String getRole() {
-        return role;
+    public int getActive() {
+        return active;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setActive(int active) {
+        this.active = active;
     }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
 
     public String getRoutine() {
         return routine;
@@ -113,7 +152,7 @@ public class User {
                 ", mobile='" + mobile + '\'' +
                 ", dept='" + dept + '\'' +
                 ", credit=" + credit +
-                ", role='" + role + '\'' +
+                ", active=" + active +
                 ", routine='" + routine + '\'' +
                 '}';
     }

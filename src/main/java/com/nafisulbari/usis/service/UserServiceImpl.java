@@ -1,6 +1,6 @@
 package com.nafisulbari.usis.service;
 
-import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.model.User;
 import com.nafisulbari.usis.repo.UserRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +56,6 @@ public class UserServiceImpl implements UserService {
             return user;
         }
 
-
     }
 
     @Override
@@ -79,28 +77,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public String loginAuthenticator(User theUser) {
 
+        System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"+theUser.getRoles());
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select u from User u where u.email=:email");
         theQuery.setParameter("email", theUser.getEmail());
         try {
             User user = null;
             //TODO error solve
-
+            System.out.println("user" +user.toString());
             user = (User) theQuery.getSingleResult();
 
 
             if (user == null) {
+                System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"+theUser.getRoles());
                 throw new RuntimeException("no users found with email " + theUser.getEmail());
+
             }
 
-
-            if (user.getPassword().equals(theUser.getPassword())) {
-                return user.getRole();
+            if (!user.getPassword().equals(theUser.getPassword())) {
+                System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"+theUser.getRoles());
+                throw new RuntimeException("wrong password");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //password DID not match
-        return "FAILED";
+
+        System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"+theUser.getRoles());
+        return theUser.getRoles().toString();
     }
 }

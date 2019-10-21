@@ -1,9 +1,8 @@
 package com.nafisulbari.usis.service;
 
-import com.nafisulbari.usis.entity.PasswordRequest;
-import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.model.PasswordRequest;
+import com.nafisulbari.usis.model.User;
 import com.nafisulbari.usis.repo.PasswordRequestRepository;
-import com.nafisulbari.usis.security.MD5;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +27,7 @@ public class PasswordRequestImpl implements PasswordRequestService {
     @Override
     public void savePasswordRequest(PasswordRequest thePasswordRequest) {
 
-        MD5 md5=new MD5();
-        String hashed=md5.getMd5(thePasswordRequest.getPassword());
-        System.out.println(hashed);
-        thePasswordRequest.setPassword(hashed);
+
 
        passwordRequestRepository.save(thePasswordRequest);
 

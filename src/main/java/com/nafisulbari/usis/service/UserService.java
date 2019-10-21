@@ -1,6 +1,6 @@
 package com.nafisulbari.usis.service;
 
-import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.model.User;
 
 import java.util.List;
 

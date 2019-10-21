@@ -1,13 +1,15 @@
 package com.nafisulbari.usis.controller;
 
-import com.nafisulbari.usis.entity.PasswordRequest;
-import com.nafisulbari.usis.entity.User;
-import com.nafisulbari.usis.security.MD5;
+import com.nafisulbari.usis.model.PasswordRequest;
+import com.nafisulbari.usis.model.User;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 public class LoginController {
@@ -20,22 +22,33 @@ public class LoginController {
         passwordRequestService = thePasswordRequestService;
     }
 
-    @GetMapping("/")
-    public String loginPage(User theUser) {
-        return "login";
+
+    @GetMapping("/all")
+    public String hello() {
+        return "hello";
     }
 
-    @PostMapping("/login")
-    public String homePage(User theUser, Model theModel) {
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/admin/all")
+    public String adminHello() {
+        return "admin hello ";
+    }
 
-        MD5 md5 = new MD5();
-        String hashed = md5.getMd5(theUser.getPassword());
 
-        System.out.println(hashed);
-        theUser.setPassword(hashed);
+    @GetMapping("/")
+    public String loginPage(User theUser) {
+        return "loginPage";
+    }
+
+
+    @PostMapping("/loginPage")
+    public String loginPage(User theUser, Model theModel) {
+
+        if (theUser == null) {
+            return "loginPage";
+        }
 
         String role = userService.loginAuthenticator(theUser);
-
 
         if (role.equals("ADMIN")) {
             return "admin/admin-home";
@@ -48,12 +61,12 @@ public class LoginController {
         }
         theModel.addAttribute("user", theUser);
 
-        return "login2";
+        return "loginPage";
     }
 
 
     @GetMapping("/logout")
-    public String logout(){
+    public String logout() {
         return "/logout";
     }
 

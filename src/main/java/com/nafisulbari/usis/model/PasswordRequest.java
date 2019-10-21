@@ -1,4 +1,4 @@
-package com.nafisulbari.usis.entity;
+package com.nafisulbari.usis.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
