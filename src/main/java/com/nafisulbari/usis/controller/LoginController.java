@@ -37,19 +37,15 @@ public class LoginController {
         System.out.println(hashed);
         theUser.setPassword(hashed);
 
-        try {
-            if (userService.findUserByEmail(theUser).getEmail() == null) {
-                //kept empty intentionally
+        User tempUser =userService.findUserByEmail(theUser);
+
+            if (tempUser == null || tempUser.getEmail()==null) {
+                theModel.addAttribute("user", theUser);
+                theModel.addAttribute("wrongEmail", true);
+                return "login";
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            theModel.addAttribute("user", theUser);
-            theModel.addAttribute("wrongEmail", true);
-            return "login";
-        }
 
         String role = userService.loginAuthenticator(theUser);
-
 
         if (role.equals("ADMIN")) {
             return "admin/admin-home";
@@ -89,16 +85,13 @@ public class LoginController {
             themodel.addAttribute(thePasswordRequest);
             return "/forgot-password";
         }
-        try {
-            if (userService.findUserByEmail(tempUser).getEmail() == null) {
-                //keeping empty if clause intentionally to handel null
+
+            if (userService.findUserByEmail(tempUser) == null || userService.findUserByEmail(tempUser).getEmail().isEmpty()) {
+                themodel.addAttribute("messageEmailDoesNotExists", true);
+                themodel.addAttribute(thePasswordRequest);
+                return "/forgot-password";
             }
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
-            themodel.addAttribute("messageEmailDoesNotExists", true);
-            themodel.addAttribute(thePasswordRequest);
-            return "/forgot-password";
-        }
+   
 
         if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
             themodel.addAttribute("messagePasswordUsed", true);

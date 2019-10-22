@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
             user = (User) theQuery.getSingleResult();
 
         } catch (NoResultException nre) {
-            nre.printStackTrace();
+            System.out.println("no entity found class:UserServiceImpl. method:findUserByEmail");
         }
         return user;
 
