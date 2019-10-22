@@ -12,7 +12,7 @@
 <body>
 
 
-<form action="#" th:action="@{/loginPage}" th:object="${user}" method="post">
+<form action="#" th:action="@{/login}" th:object="${user}" method="post">
 
     <label for="email">Email</label>
     <input type="text" th:field="${user.email}" id="email" placeholder="Email">
@@ -21,12 +21,9 @@
     <label for="password">Password</label>
     <input type="password" th:field="${user.password}" id="password" placeholder="Password">
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-
+<p>wrong credential</p>
     <input type="submit" value="Login">
 </form>
-<a th:href="@{/forgot-password}">forgot password</a>
-
-
 
 
 </body>
