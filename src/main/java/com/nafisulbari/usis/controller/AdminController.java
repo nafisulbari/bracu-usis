@@ -49,6 +49,20 @@ public class AdminController {
 
     @PostMapping("/admin/add-user-account")
     public String addUserAccount(@Valid User user, BindingResult result, Model model) {
+
+        String email = user.getEmail();
+        if (!email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")){
+            model.addAttribute(user);
+            model.addAttribute("garbageEmail", true);
+            return "/admin/add-user";
+        }
+        String mobile =user.getMobile();
+        if (!mobile.matches("^(\\+8801|8801|01)(\\d){9}")){
+            model.addAttribute(user);
+            model.addAttribute("garbageMobile", true);
+            return "/admin/add-user";
+        }
+
         try {
             User tempUser = userService.findUserByEmail(user);
             if (tempUser != null) {
