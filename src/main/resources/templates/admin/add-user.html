@@ -21,36 +21,29 @@
 
     <label for="name">Name</label><br>
     <input type="text" th:field="${user.name}" id="name" placeholder="Name" required><br>
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
     <label for="email">Email</label><br>
     <input type="text" th:field="${user.email}" id="email" placeholder="Email" required><br>
-    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    <p th:if="${emailExists}" class="error">Email exists on another account</p>
 
     <label for="password">Password</label><br>
     <input type="text" th:field="${user.password}" id="password" placeholder="Passowrd" required><br>
-    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
     <label for="mobile">mobile</label><br>
     <input type="text" th:field="${user.mobile}" id="mobile" placeholder="Email" required><br>
-    <span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></span>
+
 
     <label for="dept">dept</label><br>
     <input type="text" th:field="${user.dept}" id="dept" placeholder="dept" required><br>
-    <span th:if="${#fields.hasErrors('dept')}" th:errors="*{dept}"></span>
 
     <label for="credit">credit</label><br>
     <input type="text" th:field="${user.credit}" id="credit" placeholder="credit" required><br>
-    <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"></span>
 
     <label for="role">role</label><br>
     <input type="text" th:field="${user.role}" id="role" placeholder="role" required><br>
-    <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
 
     <label for="routine">routine</label><br>
     <input type="text" th:field="${user.routine}" id="routine" placeholder="routine"><br>
-    <span th:if="${#fields.hasErrors('routine')}" th:errors="*{routine}"></span>
-
 
     <br>
 

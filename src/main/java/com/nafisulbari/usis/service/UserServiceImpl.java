@@ -54,11 +54,11 @@ public class UserServiceImpl implements UserService {
         User user = null;
         try {
             user = (User) theQuery.getSingleResult();
-        } catch (NoResultException nre) {
 
-        } finally {
-            return user;
+        } catch (NoResultException nre) {
+            nre.printStackTrace();
         }
+        return user;
 
 
     }

@@ -8,6 +8,7 @@ import com.nafisulbari.usis.service.PreviousPasswordService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,16 +30,14 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String homePage(User theUser, Model theModel) {
+    public String homePage(User theUser, BindingResult result, Model theModel) {
 
-        MD5 md5 = new MD5();
-        String hashed = md5.getMd5(theUser.getPassword());
+        String hashed = MD5.getMd5(theUser.getPassword());
 
         System.out.println(hashed);
         theUser.setPassword(hashed);
 
         String role = userService.loginAuthenticator(theUser);
-
 
         if (role.equals("ADMIN")) {
             return "admin/admin-home";
@@ -49,9 +48,10 @@ public class LoginController {
         if (role.equals("STUDENT")) {
             return "student/student-home";
         }
-        theModel.addAttribute("user", theUser);
 
-        return "login2";
+        theModel.addAttribute("user", theUser);
+        theModel.addAttribute("wrongCredentials", true);
+        return "login";
     }
 
 
@@ -67,13 +67,33 @@ public class LoginController {
     }
 
     @PostMapping("/request-password")
-    public String passwordRequestService(PasswordRequest thePasswordRequest) {
+    public String passwordRequestService(PasswordRequest thePasswordRequest, Model themodel, BindingResult result) {
+
+        User tempUser = new User();
+        tempUser.setEmail(thePasswordRequest.getEmail());
+        String password = thePasswordRequest.getPassword();
+        if (!password.matches("[a-zA-Z0-9]{8,}")){
+            themodel.addAttribute("messagePasswordPattern", true);
+            themodel.addAttribute(thePasswordRequest);
+            return "/forgot-password";
+        }
+        try {
+            if (userService.findUserByEmail(tempUser).getEmail() == null) {
+              //keeping empty if clause intentionally to handel null
+            }
+        }catch (NullPointerException npe){
+            npe.printStackTrace();
+            themodel.addAttribute("messageEmailDoesNotExists", true);
+            themodel.addAttribute(thePasswordRequest);
+            return "/forgot-password";
+        }
 
         if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
-            return "forgot-password";
+            themodel.addAttribute("messagePasswordUsed", true);
+            return "/forgot-password";
         } else {
             passwordRequestService.savePasswordRequest(thePasswordRequest);
-            return "password-requested";
+            return "/redirects/password-requested";
         }
 
     }
