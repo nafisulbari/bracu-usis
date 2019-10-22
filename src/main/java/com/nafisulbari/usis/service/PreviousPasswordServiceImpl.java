@@ -1,15 +1,12 @@
 package com.nafisulbari.usis.service;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
-import com.nafisulbari.usis.entity.PreviousPassword;
-import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.security.MD5;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
