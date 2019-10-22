@@ -22,8 +22,8 @@ public class PreviousPasswordServiceImpl implements PreviousPasswordService {
     @Override
     public Boolean findPreviousPasswordByEmail(PasswordRequest passwordRequest) {
 
-        MD5 md5=new MD5();
-        String hashed=md5.getMd5(passwordRequest.getPassword());
+        MD5 md5 = new MD5();
+        String hashed = md5.getMd5(passwordRequest.getPassword());
 
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select p.password from PreviousPassword p where p.email=:email");
