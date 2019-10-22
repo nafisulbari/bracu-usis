@@ -16,12 +16,14 @@
 
     <label for="email">Email</label>
     <input type="text" th:field="${user.email}" id="email" placeholder="Email">
+    <p th:if="${wrongEmail}" class="error">Email address might be wrong</p>
+
 
     <label for="password">Password</label>
     <input type="password" th:field="${user.password}" id="password" placeholder="Password">
 
     <br>
-    <p th:if="${wrongCredentials}" class="error">Wrong Credentials</p>
+    <p th:if="${wrongCredentials}" class="error">Wrong Password</p>
     <br>
 
     <input type="submit" value="Login">

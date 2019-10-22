@@ -37,7 +37,19 @@ public class LoginController {
         System.out.println(hashed);
         theUser.setPassword(hashed);
 
+        try {
+            if (userService.findUserByEmail(theUser).getEmail() == null) {
+                //kept empty intentionally
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            theModel.addAttribute("user", theUser);
+            theModel.addAttribute("wrongEmail", true);
+            return "login";
+        }
+
         String role = userService.loginAuthenticator(theUser);
+
 
         if (role.equals("ADMIN")) {
             return "admin/admin-home";
@@ -72,16 +84,16 @@ public class LoginController {
         User tempUser = new User();
         tempUser.setEmail(thePasswordRequest.getEmail());
         String password = thePasswordRequest.getPassword();
-        if (!password.matches("[a-zA-Z0-9]{8,}")){
+        if (!password.matches("[a-zA-Z0-9]{8,}")) {
             themodel.addAttribute("messagePasswordPattern", true);
             themodel.addAttribute(thePasswordRequest);
             return "/forgot-password";
         }
         try {
             if (userService.findUserByEmail(tempUser).getEmail() == null) {
-              //keeping empty if clause intentionally to handel null
+                //keeping empty if clause intentionally to handel null
             }
-        }catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             npe.printStackTrace();
             themodel.addAttribute("messageEmailDoesNotExists", true);
             themodel.addAttribute(thePasswordRequest);
