@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller
 public class LoginController {
@@ -24,42 +26,46 @@ public class LoginController {
         previousPasswordService = thePreviousPasswordService;
     }
 
+
+
+
     @GetMapping("/")
     public String loginPage(User theUser) {
         return "login";
     }
 
     @PostMapping("/login")
-    public String homePage(User theUser, BindingResult result, Model theModel) {
+    public ModelAndView homePage(User theUser, BindingResult result, Model theModel) {
 
         String hashed = MD5.getMd5(theUser.getPassword());
 
         System.out.println(hashed);
         theUser.setPassword(hashed);
 
-        User tempUser =userService.findUserByEmail(theUser);
+        User tempUser = userService.findUserByEmail(theUser);
 
-            if (tempUser == null || tempUser.getEmail()==null) {
-                theModel.addAttribute("user", theUser);
-                theModel.addAttribute("wrongEmail", true);
-                return "login";
-            }
+        if (tempUser == null || tempUser.getEmail() == null) {
+            theModel.addAttribute("user", theUser);
+            theModel.addAttribute("wrongEmail", true);
+            return new ModelAndView("/login", String.valueOf(theModel), theUser);
+        }
 
         String role = userService.loginAuthenticator(theUser);
 
         if (role.equals("ADMIN")) {
-            return "admin/admin-home";
+            return new ModelAndView("redirect:/admin/admin-home", String.valueOf(theModel), theUser);
         }
         if (role.equals("TEACHER")) {
-            return "teacher/teacher-home";
+            return new ModelAndView("redirect:/teacher/teacher-home", String.valueOf(theModel), theUser);
         }
         if (role.equals("STUDENT")) {
-            return "student/student-home";
+            return new ModelAndView("redirect:/student/student-home", String.valueOf(theModel), theUser);
         }
 
         theModel.addAttribute("user", theUser);
         theModel.addAttribute("wrongCredentials", true);
-        return "login";
+//----------------------------------------ModelAndView("redirect:/login" gives error which cannot be fixed----------------------------------
+        return new ModelAndView("/login", String.valueOf(theModel), theUser);
     }
 
 
@@ -86,12 +92,12 @@ public class LoginController {
             return "/forgot-password";
         }
 
-            if (userService.findUserByEmail(tempUser) == null || userService.findUserByEmail(tempUser).getEmail().isEmpty()) {
-                themodel.addAttribute("messageEmailDoesNotExists", true);
-                themodel.addAttribute(thePasswordRequest);
-                return "/forgot-password";
-            }
-   
+        if (userService.findUserByEmail(tempUser) == null || userService.findUserByEmail(tempUser).getEmail().isEmpty()) {
+            themodel.addAttribute("messageEmailDoesNotExists", true);
+            themodel.addAttribute(thePasswordRequest);
+            return "/forgot-password";
+        }
+
 
         if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
             themodel.addAttribute("messagePasswordUsed", true);

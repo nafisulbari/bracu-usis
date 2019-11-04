@@ -27,6 +27,16 @@ public class AdminController {
         passwordRequestService = pthePasswordRequestService;
     }
 
+
+
+
+    @GetMapping("/admin/admin-home")
+    public String adminHome(Model model) {
+        model.addAttribute("users", userService.findAllUsers());
+        return "/admin/admin-home";
+    }
+
+
     @GetMapping("/admin/user-portal")
     public String showUsersPage(Model model) {
         model.addAttribute("users", userService.findAllUsers());
