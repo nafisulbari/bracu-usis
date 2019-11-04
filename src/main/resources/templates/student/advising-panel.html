@@ -1,13 +1,9 @@
-
-
-
 <!DOCTYPE HTML>
 
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <title>Thymeleaf hello world</title>
-
 
 
 </head>
@@ -18,6 +14,94 @@
 <h1>STUDENT ADVISING</h1>
 <a th:href="@{/logout}">Logout</a>
 
+
+<H1>ROUTINE</H1>
+<table border="2" cellspacing="3" align="center">
+    <tr>
+        <td align="center">
+        <td>SATURDAY
+        <td>SUNDAY
+        <td>MONDAY
+        <td>TUESDAY
+        <td>WEDNESDAY
+        <td>THURSDAY
+
+    </tr>
+    <tr>
+        <td align="center">8.00 AM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+    <tr>
+        <td align="center">9.30 AM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+    <tr>
+        <td align="center">11.00 AM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+    <tr>
+        <td align="center">12.30 PM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+    <tr>
+        <td align="center">2.00 PM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+    <tr>
+        <td align="center">3.30 PM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+    <tr>
+        <td align="center">5.00 PM
+        <td align="center">SUB0<br>
+        <td align="center">SUB1<br>
+        <td align="center">SUB2<br>
+        <td align="center">SUB3<br>
+        <td align="center">SUB4<br>
+        <td align="center">SUB5<br>
+
+    </tr>
+
+
+</table>
+
+<h1>COURSESSS</h1>
 <div th:switch="${courses}">
     <h2 th:case="null">No users yet!</h2>
     <div th:case="*">
@@ -36,6 +120,13 @@
             </thead>
             <tbody>
             <tr th:each="course : ${courses}">
+
+
+
+                <span th:if="${#strings.contains(course.slot1,'SUNDAY')}"><p th:text="${course.courseCode}"></p></span>
+
+
+
                 <td th:text="${course.courseCode}"></td>
                 <td th:text="${course.courseName}"></td>
                 <td th:text="${course.section}"></td>
@@ -52,7 +143,6 @@
     </div>
 
 </div>
-
 
 
 </body>

@@ -151,4 +151,25 @@ public class Course {
     public void setSlot7(String slot7) {
         this.slot7 = slot7;
     }
+
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", courseCode='" + courseCode + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", section=" + section +
+                ", faculty='" + faculty + '\'' +
+                ", examDate='" + examDate + '\'' +
+                ", examTime='" + examTime + '\'' +
+                ", slot1='" + slot1 + '\'' +
+                ", slot2='" + slot2 + '\'' +
+                ", slot3='" + slot3 + '\'' +
+                ", slot4='" + slot4 + '\'' +
+                ", slot5='" + slot5 + '\'' +
+                ", slot6='" + slot6 + '\'' +
+                ", slot7='" + slot7 + '\'' +
+                '}';
+    }
 }
