@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface PasswordRequestService {
 
-    public void savePasswordRequest(PasswordRequest thePasswordRequest);
+     void savePasswordRequest(PasswordRequest thePasswordRequest);
 
-    public void rejectByPasswordId(int theID);
+     void rejectByPasswordId(int theID);
 
-    public void acceptByPasswordEmail(int theID);
+     void acceptByPasswordEmail(int theID);
 
-    public List<PasswordRequest> findAllPasswordRequest();
+     List<PasswordRequest> findAllPasswordRequest();
 }

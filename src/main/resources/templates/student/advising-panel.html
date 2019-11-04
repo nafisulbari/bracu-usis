@@ -1,0 +1,61 @@
+
+
+
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Thymeleaf hello world</title>
+
+
+
+</head>
+
+
+<body>
+
+<h1>STUDENT ADVISING</h1>
+<a th:href="@{/logout}">Logout</a>
+
+<div th:switch="${courses}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h2>Courses</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>Section</th>
+                <th>Faculty</th>
+                <th>Exam Day</th>
+                <th>Exam Time</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.courseCode}"></td>
+                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.section}"></td>
+                <td th:text="${course.faculty}"></td>
+                <td th:text="${course.examDate}"></td>
+                <td th:text="${course.examTime}"></td>
+
+
+                <td><a th:href="@{/admin/edit-user/{id}(id=${course.id})}">Edit</a></td>
+                <td><a th:href="@{/admin/delete-user/{id}(id=${course.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+</body>
+
+
+</html>
