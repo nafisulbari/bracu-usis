@@ -1,7 +1,6 @@
 package com.nafisulbari.usis.service;
 
 import com.nafisulbari.usis.entity.Course;
-import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.repo.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

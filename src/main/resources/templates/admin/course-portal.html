@@ -1,13 +1,9 @@
-
-
-
 <!DOCTYPE HTML>
 
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <title>Thymeleaf hello world</title>
-
 
 
 </head>
@@ -29,8 +25,14 @@
                 <th>Section</th>
                 <th>Faculty</th>
                 <th>Exam Day</th>
-                <th>Exam Time</th>
-                <th>Routine</th>
+                <th>8.00 AM</th>
+                <th>9.30 AM</th>
+                <th>11.00 AM</th>
+                <th>12.30 PM</th>
+                <th>2.00 PM</th>
+                <th>3.30 PM</th>
+                <th>5.00 PM</th>
+
             </tr>
             </thead>
             <tbody>
@@ -40,13 +42,13 @@
                 <td th:text="${course.section}"></td>
                 <td th:text="${course.faculty}"></td>
                 <td th:text="${course.examTime}"></td>
-                <td  th:text="${course.slot1}" ></td>
-                <td  th:text="${course.slot2}" ></td>
-                <td  th:text="${course.slot3}" ></td>
-                <td  th:text="${course.slot4}" ></td>
-                <td  th:text="${course.slot5}" ></td>
-                <td  th:text="${course.slot6}" ></td>
-                <td  th:text="${course.slot7}" ></td>
+                <td th:text="${course.slot1}"></td>
+                <td th:text="${course.slot2}"></td>
+                <td th:text="${course.slot3}"></td>
+                <td th:text="${course.slot4}"></td>
+                <td th:text="${course.slot5}"></td>
+                <td th:text="${course.slot6}"></td>
+                <td th:text="${course.slot7}"></td>
 
                 <td><a th:href="@{/admin/edit-course/{id}(id=${course.id})}">Edit</a></td>
                 <td><a th:href="@{/admin/delete-course/{id}(id=${course.id})}">Delete</a></td>
