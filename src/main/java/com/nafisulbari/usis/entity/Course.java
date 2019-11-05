@@ -23,19 +23,17 @@ public class Course {
 
     private String examTime;
 
-    private String slot1;
+    private String saturday;
 
-    private String slot2;
+    private String sunday;
 
-    private String slot3;
+    private String monday;
 
-    private String slot4;
+    private String tuesday;
 
-    private String slot5;
+    private String wednesday;
 
-    private String slot6;
-
-    private String slot7;
+    private String thursday;
 
 
     public int getId() {
@@ -54,13 +52,6 @@ public class Course {
         this.courseCode = courseCode;
     }
 
-    public String getCourseName() {
-        return courseTitle;
-    }
-
-    public void setCourseName(String courseTitle) {
-        this.courseTitle = courseTitle;
-    }
 
     public int getSection() {
         return section;
@@ -86,60 +77,61 @@ public class Course {
         this.examTime = examTime;
     }
 
-    public String getSlot1() {
-        return slot1;
+
+    public String getCourseTitle() {
+        return courseTitle;
     }
 
-    public void setSlot1(String slot1) {
-        this.slot1 = slot1;
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
 
-    public String getSlot2() {
-        return slot2;
+    public String getSaturday() {
+        return saturday;
     }
 
-    public void setSlot2(String slot2) {
-        this.slot2 = slot2;
+    public void setSaturday(String saturday) {
+        this.saturday = saturday;
     }
 
-    public String getSlot3() {
-        return slot3;
+    public String getSunday() {
+        return sunday;
     }
 
-    public void setSlot3(String slot3) {
-        this.slot3 = slot3;
+    public void setSunday(String sunday) {
+        this.sunday = sunday;
     }
 
-    public String getSlot4() {
-        return slot4;
+    public String getMonday() {
+        return monday;
     }
 
-    public void setSlot4(String slot4) {
-        this.slot4 = slot4;
+    public void setMonday(String monday) {
+        this.monday = monday;
     }
 
-    public String getSlot5() {
-        return slot5;
+    public String getTuesday() {
+        return tuesday;
     }
 
-    public void setSlot5(String slot5) {
-        this.slot5 = slot5;
+    public void setTuesday(String tuesday) {
+        this.tuesday = tuesday;
     }
 
-    public String getSlot6() {
-        return slot6;
+    public String getWednesday() {
+        return wednesday;
     }
 
-    public void setSlot6(String slot6) {
-        this.slot6 = slot6;
+    public void setWednesday(String wednesday) {
+        this.wednesday = wednesday;
     }
 
-    public String getSlot7() {
-        return slot7;
+    public String getThursday() {
+        return thursday;
     }
 
-    public void setSlot7(String slot7) {
-        this.slot7 = slot7;
+    public void setThursday(String thursday) {
+        this.thursday = thursday;
     }
 
 
@@ -148,17 +140,16 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", courseCode='" + courseCode + '\'' +
-                ", courseName='" + courseTitle + '\'' +
+                ", courseTitle='" + courseTitle + '\'' +
                 ", section=" + section +
                 ", faculty='" + faculty + '\'' +
                 ", examTime='" + examTime + '\'' +
-                ", slot1='" + slot1 + '\'' +
-                ", slot2='" + slot2 + '\'' +
-                ", slot3='" + slot3 + '\'' +
-                ", slot4='" + slot4 + '\'' +
-                ", slot5='" + slot5 + '\'' +
-                ", slot6='" + slot6 + '\'' +
-                ", slot7='" + slot7 + '\'' +
+                ", saturday='" + saturday + '\'' +
+                ", sunday='" + sunday + '\'' +
+                ", monday='" + monday + '\'' +
+                ", tuesday='" + tuesday + '\'' +
+                ", wednesday='" + wednesday + '\'' +
+                ", thursday='" + thursday + '\'' +
                 '}';
     }
 }

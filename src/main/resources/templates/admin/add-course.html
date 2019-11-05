@@ -23,7 +23,7 @@
     <input type="text" th:field="${course.courseCode}" id="courseCode" placeholder="Course Code" required><br>
 
     <label for="courseName">Course Title</label><br>
-    <input type="text" th:field="${course.courseName}" id="courseName" placeholder="Course Title" required><br>
+    <input type="text" th:field="${course.courseTitle}" id="courseName" placeholder="Course Title" required><br>
 
     <label for="section">Section</label><br>
     <input type="text" th:field="${course.section}" id="section" placeholder="Section" required><br>
@@ -44,61 +44,61 @@
 
     <br>Routine <br>
 
-    <label for="slot1">8.00 AM</label><br>
-    <input type="checkbox" th:field="${course.slot1}" name="slot1" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot1}" name="slot1" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot1}" name="slot1" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot1}" name="slot1" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot1}" name="slot1" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot1}" name="slot1" value="THURSDAY">THURSDAY<br>
+    <label for="saturday">SATURDAY</label><br>
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="8.00 AM">8.00 AM
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="9.30 AM">9.30 AM
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="11.00 AM">11.00 AM
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="12.30 PM">12.30 PM
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="2.00 PM">2.00 PM
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="3.30 PM">3.30 PM
+    <input type="checkbox" th:field="${course.saturday}" name="saturday" value="5.00 PM">5.00 PM<br>
 
-    <label for="slot2">9.30 AM</label><br>
-    <input type="checkbox" th:field="${course.slot2}" name="slot2" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot2}" name="slot2" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot2}" name="slot2" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot2}" name="slot2" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot2}" name="slot2" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot2}" name="slot2" value="THURSDAY">THURSDAY<br>
+    <label for="sunday">SUNDAY</label><br>
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="8.00 AM">8.00 AM
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="9.30 AM">9.30 AM
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="11.00 AM">11.00 AM
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="12.30 PM">12.30 PM
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="2.00 PM">2.00 PM
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="3.30 PM">3.30 PM
+    <input type="checkbox" th:field="${course.sunday}" name="sunday" value="5.00 PM">5.00 PM<br>
 
-    <label for="slot3">11.00 AM</label><br>
-    <input type="checkbox" th:field="${course.slot3}" name="slot3" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot3}" name="slot3" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot3}" name="slot3" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot3}" name="slot3" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot3}" name="slot3" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot3}" name="slot3" value="THURSDAY">THURSDAY<br>
+    <label for="monday">MONDAY</label><br>
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="8.00 AM">8.00 AM
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="9.30 AM">9.30 AM
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="11.00 AM">11.00 AM
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="12.30 PM">12.30 PM
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="2.00 PM">2.00 PM
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="3.30 PM">3.30 PM
+    <input type="checkbox" th:field="${course.monday}" name="monday" value="5.00 PM">5.00 PM<br>
 
-    <label for="slot4">12.30 PM</label><br>
-    <input type="checkbox" th:field="${course.slot4}" name="slot4" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot4}" name="slot4" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot4}" name="slot4" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot4}" name="slot4" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot4}" name="slot4" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot4}" name="slot4" value="THURSDAY">THURSDAY<br>
+    <label for="tuesday">TUESDAY</label><br>
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="8.00 AM">8.00 AM
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="9.30 AM">9.30 AM
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="11.00 AM">11.00 AM
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="12.30 PM">12.30 PM
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="2.00 PM">2.00 PM
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="3.30 PM">3.30 PM
+    <input type="checkbox" th:field="${course.tuesday}" name="tuesday" value="5.00 PM">5.00 PM<br>
 
-    <label for="slot5">2.00 PM</label><br>
-    <input type="checkbox" th:field="${course.slot5}" name="slot5" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot5}" name="slot5" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot5}" name="slot5" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot5}" name="slot5" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot5}" name="slot5" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot5}" name="slot5" value="THURSDAY">THURSDAY<br>
+    <label for="wednesday">WEDNESDAY</label><br>
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="8.00 AM">8.00 AM
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="9.30 AM">9.30 AM
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="11.00 AM">11.00 AM
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="12.30 PM">12.30 PM
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="2.00 PM">2.00 PM
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="3.30 PM">3.30 PM
+    <input type="checkbox" th:field="${course.wednesday}" name="wednesday" value="5.00 PM">5.00 PM<br>
 
-    <label for="slot6">3.30 PM</label><br>
-    <input type="checkbox" th:field="${course.slot6}" name="slot6" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot6}" name="slot6" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot6}" name="slot6" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot6}" name="slot6" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot6}" name="slot6" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot6}" name="slot6" value="THURSDAY">THURSDAY<br>
+    <label for="thursday">THURSDAY</label><br>
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="8.00 AM">8.00 AM
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="9.30 AM">9.30 AM
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="11.00 AM">11.00 AM
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="12.30 PM">12.30 PM
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="2.00 PM">2.00 PM
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="3.30 PM">3.30 PM
+    <input type="checkbox" th:field="${course.thursday}" name="thursday" value="5.00 PM">5.00 PM<br>
 
-    <label for="slot7">5.00 PM</label><br>
-    <input type="checkbox" th:field="${course.slot7}" name="slot7" value="SATURDAY">SATURDAY
-    <input type="checkbox" th:field="${course.slot7}" name="slot7" value="SUNDAY">SUNDAY
-    <input type="checkbox" th:field="${course.slot7}" name="slot7" value="MONDAY">MONDAY
-    <input type="checkbox" th:field="${course.slot7}" name="slot7" value="TUESDAY">TUESDAY
-    <input type="checkbox" th:field="${course.slot7}" name="slot7" value="WEDNESDAY">WEDNESDAY
-    <input type="checkbox" th:field="${course.slot7}" name="slot7" value="THURSDAY">THURSDAY<br>
+
 
 
 

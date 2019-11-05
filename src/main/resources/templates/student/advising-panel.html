@@ -122,24 +122,20 @@
             <tr th:each="course : ${courses}">
 
 
-
-                <span th:if="${#strings.contains(course.slot1,'SUNDAY')}"><p th:text="${course.courseCode}"></p></span>
-
+                <!-- <span th:if="${#strings.contains(course.saturday,'9.30AM')}"><p th:text="${course.courseCode}"></p></span>  --->
 
 
                 <td th:text="${course.courseCode}"></td>
-
-                <!--courseName will be courseTitle, for some reason thymeleaf wont refresh-->
-                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.courseTitle}"></td>
                 <td th:text="${course.section}"></td>
                 <td th:text="${course.faculty}"></td>
                 <td th:text="${course.examTime}"></td>
-                <td  th:text="${course.slot1}" ></td>
-                <td  th:text="${course.slot2}" ></td>
-                <td  th:text="${course.slot3}" ></td>
-                <td  th:text="${course.slot4}" ></td>
-                <td  th:text="${course.slot5}" ></td>
-                <td  th:text="${course.slot6}" ></td>
+                <td th:text="${course.saturday}"></td>
+                <td th:text="${course.sunday}"></td>
+                <td th:text="${course.monday}"></td>
+                <td th:text="${course.tuesday}"></td>
+                <td th:text="${course.wednesday}"></td>
+                <td th:text="${course.thursday}"></td>
 
 
             </tr>

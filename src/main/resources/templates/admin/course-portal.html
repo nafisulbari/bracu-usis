@@ -25,30 +25,29 @@
                 <th>Section</th>
                 <th>Faculty</th>
                 <th>Exam Day</th>
-                <th>8.00 AM</th>
-                <th>9.30 AM</th>
-                <th>11.00 AM</th>
-                <th>12.30 PM</th>
-                <th>2.00 PM</th>
-                <th>3.30 PM</th>
-                <th>5.00 PM</th>
+                <th>SATURDAY</th>
+                <th>SUNDAY</th>
+                <th>MONDAY</th>
+                <th>TUESDAY</th>
+                <th>WEDNESDAY</th>
+                <th>THURSDAY</th>
+
 
             </tr>
             </thead>
             <tbody>
             <tr th:each="course : ${courses}">
                 <td th:text="${course.courseCode}"></td>
-                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.courseTitle}"></td>
                 <td th:text="${course.section}"></td>
                 <td th:text="${course.faculty}"></td>
                 <td th:text="${course.examTime}"></td>
-                <td th:text="${course.slot1}"></td>
-                <td th:text="${course.slot2}"></td>
-                <td th:text="${course.slot3}"></td>
-                <td th:text="${course.slot4}"></td>
-                <td th:text="${course.slot5}"></td>
-                <td th:text="${course.slot6}"></td>
-                <td th:text="${course.slot7}"></td>
+                <td th:text="${course.saturday}"></td>
+                <td th:text="${course.sunday}"></td>
+                <td th:text="${course.monday}"></td>
+                <td th:text="${course.tuesday}"></td>
+                <td th:text="${course.wednesday}"></td>
+                <td th:text="${course.thursday}"></td>
 
                 <td><a th:href="@{/admin/edit-course/{id}(id=${course.id})}">Edit</a></td>
                 <td><a th:href="@{/admin/delete-course/{id}(id=${course.id})}">Delete</a></td>
