@@ -12,7 +12,7 @@ public interface CourseService {
 
     void saveOrUpdateCourse(Course theCourse);
 
-    void deleteCourse(Course theCourse);
+    void deleteCourse(int theID);
 
 
 

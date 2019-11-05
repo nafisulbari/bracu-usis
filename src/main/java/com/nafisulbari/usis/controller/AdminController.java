@@ -188,7 +188,6 @@ public class AdminController {
         return "admin/add-course";
     }
 
-
     @PostMapping("/admin/add-new-course")
     public ModelAndView addCourse(@Valid Course theCourse, BindingResult result, Model theModel) {
 
@@ -198,6 +197,37 @@ public class AdminController {
         return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theCourse);
     }
 
+    @GetMapping("/admin/edit-course/{id}")
+    public ModelAndView editCoursePage(@PathVariable("id") int id, Model theModel, Course theCourse) {
+        theModel.addAttribute("course", courseService.findCourseById(id));
+        return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
+    }
 
+    @PostMapping("/admin/update-course/{id}")
+    public ModelAndView updateCourse(@PathVariable("id") int id, Course theCourse, BindingResult result, Model theModel) {
+
+
+        if (result.hasErrors()) {
+            theCourse.setId(id);
+            return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
+        }
+       courseService.saveOrUpdateCourse(theCourse);
+
+        theModel.addAttribute("courses", courseService.findAllCourses());
+        return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theCourse);
+    }
+
+    @GetMapping("/admin/delete-course/{id}")
+    public ModelAndView deleteCourse(@PathVariable("id") int id, Course theCourse, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            throw new RuntimeException("no user found with id :" + id);
+        }
+
+      courseService.deleteCourse(id);
+
+        model.addAttribute("courses", courseService.findAllCourses());
+        return new ModelAndView("/admin/course-portal", String.valueOf(model), theCourse);
+    }
 
 }
