@@ -24,7 +24,7 @@ public class User {
 
     private String dept;
 
-    private int credit;
+    private String credit;
 
     private String role;
 
@@ -79,11 +79,11 @@ public class User {
         this.dept = dept;
     }
 
-    public int getCredit() {
+    public String getCredit() {
         return credit;
     }
 
-    public void setCredit(int credit) {
+    public void setCredit(String credit) {
         this.credit = credit;
     }
 

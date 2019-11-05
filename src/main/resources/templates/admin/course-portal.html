@@ -1,0 +1,64 @@
+
+
+
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Thymeleaf hello world</title>
+
+
+
+</head>
+
+
+<body>
+
+<p><a href="/admin/add-course">Add a new course</a></p>
+
+<div th:switch="${courses}">
+    <h2 th:case="null">No Courses yet!</h2>
+    <div th:case="*">
+        <h2>Courses</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>Section</th>
+                <th>Faculty</th>
+                <th>Exam Day</th>
+                <th>Exam Time</th>
+                <th>Routine</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.courseCode}"></td>
+                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.section}"></td>
+                <td th:text="${course.faculty}"></td>
+                <td th:text="${course.examTime}"></td>
+                <td  th:text="${course.slot1}" ></td>
+                <td  th:text="${course.slot2}" ></td>
+                <td  th:text="${course.slot3}" ></td>
+                <td  th:text="${course.slot4}" ></td>
+                <td  th:text="${course.slot5}" ></td>
+                <td  th:text="${course.slot6}" ></td>
+                <td  th:text="${course.slot7}" ></td>
+
+                <td><a th:href="@{/admin/edit-course/{id}(id=${course.id})}">Edit</a></td>
+                <td><a th:href="@{/admin/delete-course/{id}(id=${course.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<a th:href="@{/logout}">Logout</a>
+
+</body>
+
+
+</html>

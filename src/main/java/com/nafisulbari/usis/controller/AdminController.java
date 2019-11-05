@@ -1,8 +1,10 @@
 package com.nafisulbari.usis.controller;
 
+import com.nafisulbari.usis.entity.Course;
 import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.security.MD5;
+import com.nafisulbari.usis.service.CourseService;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -21,10 +24,12 @@ public class AdminController {
 
     private UserService userService;
     private PasswordRequestService passwordRequestService;
+    private CourseService courseService;
 
-    public AdminController(UserService theUserService, PasswordRequestService pthePasswordRequestService) {
+    public AdminController(UserService theUserService, PasswordRequestService thePasswordRequestService, CourseService theCourseServices) {
         userService = theUserService;
-        passwordRequestService = pthePasswordRequestService;
+        passwordRequestService = thePasswordRequestService;
+        courseService=theCourseServices;
     }
 
 
@@ -35,7 +40,7 @@ public class AdminController {
         model.addAttribute("users", userService.findAllUsers());
         return "/admin/admin-home";
     }
-
+//----------------------------USER MANAGEMENT----------------------------------
 
     @GetMapping("/admin/user-portal")
     public String showUsersPage(Model model) {
@@ -130,7 +135,7 @@ public class AdminController {
         return "admin/user-portal";
     }
 
-    //------------------------------------------------------------------------------------
+    //----------------------------PASSWORD RESET MANAGEMENT----------------------------------
     @GetMapping("/admin/password-accept/{id}")
     public String passwordAccept(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
 
@@ -163,5 +168,36 @@ public class AdminController {
         model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
         return "/admin/password-request";
     }
+
+
+
+    //----------------------------COURSE MANAGEMENT----------------------------------
+
+    @GetMapping("/admin/course-portal")
+    public ModelAndView loginPage(User theUser, BindingResult result, Model theModel) {
+
+        theModel.addAttribute("courses",courseService.findAllCourses());
+
+        return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theUser);
+    }
+
+
+    @GetMapping("/admin/add-course")
+    public String addCoursePage(Course theCourse) {
+
+        return "admin/add-course";
+    }
+
+
+    @PostMapping("/admin/add-new-course")
+    public ModelAndView addCourse(@Valid Course theCourse, BindingResult result, Model theModel) {
+
+        courseService.saveOrUpdateCourse(theCourse);
+
+        theModel.addAttribute("courses", courseService.findAllCourses());
+        return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theCourse);
+    }
+
+
 
 }

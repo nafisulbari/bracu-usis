@@ -28,10 +28,9 @@ public class LoginController {
 
 
 
-
     @GetMapping("/")
-    public String loginPage(User theUser) {
-        return "login";
+    public ModelAndView loginPage(User theUser, BindingResult result, Model theModel) {
+        return new ModelAndView("/login", String.valueOf(theModel), theUser);
     }
 
     @PostMapping("/login")

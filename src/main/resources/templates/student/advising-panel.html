@@ -113,8 +113,8 @@
                 <th>Course Title</th>
                 <th>Section</th>
                 <th>Faculty</th>
-                <th>Exam Day</th>
-                <th>Exam Time</th>
+                <th>Final Exam</th>
+                <th>Routine</th>
 
             </tr>
             </thead>
@@ -128,15 +128,20 @@
 
 
                 <td th:text="${course.courseCode}"></td>
+
+                <!--courseName will be courseTitle, for some reason thymeleaf wont refresh-->
                 <td th:text="${course.courseName}"></td>
                 <td th:text="${course.section}"></td>
                 <td th:text="${course.faculty}"></td>
-                <td th:text="${course.examDate}"></td>
                 <td th:text="${course.examTime}"></td>
+                <td  th:text="${course.slot1}" ></td>
+                <td  th:text="${course.slot2}" ></td>
+                <td  th:text="${course.slot3}" ></td>
+                <td  th:text="${course.slot4}" ></td>
+                <td  th:text="${course.slot5}" ></td>
+                <td  th:text="${course.slot6}" ></td>
 
 
-                <td><a th:href="@{/admin/edit-user/{id}(id=${course.id})}">Edit</a></td>
-                <td><a th:href="@{/admin/delete-user/{id}(id=${course.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>

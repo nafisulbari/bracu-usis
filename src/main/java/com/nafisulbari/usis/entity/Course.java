@@ -15,13 +15,11 @@ public class Course {
 
     private String courseCode;
 
-    private String courseName;
+    private String courseTitle;
 
     private int section;
 
     private String faculty;
-
-    private String examDate;
 
     private String examTime;
 
@@ -57,11 +55,11 @@ public class Course {
     }
 
     public String getCourseName() {
-        return courseName;
+        return courseTitle;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseName(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
 
     public int getSection() {
@@ -78,14 +76,6 @@ public class Course {
 
     public void setFaculty(String faculty) {
         this.faculty = faculty;
-    }
-
-    public String getExamDate() {
-        return examDate;
-    }
-
-    public void setExamDate(String examDate) {
-        this.examDate = examDate;
     }
 
     public String getExamTime() {
@@ -158,10 +148,9 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", courseCode='" + courseCode + '\'' +
-                ", courseName='" + courseName + '\'' +
+                ", courseName='" + courseTitle + '\'' +
                 ", section=" + section +
                 ", faculty='" + faculty + '\'' +
-                ", examDate='" + examDate + '\'' +
                 ", examTime='" + examTime + '\'' +
                 ", slot1='" + slot1 + '\'' +
                 ", slot2='" + slot2 + '\'' +

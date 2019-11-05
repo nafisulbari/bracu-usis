@@ -21,7 +21,7 @@ public class TeacherController {
 
 
     @GetMapping("/teacher/teacher-home")
-    public String adminHome(Model model) {
+    public String teacherHome(Model model) {
         model.addAttribute("users", userService.findAllUsers());
         return "/teacher/teacher-home";
     }
