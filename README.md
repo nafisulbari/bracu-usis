@@ -1,4 +1,6 @@
 # usis
 project usis for cse310
 
-test readme
+Name: Ahmed Nafisul Bari
+ID:   16101237
+
