@@ -22,10 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-
+            //fetching user from db to know its roles and passed onto spring's UserDetails()
             User user = userRepository.findByEmail(s);
-
-            System.out.println("service::::" + user.toString());
 
             CustomUserDetails cud = new CustomUserDetails(user);
             return cud;

@@ -25,20 +25,20 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        //Extract list of permissions
+        //Extract list of permissions from logged in user
         this.user.getPermissionsList().forEach(p -> {
             GrantedAuthority authority = new SimpleGrantedAuthority(p);
             authorities.add(authority);
         });
 
-        //Extract list of roles
+        //Extract list of roles from logged in user
         this.user.getRoleList().forEach(r -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
             authorities.add(authority);
         });
         return authorities;
     }
-
+    //some user UserDetails methods are set from db, some are kept true to spring security to work
     @Override
     public String getPassword() {
         return this.user.getPassword();

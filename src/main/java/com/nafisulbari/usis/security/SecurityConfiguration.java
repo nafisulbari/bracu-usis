@@ -32,11 +32,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                //assigning link access to user type
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/student/**").hasRole("STUDENT")
                 .antMatchers("/teacher/**").hasRole("TEACHER")
                 .and()
+                //login parameter username set to email.  login success will redirect to /home-detector in LoginController
                 .formLogin().loginPage("/login").permitAll().usernameParameter("email").successForwardUrl("/home-detector")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
@@ -44,21 +46,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .rememberMe().tokenValiditySeconds(86400);
     }
 
-
+    // Database entries to authenticate login
     @Bean
     DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(this.customUserDetailsService);
-        System.out.println("dao");
         return daoAuthenticationProvider;
     }
 
-
+    //springs builtin Bcrypt password encoder enabled
     @Bean
     PasswordEncoder passwordEncoder() {
-        System.out.println("bcrypt");
-
         return new BCryptPasswordEncoder();
     }
 

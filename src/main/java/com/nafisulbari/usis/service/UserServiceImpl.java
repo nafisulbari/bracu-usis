@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
+//to do custom operations on entity
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -30,9 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(int theID) {
+
         Optional<User> result = userRepository.findById(theID);
 
-        User theUser = null;
+        User theUser;
 
         if (result.isPresent()) {
             theUser = result.get();
@@ -50,6 +53,7 @@ public class UserServiceImpl implements UserService {
         Query theQuery = currentSession.createQuery("Select u from User u where u.email=:email");
         theQuery.setParameter("email", theUser.getEmail());
 
+        //cleaver way to deal with Exception
         User user = null;
         try {
             user = (User) theQuery.getSingleResult();
@@ -63,13 +67,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveOrUpdateUser(User theUser) {
-
+        //to update or save a USER, the previous_password table is updated
         PreviousPassword previousPassword = new PreviousPassword();
         previousPassword.setEmail(theUser.getEmail());
         previousPassword.setPassword(theUser.getPassword());
-
         previousPasswordService.saveApreviousPassword(previousPassword);
 
+        //setActive and setPermissions cannot be left empty for spring security to work then we save user
         theUser.setActive(1);
         theUser.setPermissions("");
         userRepository.save(theUser);
@@ -78,8 +82,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(int theID) {
-        Optional<User> user =userRepository.findById(theID);
 
+        Optional<User> user =userRepository.findById(theID);
+        //to completely delete a user, its generated previous passwords should be deleted too
         previousPasswordService.deletePreviousPasswordsOfUser(user.get());
 
         userRepository.deleteById(theID);

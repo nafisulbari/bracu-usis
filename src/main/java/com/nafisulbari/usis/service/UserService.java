@@ -3,7 +3,7 @@ package com.nafisulbari.usis.service;
 import com.nafisulbari.usis.entity.User;
 
 import java.util.List;
-
+//to hide the implementation
 public interface UserService {
 
      User findUserById(int theID);
