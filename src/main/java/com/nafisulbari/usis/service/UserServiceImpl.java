@@ -85,32 +85,4 @@ public class UserServiceImpl implements UserService {
         return (List<User>) userRepository.findAll();
     }
 
-
-    @Override
-    public String loginAuthenticator(User theUser) {
-
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query theQuery = currentSession.createQuery("Select u from User u where u.email=:email");
-        theQuery.setParameter("email", theUser.getEmail());
-        try {
-            User user = null;
-            //TODO error solve
-
-            user = (User) theQuery.getSingleResult();
-
-
-            if (user == null) {
-                throw new RuntimeException("no users found with email " + theUser.getEmail());
-            }
-
-
-            if (user.getPassword().equals(theUser.getPassword())) {
-                return user.getRole();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //password DID not match
-        return "FAILED";
-    }
 }

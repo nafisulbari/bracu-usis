@@ -1,13 +1,11 @@
-
-
-
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 
 <head>
     <title>Thymeleaf hello world</title>
-
 
 
 </head>
@@ -17,7 +15,8 @@
 
 
 <h1>ADMIN HOME</h1>
-<p>Admin login success</p>
+
+<span sec:authentication="principal.username"></span>
 
 
 <h2>User Portal</h2>

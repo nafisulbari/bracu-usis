@@ -5,12 +5,15 @@ import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.PreviousPasswordService;
 import com.nafisulbari.usis.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 
 @Controller
@@ -30,12 +33,37 @@ public class LoginController {
 
 
     @GetMapping("/")
-    public ModelAndView homeToLoginPage(User theUser, BindingResult result, Model theModel) {
+    public String homeToLoginPage() {
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public ModelAndView login(User theUser, BindingResult result, Model theModel) {
+
+        System.out.println("get m,ap");
+        System.out.println("GG");
+        System.out.println("model:" + theModel.toString());
+        System.out.println("user:" + theUser.toString());
+
         return new ModelAndView("login", String.valueOf(theModel), theUser);
     }
-    @GetMapping("login")
-    public String login(){
-        return "login";
+
+    @PostMapping("/home-detector")
+    public ModelAndView forwardToHome(User theUser, BindingResult result, Model theModel) {
+
+        String role = userService.findUserByEmail(theUser).getRole();
+
+        if (role.equals("ADMIN")) {
+            return new ModelAndView("redirect:/admin/admin-home", String.valueOf(theModel), theUser);
+        }
+        if (role.equals("TEACHER")) {
+            return new ModelAndView("redirect:/teacher/teacher-home", String.valueOf(theModel), theUser);
+        }
+        if (role.equals("STUDENT")) {
+            return new ModelAndView("redirect:/student/student-home", String.valueOf(theModel), theUser);
+        }
+
+        return new ModelAndView("/login", String.valueOf(theModel), theUser);
     }
 
 //    @PostMapping("/login")

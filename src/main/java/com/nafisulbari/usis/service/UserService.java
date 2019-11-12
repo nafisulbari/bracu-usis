@@ -17,7 +17,4 @@ public interface UserService {
      void deleteUserById(int theID);
 
 
-
-     String loginAuthenticator(User theUser);
-
 }

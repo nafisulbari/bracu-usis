@@ -14,33 +14,25 @@
 
 <form name="f" th:action="@{/login}" th:object="${user}" method="post">
 
-    <fieldset>
 
-        <!-- Thymeleaf + Spring Security error display -->
-        <div th:if="${param.error}" class="alert alert-danger">
-            Invalid username and password.
-        </div>
+    <label for="email">Email</label><br>
+    <input type="text" id="email" name="email" placeholder="Email"><br>
 
-        <div th:if="${param.logout}" class="alert alert-success">
-            You have been logged out.
-        </div>
+    <label for="password">Password</label><br>
+    <input type="password" id="password" name="password" placeholder="Password"><br>
+
+    <!-- Thymeleaf + Spring Security error display -->
+    <div th:if="${param.error}" class="alert alert-danger">
+        Wrong Credentials.
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
+    </div>
+
+    <button type="submit">Log in</button>
 
 
-        <label for="username">Email</label>
-        <input type="text" id="username" name="username" placeholder="Email">
-        <p th:if="${wrongEmail}" class="error">Email address might be wrong</p>
-
-
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Password">
-
-        <br>
-        <p th:if="${wrongCredentials}" class="error">Wrong Password</p>
-        <br>
-
-        <button type="submit">Log in</button>
-
-    </fieldset>
 </form>
 <div>
     <input type="checkbox" id="remember-me" name="remember-me">
