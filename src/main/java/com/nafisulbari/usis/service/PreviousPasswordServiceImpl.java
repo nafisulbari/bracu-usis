@@ -34,8 +34,7 @@ public class PreviousPasswordServiceImpl implements PreviousPasswordService {
     @Override
     public Boolean findPreviousPasswordByEmail(PasswordRequest passwordRequest) {
 
-
-        String hashed = passwordEncoder.encode(passwordRequest.getPassword());
+        String requestedPlainPass = passwordRequest.getPassword();
 
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select p.password from PreviousPassword p where p.email=:email");
@@ -45,14 +44,12 @@ public class PreviousPasswordServiceImpl implements PreviousPasswordService {
         listPreviousPasswords = (List<String>) theQuery.getResultList();
 
         for (String pass : listPreviousPasswords) {
-            if (pass.equals(hashed)) {
-
+            if (passwordEncoder.matches(requestedPlainPass,pass)) {
                 return true;
             }
         }
 
         return false;
-
     }
 
     @Override
