@@ -2,10 +2,10 @@ package com.nafisulbari.usis.controller;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
-import com.nafisulbari.usis.security.MD5;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.PreviousPasswordService;
 import com.nafisulbari.usis.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +19,13 @@ public class LoginController {
     private UserService userService;
     private PasswordRequestService passwordRequestService;
     private PreviousPasswordService previousPasswordService;
+private PasswordEncoder passwordEncoder;
 
-    public LoginController(UserService theUserService, PasswordRequestService thePasswordRequestService, PreviousPasswordService thePreviousPasswordService) {
-        userService = theUserService;
-        passwordRequestService = thePasswordRequestService;
-        previousPasswordService = thePreviousPasswordService;
+    public LoginController(UserService userService, PasswordRequestService passwordRequestService, PreviousPasswordService previousPasswordService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordRequestService = passwordRequestService;
+        this.previousPasswordService = previousPasswordService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -36,7 +38,7 @@ public class LoginController {
     @PostMapping("/login")
     public ModelAndView homePage(User theUser, BindingResult result, Model theModel) {
 
-        String hashed = MD5.getMd5(theUser.getPassword());
+        String hashed = passwordEncoder.encode(theUser.getPassword());
 
         System.out.println(hashed);
         theUser.setPassword(hashed);

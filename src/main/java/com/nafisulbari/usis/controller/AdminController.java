@@ -3,10 +3,10 @@ package com.nafisulbari.usis.controller;
 import com.nafisulbari.usis.entity.Course;
 import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.User;
-import com.nafisulbari.usis.security.MD5;
 import com.nafisulbari.usis.service.CourseService;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,14 +25,14 @@ public class AdminController {
     private UserService userService;
     private PasswordRequestService passwordRequestService;
     private CourseService courseService;
+    private PasswordEncoder passwordEncoder;
 
-    public AdminController(UserService theUserService, PasswordRequestService thePasswordRequestService, CourseService theCourseServices) {
-        userService = theUserService;
-        passwordRequestService = thePasswordRequestService;
-        courseService=theCourseServices;
+    public AdminController(UserService userService, PasswordRequestService passwordRequestService, CourseService courseService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordRequestService = passwordRequestService;
+        this.courseService = courseService;
+        this.passwordEncoder = passwordEncoder;
     }
-
-
 
 
     @GetMapping("/admin/admin-home")
@@ -92,8 +92,7 @@ public class AdminController {
             return "admin/add-user";
         }
 
-        String hashed = MD5.getMd5(user.getPassword());
-        user.setPassword(hashed);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userService.saveOrUpdateUser(user);
 
@@ -111,9 +110,8 @@ public class AdminController {
             return "admin/edit-user";
         }
 
-        MD5 md5 = new MD5();
-        String hashed = md5.getMd5(theUser.getPassword());
-        theUser.setPassword(hashed);
+       //encoding with bcrypt
+        theUser.setPassword(passwordEncoder.encode(theUser.getPassword()));
 
 
         userService.saveOrUpdateUser(theUser);

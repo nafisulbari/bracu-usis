@@ -1,9 +1,9 @@
 package com.nafisulbari.usis.service;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
-import com.nafisulbari.usis.security.MD5;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -13,14 +13,22 @@ import java.util.List;
 @Service
 public class PreviousPasswordServiceImpl implements PreviousPasswordService {
 
+
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private EntityManager entityManager;
+
+    public PreviousPasswordServiceImpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @Override
     public Boolean findPreviousPasswordByEmail(PasswordRequest passwordRequest) {
 
-        MD5 md5 = new MD5();
-        String hashed = md5.getMd5(passwordRequest.getPassword());
+
+        String hashed =passwordEncoder.encode(passwordRequest.getPassword());
 
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select p.password from PreviousPassword p where p.email=:email");

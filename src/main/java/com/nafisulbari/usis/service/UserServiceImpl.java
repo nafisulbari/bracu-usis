@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select u from User u where u.email=:email");
         theQuery.setParameter("email", theUser.getEmail());
-
+        System.out.println("finding user by email");
         User user = null;
         try {
             user = (User) theQuery.getSingleResult();

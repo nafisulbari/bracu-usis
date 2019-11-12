@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Entity
@@ -26,9 +29,40 @@ public class User {
 
     private String credit;
 
+    private int active;
+
     private String role;
 
+    private String permissions;
+
     private String routine;
+
+
+    public User(String email, String password, String role, String permissions) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.permissions = permissions;
+        this.active = 1;
+
+    }
+
+    public User() {
+    }
+
+    public List<String> getRoleList() {
+        if (role.length() > 0) {
+            return Arrays.asList(this.role.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> getPermissionsList() {
+        if (permissions.length() > 0) {
+            return Arrays.asList(this.permissions.split(","));
+        }
+        return new ArrayList<>();
+    }
 
 
     public int getId() {
@@ -104,6 +138,23 @@ public class User {
     }
 
 
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(String permissions) {
+        this.permissions = permissions;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -113,8 +164,10 @@ public class User {
                 ", password='" + password + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", dept='" + dept + '\'' +
-                ", credit=" + credit +
+                ", credit='" + credit + '\'' +
+                ", active=" + active +
                 ", role='" + role + '\'' +
+                ", permissions='" + permissions + '\'' +
                 ", routine='" + routine + '\'' +
                 '}';
     }
