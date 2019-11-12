@@ -11,22 +11,21 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private PreviousPasswordRepository previousPasswordRepository;
+    private PreviousPasswordService previousPasswordService;
     private UserRepository userRepository;
     private EntityManager entityManager;
 
     @Autowired
-    public UserServiceImpl(UserRepository theUserRepository, PreviousPasswordRepository thePreviousPasswordRepository, EntityManager theEntityManager) {
-        previousPasswordRepository = thePreviousPasswordRepository;
-        userRepository = theUserRepository;
-        entityManager = theEntityManager;
+    public UserServiceImpl(PreviousPasswordService previousPasswordService , UserRepository userRepository, EntityManager entityManager) {
+        this.previousPasswordService = previousPasswordService;
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
         previousPassword.setEmail(theUser.getEmail());
         previousPassword.setPassword(theUser.getPassword());
 
-        previousPasswordRepository.save(previousPassword);
+        previousPasswordService.saveApreviousPassword(previousPassword);
 
         userRepository.save(theUser);
 
@@ -77,6 +76,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(int theID) {
+        Optional<User> user =userRepository.findById(theID);
+
+        previousPasswordService.deletePreviousPasswordsOfUser(user.get());
+
         userRepository.deleteById(theID);
     }
 

@@ -2,10 +2,13 @@ package com.nafisulbari.usis.service;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
 import com.nafisulbari.usis.entity.PreviousPassword;
-
-import java.util.List;
+import com.nafisulbari.usis.entity.User;
 
 public interface PreviousPasswordService {
 
-    public Boolean findPreviousPasswordByEmail(PasswordRequest passwordRequest);
+     Boolean findPreviousPasswordByEmail(PasswordRequest passwordRequest);
+
+     void deletePreviousPasswordsOfUser(User user);
+
+     void saveApreviousPassword(PreviousPassword previousPassword);
 }

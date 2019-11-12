@@ -1,26 +1,33 @@
 package com.nafisulbari.usis.service;
 
 import com.nafisulbari.usis.entity.PasswordRequest;
+import com.nafisulbari.usis.entity.PreviousPassword;
+import com.nafisulbari.usis.entity.User;
+import com.nafisulbari.usis.repo.PreviousPasswordRepository;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class PreviousPasswordServiceImpl implements PreviousPasswordService {
 
 
     private PasswordEncoder passwordEncoder;
+    private PreviousPasswordRepository previousPasswordRepository;
 
-    @Autowired
+
     private EntityManager entityManager;
 
-    public PreviousPasswordServiceImpl(PasswordEncoder passwordEncoder) {
+    public PreviousPasswordServiceImpl(PasswordEncoder passwordEncoder, PreviousPasswordRepository previousPasswordRepository, EntityManager entityManager) {
         this.passwordEncoder = passwordEncoder;
+        this.previousPasswordRepository = previousPasswordRepository;
+        this.entityManager = entityManager;
     }
 
 
@@ -28,7 +35,7 @@ public class PreviousPasswordServiceImpl implements PreviousPasswordService {
     public Boolean findPreviousPasswordByEmail(PasswordRequest passwordRequest) {
 
 
-        String hashed =passwordEncoder.encode(passwordRequest.getPassword());
+        String hashed = passwordEncoder.encode(passwordRequest.getPassword());
 
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select p.password from PreviousPassword p where p.email=:email");
@@ -46,5 +53,20 @@ public class PreviousPasswordServiceImpl implements PreviousPasswordService {
 
         return false;
 
+    }
+
+    @Override
+    public void deletePreviousPasswordsOfUser(User user) {
+
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query theQuery = currentSession.createQuery("delete from PreviousPassword where email=:email");
+        theQuery.setParameter("email", user.getEmail());
+
+        theQuery.executeUpdate();
+    }
+
+    @Override
+    public void saveApreviousPassword(PreviousPassword previousPassword) {
+        previousPasswordRepository.save(previousPassword);
     }
 }
