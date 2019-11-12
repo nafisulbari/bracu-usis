@@ -40,10 +40,6 @@ public class LoginController {
     @GetMapping("/login")
     public ModelAndView login(User theUser, BindingResult result, Model theModel) {
 
-        System.out.println("get m,ap");
-        System.out.println("GG");
-        System.out.println("model:" + theModel.toString());
-        System.out.println("user:" + theUser.toString());
         theModel.addAttribute(theModel);
 
         return new ModelAndView("login", String.valueOf(theModel), theUser);
@@ -111,33 +107,7 @@ public class LoginController {
 //--------------------------------------------------------------------------------
 
 
-//    @RequestMapping(value = { "/"}, method = RequestMethod.GET)
-//    public ModelAndView welcomePage() {
-//        ModelAndView model = new ModelAndView();
-//        model.setViewName("welcomePage");
-//        return model;
-//    }
-//
-//    @RequestMapping(value = { "/homePage"}, method = RequestMethod.GET)
-//    public ModelAndView homePage() {
-//        ModelAndView model = new ModelAndView();
-//        model.setViewName("homePage");
-//        return model;
-//    }
-//
-//    @RequestMapping(value = {"/userPage"}, method = RequestMethod.GET)
-//    public ModelAndView userPage() {
-//        ModelAndView model = new ModelAndView();
-//        model.setViewName("userPage");
-//        return model;
-//    }
-//
-//    @RequestMapping(value = {"/adminPage"}, method = RequestMethod.GET)
-//    public ModelAndView adminPage() {
-//        ModelAndView model = new ModelAndView();
-//        model.setViewName("adminPage");
-//        return model;
-//    }
+
 //
 //    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
 //    public ModelAndView loginPage(@RequestParam(value = "error",required = false) String error,

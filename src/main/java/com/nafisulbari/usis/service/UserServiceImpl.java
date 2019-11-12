@@ -70,6 +70,8 @@ public class UserServiceImpl implements UserService {
 
         previousPasswordService.saveApreviousPassword(previousPassword);
 
+        theUser.setActive(1);
+        theUser.setPermissions("");
         userRepository.save(theUser);
 
     }

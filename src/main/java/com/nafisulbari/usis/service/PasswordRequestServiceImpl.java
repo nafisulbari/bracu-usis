@@ -33,7 +33,6 @@ public class PasswordRequestServiceImpl implements PasswordRequestService {
     @Override
     public void savePasswordRequest(PasswordRequest thePasswordRequest) {
 
-
         thePasswordRequest.setPassword(passwordEncoder.encode(thePasswordRequest.getPassword()));
 
         passwordRequestRepository.save(thePasswordRequest);
