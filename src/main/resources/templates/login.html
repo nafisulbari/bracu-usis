@@ -12,22 +12,41 @@
 <body>
 
 
-<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+<form name="f" th:action="@{/login}" th:object="${user}" method="post">
 
-    <label for="email">Email</label>
-    <input type="text" th:field="${user.email}" id="email" placeholder="Email">
-    <p th:if="${wrongEmail}" class="error">Email address might be wrong</p>
+    <fieldset>
+
+        <!-- Thymeleaf + Spring Security error display -->
+        <div th:if="${param.error}" class="alert alert-danger">
+            Invalid username and password.
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have been logged out.
+        </div>
 
 
-    <label for="password">Password</label>
-    <input type="password" th:field="${user.password}" id="password" placeholder="Password">
+        <label for="username">Email</label>
+        <input type="text" id="username" name="username" placeholder="Email">
+        <p th:if="${wrongEmail}" class="error">Email address might be wrong</p>
 
-    <br>
-    <p th:if="${wrongCredentials}" class="error">Wrong Password</p>
-    <br>
 
-    <input type="submit" value="Login">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password">
+
+        <br>
+        <p th:if="${wrongCredentials}" class="error">Wrong Password</p>
+        <br>
+
+        <button type="submit">Log in</button>
+
+    </fieldset>
 </form>
+<div>
+    <input type="checkbox" id="remember-me" name="remember-me">
+    <label for="remember-me">Remember me?</label>
+</div>
+
 <a th:href="@{/forgot-password}">forgot password</a>
 
 </body>

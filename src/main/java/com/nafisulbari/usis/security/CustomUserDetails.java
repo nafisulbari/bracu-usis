@@ -1,21 +1,23 @@
 package com.nafisulbari.usis.security;
 
 import com.nafisulbari.usis.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails implements UserDetails {
 
+public class CustomUserDetails implements UserDetails {
 
     private User user;
 
-    public CustomUserDetails(User theUser) {
-        this.user = theUser;
+   public CustomUserDetails(User user) {
+        this.user = user;
     }
 
 
@@ -39,6 +41,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
+        System.out.println(this.user.toString());
         return this.user.getPassword();
     }
 
@@ -64,6 +67,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+
         return this.user.getActive() == 1;
     }
 }

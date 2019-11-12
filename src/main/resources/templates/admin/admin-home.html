@@ -30,8 +30,9 @@
 <a th:href="@{/admin/course-portal}">Courses</a>
 
 <br>
-<br>
-<a th:href="@{/logout}">Logout</a>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
 </body>
 
 
