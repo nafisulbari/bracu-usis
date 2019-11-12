@@ -16,12 +16,12 @@
 
 
     <label for="email">Email</label><br>
-    <input type="text" id="email" name="email" placeholder="Email"><br>
+    <input type="text" id="email" name="email" placeholder="Email" required><br>
 
     <label for="password">Password</label><br>
-    <input type="password" id="password" name="password" placeholder="Password"><br>
+    <input type="password" id="password" name="password" placeholder="Password" required><br>
 
-    <!-- Thymeleaf + Spring Security error display -->
+    <!----------------Thymeleaf + Spring Security error display ----------------->
     <div th:if="${param.error}" class="alert alert-danger">
         Wrong Credentials.
     </div>

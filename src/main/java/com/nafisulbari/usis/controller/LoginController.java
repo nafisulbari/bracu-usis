@@ -44,6 +44,7 @@ public class LoginController {
         System.out.println("GG");
         System.out.println("model:" + theModel.toString());
         System.out.println("user:" + theUser.toString());
+        theModel.addAttribute(theModel);
 
         return new ModelAndView("login", String.valueOf(theModel), theUser);
     }
@@ -65,40 +66,6 @@ public class LoginController {
 
         return new ModelAndView("/login", String.valueOf(theModel), theUser);
     }
-
-//    @PostMapping("/login")
-//    public ModelAndView homePage(User theUser, BindingResult result, Model theModel) {
-//
-//        String hashed = passwordEncoder.encode(theUser.getPassword());
-//
-//        System.out.println(hashed);
-//        theUser.setPassword(hashed);
-//
-//        User tempUser = userService.findUserByEmail(theUser);
-//
-//        if (tempUser == null || tempUser.getEmail() == null) {
-//            theModel.addAttribute("user", theUser);
-//            theModel.addAttribute("wrongEmail", true);
-//            return new ModelAndView("/login", String.valueOf(theModel), theUser);
-//        }
-//
-//        String role = userService.loginAuthenticator(theUser);
-//
-//        if (role.equals("ADMIN")) {
-//            return new ModelAndView("redirect:/admin/admin-home", String.valueOf(theModel), theUser);
-//        }
-//        if (role.equals("TEACHER")) {
-//            return new ModelAndView("redirect:/teacher/teacher-home", String.valueOf(theModel), theUser);
-//        }
-//        if (role.equals("STUDENT")) {
-//            return new ModelAndView("redirect:/student/student-home", String.valueOf(theModel), theUser);
-//        }
-//
-//        theModel.addAttribute("user", theUser);
-//        theModel.addAttribute("wrongCredentials", true);
-////----------------------------------------ModelAndView("redirect:/login" gives error which cannot be fixed----------------------------------
-//        return new ModelAndView("/login", String.valueOf(theModel), theUser);
-//    }
 
 
     @GetMapping("/logout")

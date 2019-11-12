@@ -2,14 +2,10 @@
 
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head>
-    <title>Thymeleaf hello world</title>
-
-
+<head th:insert="fragments.html :: headerfiles">
 </head>
-
-
 <body>
+<header th:insert="fragments.html :: nav"></header>
 
 <p><a href="/admin/add-course">Add a new course</a></p>
 

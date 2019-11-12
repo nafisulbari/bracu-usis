@@ -4,15 +4,10 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 
-<head>
-    <title>Thymeleaf hello world</title>
-
-
+<head th:insert="fragments.html :: headerfiles">
 </head>
-
-
 <body>
-
+<header th:insert="fragments.html :: nav"></header>
 
 <h1>ADMIN HOME</h1>
 
@@ -29,9 +24,7 @@
 <a th:href="@{/admin/course-portal}">Courses</a>
 
 <br>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Logout</button>
-</form>
+
 </body>
 
 
