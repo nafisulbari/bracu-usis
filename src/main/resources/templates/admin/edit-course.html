@@ -6,7 +6,11 @@
 </head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
-
+<div>
+    <form th:action="@{/admin/course-portal}" method="GET">
+        <button type="submit">Course Portal</button>
+    </form>
+</div>
 
 <form action="#" th:action="@{/admin/update-course/{id}(id=${course.id})}" th:object="${course}" method="post">
     <label for="courseCode">Course Code</label><br>

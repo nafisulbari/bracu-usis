@@ -40,9 +40,12 @@ public class LoginController {
     @GetMapping("/login")
     public ModelAndView login(User theUser, BindingResult result, Model theModel) {
 
-        theModel.addAttribute(theModel);
+        System.out.println(result.toString());
+    theModel.addAttribute(theModel);
 
-        return new ModelAndView("login", String.valueOf(theModel), theUser);
+    return new ModelAndView("login", String.valueOf(theModel), theUser);
+
+
     }
 
     @PostMapping("/home-detector")

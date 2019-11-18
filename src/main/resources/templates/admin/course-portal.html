@@ -7,6 +7,12 @@
 <body>
 <header th:insert="fragments.html :: nav"></header>
 
+<div>
+    <form th:action="@{/admin/admin-home}" method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>
+
 <p><a href="/admin/add-course">Add a new course</a></p>
 
 <div th:switch="${courses}">

@@ -9,6 +9,11 @@
 </head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
+<div>
+    <form th:action="@{/admin/admin-home}" method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>
 
 <p><a href="/admin/add-user">Add a new user</a></p>
 
