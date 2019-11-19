@@ -10,9 +10,10 @@
 <h1>STUDENT ADVISING</h1>
 
 
-<!--<tr th:each="rou: ${routine}">-->
-<!--    <span th:if="${#lists.contains(rou.saturday,'9.30AM')}"><p th:text="${rou.courseCode}"></p></span>-->
-<!--</tr>-->
+<tr th:each="rou: ${routine}">
+
+    <span th:if="${#strings.contains(rou.saturday, '9.30 AM')}">GG</span>
+</tr>
 
 
 
