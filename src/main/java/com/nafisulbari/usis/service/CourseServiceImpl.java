@@ -1,11 +1,13 @@
 package com.nafisulbari.usis.service;
 
+import com.nafisulbari.usis.entity.Advising;
 import com.nafisulbari.usis.entity.Course;
 import com.nafisulbari.usis.repo.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +17,14 @@ public class CourseServiceImpl implements CourseService {
 
 
     private CourseRepository courseRepository;
-
+    private AdvisingService advisingService;
     private EntityManager entityManager;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository theCourseRepo, EntityManager theEntityManager) {
-        courseRepository = theCourseRepo;
-        entityManager = theEntityManager;
+    public CourseServiceImpl(CourseRepository courseRepository, AdvisingService advisingService, EntityManager entityManager) {
+        this.courseRepository = courseRepository;
+        this.advisingService = advisingService;
+        this.entityManager = entityManager;
     }
 
 
@@ -45,6 +48,7 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAllCourses() {
         return (List<Course>) courseRepository.findAll();
     }
+
 
     @Override
     public void saveOrUpdateCourse(Course theCourse) {

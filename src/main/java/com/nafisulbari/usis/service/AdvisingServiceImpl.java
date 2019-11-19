@@ -28,7 +28,7 @@ public class AdvisingServiceImpl implements AdvisingService {
 
 
     @Override
-    public List findAdvisedCourses(int studentID) {
+    public List<Advising> findAdvisedCourses(int studentID) {
         Session currentSession = entityManager.unwrap(Session.class);
         Query theQuery = currentSession.createQuery("Select a from Advising a where a.stdId=:studentID");
         theQuery.setParameter("studentID", studentID);

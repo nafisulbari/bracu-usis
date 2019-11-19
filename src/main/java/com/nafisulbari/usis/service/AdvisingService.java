@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AdvisingService {
 
-    List findAdvisedCourses(int studentID);
+    List<Advising> findAdvisedCourses(int studentID);
 
     void saveAdvisedCourse(Advising courseToAdvice);
 

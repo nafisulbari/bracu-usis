@@ -10,6 +10,12 @@
 <h1>STUDENT ADVISING</h1>
 
 
+<!--<tr th:each="rou: ${routine}">-->
+<!--    <span th:if="${#lists.contains(rou.saturday,'9.30AM')}"><p th:text="${rou.courseCode}"></p></span>-->
+<!--</tr>-->
+
+
+
 
 <H1>ROUTINE</H1>
 <table border="2" cellspacing="3" align="center">
@@ -111,6 +117,7 @@
                 <th>Faculty</th>
                 <th>Final Exam</th>
                 <th>Routine</th>
+                <th>Add Course</th>
 
             </tr>
             </thead>
@@ -118,7 +125,7 @@
             <tr th:each="course : ${courses}">
 
 
-                <!-- <span th:if="${#strings.contains(course.saturday,'9.30AM')}"><p th:text="${course.courseCode}"></p></span>  --->
+
 
 
                 <td th:text="${course.courseCode}"></td>
@@ -132,7 +139,7 @@
                 <td th:text="${course.tuesday}"></td>
                 <td th:text="${course.wednesday}"></td>
                 <td th:text="${course.thursday}"></td>
-
+                <td><a th:href="@{/student/advising-panel/add-course/{id}(id=${course.id})}">Add</a></td>
 
             </tr>
             </tbody>
