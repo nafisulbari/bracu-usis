@@ -120,4 +120,23 @@ public class StudentController {
         return new ModelAndView("redirect:/student/advising-panel");
     }
 
+    @GetMapping("student/advising-panel/drop-course/{id}")
+    public ModelAndView dropCourseFromAdvise(@PathVariable("id") int id, Principal principal, Model model) {
+
+        User student = new User();
+        student.setEmail(principal.getName());
+        int stdId = userService.findUserByEmail(student).getId();
+
+        List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
+        int deleteAdvising = 0;
+        for (Advising advising : advisedCourses) {
+            if (advising.getCourseId() == id) {
+                deleteAdvising = advising.getId();
+            }
+        }
+        advisingService.deleteAdvicedCourse(deleteAdvising);
+
+        return new ModelAndView("redirect:/student/advising-panel");
+    }
+
 }

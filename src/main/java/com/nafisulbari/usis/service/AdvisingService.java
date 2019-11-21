@@ -10,7 +10,8 @@ public interface AdvisingService {
 
     void saveAdvisedCourse(Advising courseToAdvice);
 
-    void deleteAdvicedCourse(int theID);
+    void deleteAdvicedCourse(int theId);
+
 
 
 }
