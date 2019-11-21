@@ -213,7 +213,6 @@ public class AdminController {
     @PostMapping("/admin/update-course/{id}")
     public ModelAndView updateCourse(@PathVariable("id") int id, Course theCourse, BindingResult result, Model theModel) {
 
-
         if (result.hasErrors()) {
             theCourse.setId(id);
             return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
@@ -225,16 +224,15 @@ public class AdminController {
     }
 
     @GetMapping("/admin/delete-course/{id}")
-    public ModelAndView deleteCourse(@PathVariable("id") int id, Course theCourse, BindingResult result, Model model) {
+    public ModelAndView deleteCourse(@PathVariable("id") int id, Course theCourse, BindingResult result) {
 
         if (result.hasErrors()) {
-            throw new RuntimeException("no user found with id :" + id);
+            throw new RuntimeException("no course found with id :" + id);
         }
 
         courseService.deleteCourse(id);
 
-        model.addAttribute("courses", courseService.findAllCourses());
-        return new ModelAndView("/admin/course-portal", String.valueOf(model), theCourse);
+        return new ModelAndView("redirect:/admin/course-portal");
     }
 
 }

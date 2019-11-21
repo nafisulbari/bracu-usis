@@ -52,7 +52,7 @@ public class StudentController {
             routine.add(courseService.findCourseById(advising.getCourseId()));
         }
 
-        System.out.println("STD ROUTINE: " + routine.toString());
+
 //-------Update Advising panel and live routine ------------------------------------------
         theModel.addAttribute("courses", courseService.findAllCourses());
         theModel.addAttribute("routine", routine);
@@ -72,8 +72,7 @@ public class StudentController {
         advising.setStdId(stdId);
         advisingService.saveAdvisedCourse(advising);
 
-        theModel.addAttribute("courses", courseService.findAllCourses());
-        return new ModelAndView("/student/advising-panel", String.valueOf(theModel), theUser);
+        return new ModelAndView("redirect:/student/advising-panel");
     }
 
 }
