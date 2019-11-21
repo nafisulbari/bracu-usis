@@ -33,14 +33,8 @@ public class StudentController {
 
 
     @GetMapping("/student/student-home")
-    public String studentHome(Model model) {
-        model.addAttribute("users", userService.findAllUsers());
-        return "/student/student-home";
-    }
+    public ModelAndView studentHome(Model theModel, Principal principal) {
 
-    //----------------
-    @GetMapping("/student/advising-panel")
-    public ModelAndView showCourseList(User theUser, BindingResult result, Model theModel, Principal principal) {
 //--------Find Student's advising info---------------------------------------------------
         User student = new User();
         student.setEmail(principal.getName());
@@ -52,20 +46,57 @@ public class StudentController {
             routine.add(courseService.findCourseById(advising.getCourseId()));
         }
 
+//-------Update  live routine ------------------------------------------
+        theModel.addAttribute("routine", routine);
+        return new ModelAndView("/student/student-home");
+    }
+
+    //----------------
+    @GetMapping("/student/advising-panel")
+    public ModelAndView showCourseList(Model theModel, Principal principal) {
+//--------Find Student's advising info---------------------------------------------------
+        User student = new User();
+        student.setEmail(principal.getName());
+        int stdId = userService.findUserByEmail(student).getId();
+        List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
+//--------Generate routine(A Course's list)----------------------------------------------
+        List<Course> routine = new ArrayList<>();
+        for (Advising advising : advisedCourses) {
+            routine.add(courseService.findCourseById(advising.getCourseId()));
+        }
 
 //-------Update Advising panel and live routine ------------------------------------------
         theModel.addAttribute("courses", courseService.findAllCourses());
         theModel.addAttribute("routine", routine);
 
-        return new ModelAndView("/student/advising-panel", String.valueOf(theModel), theUser);
+        return new ModelAndView("/student/advising-panel");
     }
 
     @GetMapping("student/advising-panel/add-course/{id}")
-    public ModelAndView addCourseToAdvise(@PathVariable("id") int id, Model theModel, User theUser, Principal principal) {
+    public ModelAndView addCourseToAdvise(@PathVariable("id") int id, Principal principal, Model model) {
 
         User student = new User();
         student.setEmail(principal.getName());
         int stdId = userService.findUserByEmail(student).getId();
+
+//------Checking if the course is already taken--------------------------------------------------
+        String courseCodeToAdvice = courseService.findCourseById(id).getCourseCode();
+        List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
+        for (Advising course : advisedCourses) {
+            if (courseService.findCourseById(course.getCourseId()).getCourseCode().equals(courseCodeToAdvice)) {
+
+                model.addAttribute("courseAlreadyTaken", true);
+//--------Generate routine(AKA Advised Course's list)----------------------------------------------
+                List<Course> routine = new ArrayList<>();
+                for (Advising advising : advisedCourses) {
+                    routine.add(courseService.findCourseById(advising.getCourseId()));
+                }
+                model.addAttribute("courses", courseService.findAllCourses());
+                model.addAttribute("routine", routine);
+//------Course already taken flag enabled and returned updated ModelAndView------------------------
+                return new ModelAndView("/student/advising-panel");
+            }
+        }
 
         Advising advising = new Advising();
         advising.setCourseId(id);

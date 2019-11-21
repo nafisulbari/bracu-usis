@@ -198,6 +198,13 @@ public class AdminController {
     @PostMapping("/admin/add-new-course")
     public ModelAndView addCourse(@Valid Course theCourse, BindingResult result, Model theModel) {
 
+        if(theCourse.getSaturday()==null) theCourse.setSaturday("");
+        if(theCourse.getSunday()==null) theCourse.setSunday("");
+        if(theCourse.getMonday()==null) theCourse.setMonday("");
+        if(theCourse.getTuesday()==null) theCourse.setTuesday("");
+        if(theCourse.getWednesday()==null) theCourse.setWednesday("");
+        if(theCourse.getThursday()==null) theCourse.setThursday("");
+
         courseService.saveOrUpdateCourse(theCourse);
 
         theModel.addAttribute("courses", courseService.findAllCourses());
@@ -217,6 +224,14 @@ public class AdminController {
             theCourse.setId(id);
             return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
         }
+
+        if(theCourse.getSaturday()==null) theCourse.setSaturday("");
+        if(theCourse.getSunday()==null) theCourse.setSunday("");
+        if(theCourse.getMonday()==null) theCourse.setMonday("");
+        if(theCourse.getTuesday()==null) theCourse.setTuesday("");
+        if(theCourse.getWednesday()==null) theCourse.setWednesday("");
+        if(theCourse.getThursday()==null) theCourse.setThursday("");
+
         courseService.saveOrUpdateCourse(theCourse);
 
         theModel.addAttribute("courses", courseService.findAllCourses());
