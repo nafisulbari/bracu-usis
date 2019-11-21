@@ -179,7 +179,9 @@
     </tr>
 </table>
 
-<p th:if="${courseAlreadyTaken}" class="error">Course already taken</p>
+<p style="color: red" th:if="${courseAlreadyTaken}" class="error">Course already taken</p>
+<p style="color: red" th:if="${courseLimit}" class="error">Course advising limit reached</p>
+
 
 <h1>COURSESSS</h1>
 <div th:switch="${courses}">

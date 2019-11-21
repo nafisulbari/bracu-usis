@@ -41,6 +41,10 @@
     <input type="text" th:field="*{credit}" id="credit" placeholder="Credit"><br>
     <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"></span>
 
+    <label for="courseLimit">Course Limit</label><br>
+    <input type="text" th:field="*{courseLimit}" id="courseLimit" placeholder="courseLimit"><br>
+    <span th:if="${#fields.hasErrors('courseLimit')}" th:errors="*{courseLimit}"></span>
+
     <label for="role">Role</label><br>
     <input type="text" th:field="*{role}" id="role" placeholder="Role"><br>
     <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>

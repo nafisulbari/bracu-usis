@@ -29,6 +29,8 @@ public class User {
 
     private String credit;
 
+    private int courseLimit;
+
     private int active;
 
     private String role;
@@ -121,6 +123,14 @@ public class User {
         this.credit = credit;
     }
 
+    public int getCourseLimit() {
+        return courseLimit;
+    }
+
+    public void setCourseLimit(int courseLimit) {
+        this.courseLimit = courseLimit;
+    }
+
     public String getRole() {
         return role;
     }
@@ -165,6 +175,7 @@ public class User {
                 ", mobile='" + mobile + '\'' +
                 ", dept='" + dept + '\'' +
                 ", credit='" + credit + '\'' +
+                ", courseLimit=" + courseLimit +
                 ", active=" + active +
                 ", role='" + role + '\'' +
                 ", permissions='" + permissions + '\'' +

@@ -77,25 +77,39 @@ public class StudentController {
 
         User student = new User();
         student.setEmail(principal.getName());
-        int stdId = userService.findUserByEmail(student).getId();
+        student = userService.findUserByEmail(student);
+        int stdId = student.getId();
+        int totalAdvisedCourse = 0;
 
-//------Checking if the course is already taken--------------------------------------------------
         String courseCodeToAdvice = courseService.findCourseById(id).getCourseCode();
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
+
+
+//--------Generate routine(AKA Advised Course's list)--------------------------------------
+        List<Course> routine = new ArrayList<>();
+        for (Advising advising : advisedCourses) {
+            routine.add(courseService.findCourseById(advising.getCourseId()));
+        }
+//------Checking if the course is already taken--------------------------------------------
         for (Advising course : advisedCourses) {
+            totalAdvisedCourse++;
             if (courseService.findCourseById(course.getCourseId()).getCourseCode().equals(courseCodeToAdvice)) {
 
                 model.addAttribute("courseAlreadyTaken", true);
-//--------Generate routine(AKA Advised Course's list)----------------------------------------------
-                List<Course> routine = new ArrayList<>();
-                for (Advising advising : advisedCourses) {
-                    routine.add(courseService.findCourseById(advising.getCourseId()));
-                }
                 model.addAttribute("courses", courseService.findAllCourses());
                 model.addAttribute("routine", routine);
-//------Course already taken flag enabled and returned updated ModelAndView------------------------
+//------Course already taken flag enabled and returned updated ModelAndView----------------
                 return new ModelAndView("/student/advising-panel");
             }
+        }
+
+//------Checking course advising limit-------------------------------------------------------
+        if (totalAdvisedCourse >= student.getCourseLimit()) {
+
+            model.addAttribute("courseLimit", true);
+            model.addAttribute("courses", courseService.findAllCourses());
+            model.addAttribute("routine", routine);
+            return new ModelAndView("/student/advising-panel");
         }
 
         Advising advising = new Advising();

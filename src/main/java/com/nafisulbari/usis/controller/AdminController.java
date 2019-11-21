@@ -96,6 +96,7 @@ public class AdminController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         //finally after all checkings we save the user to db
+        user.setCourseLimit(3);
         userService.saveOrUpdateUser(user);
 
         //after successful operation we will be returned to user-portal page
@@ -120,7 +121,7 @@ public class AdminController {
         }
 
         //encoding with bcrypt
-        theUser.setPassword(passwordEncoder.encode(theUser.getPassword()));
+        //theUser.setPassword(passwordEncoder.encode(theUser.getPassword()));
 
         //updates the user info
         userService.saveOrUpdateUser(theUser);
