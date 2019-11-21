@@ -10,10 +10,9 @@
 <h1>STUDENT ADVISING</h1>
 
 
-<tr th:each="rou: ${routine}">
 
-    <span th:if="${#strings.contains(rou.saturday, '9.30 AM')}" th:text="${rou.courseCode}"></span>
-</tr>
+
+
 
 
 
@@ -30,6 +29,7 @@
         <td>THURSDAY
 
     </tr>
+
     <tr>
         <td align="center">8.00 AM
         <td align="center">SUB0<br>
@@ -42,7 +42,7 @@
     </tr>
     <tr>
         <td align="center">9.30 AM
-        <td align="center">SUB0<br>
+        <td align="center"><span th:each="rou: ${routine}"><span th:if="${#strings.contains(rou.saturday, '9.30 AM')}" th:text="${rou.courseCode +'-'+ rou.section}" ></span>&nbsp;</span> <br>
         <td align="center">SUB1<br>
         <td align="center">SUB2<br>
         <td align="center">SUB3<br>
@@ -100,6 +100,7 @@
         <td align="center">SUB5<br>
 
     </tr>
+
 
 
 </table>
