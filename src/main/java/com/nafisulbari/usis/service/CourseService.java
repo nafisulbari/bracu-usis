@@ -10,9 +10,12 @@ public interface CourseService {
 
     List<Course> findAllCourses();
 
+    List<Course> searchCourses(String searchKey);
+
     void saveOrUpdateCourse(Course theCourse);
 
     void deleteCourse(int theID);
+
 
 
 

@@ -3,10 +3,13 @@ package com.nafisulbari.usis.service;
 import com.nafisulbari.usis.entity.Advising;
 import com.nafisulbari.usis.entity.Course;
 import com.nafisulbari.usis.repo.CourseRepository;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +52,26 @@ public class CourseServiceImpl implements CourseService {
         return (List<Course>) courseRepository.findAll();
     }
 
+
+    @Override
+    public List<Course> searchCourses(String searchKey) {
+
+        searchKey="%"+searchKey+"%";
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query theQuery = currentSession.createQuery("Select c from Course c where c.courseCode like :searchKey");
+        theQuery.setParameter("searchKey", searchKey);
+
+        List courses = null;
+        try {
+            courses = theQuery.getResultList();
+
+        } catch (NoResultException nre) {
+            System.out.println("No courses found");
+        }
+        return (List<Course>)courses;
+
+
+    }
 
     @Override
     public void saveOrUpdateCourse(Course theCourse) {

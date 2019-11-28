@@ -180,7 +180,7 @@
 </table>
 
 <p style="color: red" th:if="${courseAlreadyTaken}" class="error">Course already taken</p>
-<p style="color: red" th:if="${courseLimit}" class="error">Course advising limit reached</p>
+<p style="color: red" th:if="${courseLimit}" class="error">Credit limit reached</p>
 <p style="color: red" th:if="${seatLimit}" class="error">Seats not available</p>
 
 
@@ -208,7 +208,15 @@
             </tbody>
         </table>
 
+
 <h2>Advising</h2>
+
+<form th:action="@{/student/advising-panel}" th:object="${searchKey}">
+    <input type="text" name="searchKey"/>
+    <input type="submit" value="Search"/>
+</form>
+
+
 <div th:switch="${courses}">
     <h2 th:case="null">No courses yet!</h2>
     <div th:case="*">

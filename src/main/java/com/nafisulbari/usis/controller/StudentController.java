@@ -11,8 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +54,9 @@ public class StudentController {
         return new ModelAndView("/student/student-home");
     }
 
-    //----------------
+
     @GetMapping("/student/advising-panel")
-    public ModelAndView showCourseList(Model theModel, Principal principal) {
+    public ModelAndView showCourseList(@RequestParam(value = "searchKey", required = false) String searchKey, Model theModel, Principal principal) {
 //--------Find Student's advising info---------------------------------------------------
         User student = new User();
         student.setEmail(principal.getName());
@@ -65,12 +68,18 @@ public class StudentController {
             routine.add(courseService.findCourseById(advising.getCourseId()));
         }
 
-//-------Update Advising panel and live routine ------------------------------------------
-        theModel.addAttribute("courses", courseService.findAllCourses());
+//------Update Advising panel and live routine ---------------------------------------
+//------Searches courses or returns all courses---------------------------------------
+        if (searchKey == null) {
+            theModel.addAttribute("courses", courseService.findAllCourses());
+        } else {
+            theModel.addAttribute("courses", courseService.searchCourses(searchKey));
+        }
         theModel.addAttribute("routine", routine);
 
         return new ModelAndView("/student/advising-panel");
     }
+
 
     @GetMapping("student/advising-panel/add-course/{id}")
     public ModelAndView addCourseToAdvise(@PathVariable("id") int id, Principal principal, Model model) {
@@ -94,8 +103,10 @@ public class StudentController {
 
 
 //------Checking Student's advising limit-------------------------------------------------------
+        for (Advising course : advisedCourses) {
+            totalAdvisedCourse++;
+        }
         if (totalAdvisedCourse >= student.getCourseLimit()) {
-
             model.addAttribute("courseLimit", true);
             model.addAttribute("courses", courseService.findAllCourses());
             model.addAttribute("routine", routine);
@@ -105,7 +116,6 @@ public class StudentController {
 
 //------Checking if the course is already taken--------------------------------------------
         for (Advising course : advisedCourses) {
-            totalAdvisedCourse++;
             if (courseService.findCourseById(course.getCourseId()).getCourseCode().equals(courseCodeToAdvice)) {
 
                 model.addAttribute("courseAlreadyTaken", true);
@@ -152,9 +162,9 @@ public class StudentController {
             }
         }
         //-------Removing course by advisingID and course seat status updating---------
-        Course thecourse = courseService.findCourseById(id);
-        thecourse.setSeat(thecourse.getSeat()-1);
-        courseService.saveOrUpdateCourse(thecourse);
+        Course theCourse = courseService.findCourseById(id);
+        theCourse.setSeat(theCourse.getSeat() - 1);
+        courseService.saveOrUpdateCourse(theCourse);
         advisingService.deleteAdvicedCourse(deleteAdvising);
 
         return new ModelAndView("redirect:/student/advising-panel");
