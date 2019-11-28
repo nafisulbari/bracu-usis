@@ -22,11 +22,11 @@
     <input type="password" id="password" name="password" placeholder="Password" required><br>
 
     <!----------------Thymeleaf + Spring Security error display ----------------->
-    <div th:if="${param.error}" class="alert alert-danger">
+    <div th:if="${param.error}" style="color: red">
         Wrong Credentials.
     </div>
 
-    <div th:if="${param.logout}" class="alert alert-success">
+    <div th:if="${param.logout}" style="color: red">
         You have been logged out.
     </div>
 

@@ -217,9 +217,11 @@
 </form>
 
 
-<div th:switch="${courses}">
-    <h2 th:case="null">No courses yet!</h2>
-    <div th:case="*">
+
+
+<p th:if="${#lists.isEmpty(courses)}" style="color: red"  class="error">No courses found</p>
+
+<div th:if="${not #lists.isEmpty(courses)}">
         <table>
             <thead>
             <tr>
@@ -258,7 +260,6 @@
             </tr>
             </tbody>
         </table>
-    </div>
 
 </div>
 
