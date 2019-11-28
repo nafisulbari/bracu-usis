@@ -199,12 +199,14 @@ public class AdminController {
     @PostMapping("/admin/add-new-course")
     public ModelAndView addCourse(@Valid Course theCourse, BindingResult result, Model theModel) {
 
-        if(theCourse.getSaturday()==null) theCourse.setSaturday("");
-        if(theCourse.getSunday()==null) theCourse.setSunday("");
-        if(theCourse.getMonday()==null) theCourse.setMonday("");
-        if(theCourse.getTuesday()==null) theCourse.setTuesday("");
-        if(theCourse.getWednesday()==null) theCourse.setWednesday("");
-        if(theCourse.getThursday()==null) theCourse.setThursday("");
+        if (theCourse.getSaturday() == null) theCourse.setSaturday("");
+        if (theCourse.getSunday() == null) theCourse.setSunday("");
+        if (theCourse.getMonday() == null) theCourse.setMonday("");
+        if (theCourse.getTuesday() == null) theCourse.setTuesday("");
+        if (theCourse.getWednesday() == null) theCourse.setWednesday("");
+        if (theCourse.getThursday() == null) theCourse.setThursday("");
+
+        theCourse.setSeat(0);
 
         courseService.saveOrUpdateCourse(theCourse);
 
@@ -226,12 +228,12 @@ public class AdminController {
             return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
         }
 
-        if(theCourse.getSaturday()==null) theCourse.setSaturday("");
-        if(theCourse.getSunday()==null) theCourse.setSunday("");
-        if(theCourse.getMonday()==null) theCourse.setMonday("");
-        if(theCourse.getTuesday()==null) theCourse.setTuesday("");
-        if(theCourse.getWednesday()==null) theCourse.setWednesday("");
-        if(theCourse.getThursday()==null) theCourse.setThursday("");
+        if (theCourse.getSaturday() == null) theCourse.setSaturday("");
+        if (theCourse.getSunday() == null) theCourse.setSunday("");
+        if (theCourse.getMonday() == null) theCourse.setMonday("");
+        if (theCourse.getTuesday() == null) theCourse.setTuesday("");
+        if (theCourse.getWednesday() == null) theCourse.setWednesday("");
+        if (theCourse.getThursday() == null) theCourse.setThursday("");
 
         courseService.saveOrUpdateCourse(theCourse);
 

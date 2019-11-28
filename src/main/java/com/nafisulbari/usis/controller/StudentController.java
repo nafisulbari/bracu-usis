@@ -81,7 +81,8 @@ public class StudentController {
         int stdId = student.getId();
         int totalAdvisedCourse = 0;
 
-        String courseCodeToAdvice = courseService.findCourseById(id).getCourseCode();
+        Course courseToAdvice = courseService.findCourseById(id);
+        String courseCodeToAdvice = courseToAdvice.getCourseCode();
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
 
 
@@ -90,6 +91,18 @@ public class StudentController {
         for (Advising advising : advisedCourses) {
             routine.add(courseService.findCourseById(advising.getCourseId()));
         }
+
+
+//------Checking Student's advising limit-------------------------------------------------------
+        if (totalAdvisedCourse >= student.getCourseLimit()) {
+
+            model.addAttribute("courseLimit", true);
+            model.addAttribute("courses", courseService.findAllCourses());
+            model.addAttribute("routine", routine);
+            return new ModelAndView("/student/advising-panel");
+        }
+
+
 //------Checking if the course is already taken--------------------------------------------
         for (Advising course : advisedCourses) {
             totalAdvisedCourse++;
@@ -102,15 +115,18 @@ public class StudentController {
                 return new ModelAndView("/student/advising-panel");
             }
         }
+//------Checking course available seat limit, here 5 is hard coded-------------------------------
+        if (courseToAdvice.getSeat() >= 5) {
 
-//------Checking course advising limit-------------------------------------------------------
-        if (totalAdvisedCourse >= student.getCourseLimit()) {
-
-            model.addAttribute("courseLimit", true);
+            model.addAttribute("seatLimit", true);
             model.addAttribute("courses", courseService.findAllCourses());
             model.addAttribute("routine", routine);
             return new ModelAndView("/student/advising-panel");
         }
+//-------Course can be advised now---------------------------------------------------------------
+        //----course seat status updated with +1-----
+        courseToAdvice.setSeat(courseToAdvice.getSeat() + 1);
+        courseService.saveOrUpdateCourse(courseToAdvice);
 
         Advising advising = new Advising();
         advising.setCourseId(id);
@@ -132,8 +148,13 @@ public class StudentController {
         for (Advising advising : advisedCourses) {
             if (advising.getCourseId() == id) {
                 deleteAdvising = advising.getId();
+                break;
             }
         }
+        //-------Removing course by advisingID and course seat status updating---------
+        Course thecourse = courseService.findCourseById(id);
+        thecourse.setSeat(thecourse.getSeat()-1);
+        courseService.saveOrUpdateCourse(thecourse);
         advisingService.deleteAdvicedCourse(deleteAdvising);
 
         return new ModelAndView("redirect:/student/advising-panel");

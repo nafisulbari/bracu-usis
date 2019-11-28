@@ -19,6 +19,8 @@ public class Course {
 
     private int section;
 
+    private int seat;
+
     private String faculty;
 
     private String examTime;
@@ -59,6 +61,14 @@ public class Course {
 
     public void setSection(int section) {
         this.section = section;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
     public String getFaculty() {
@@ -142,6 +152,7 @@ public class Course {
                 ", courseCode='" + courseCode + '\'' +
                 ", courseTitle='" + courseTitle + '\'' +
                 ", section=" + section +
+                ", seat=" + seat +
                 ", faculty='" + faculty + '\'' +
                 ", examTime='" + examTime + '\'' +
                 ", saturday='" + saturday + '\'' +

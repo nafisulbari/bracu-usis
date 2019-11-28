@@ -181,6 +181,7 @@
 
 <p style="color: red" th:if="${courseAlreadyTaken}" class="error">Course already taken</p>
 <p style="color: red" th:if="${courseLimit}" class="error">Course advising limit reached</p>
+<p style="color: red" th:if="${seatLimit}" class="error">Seats not available</p>
 
 
 <h2>My Courses</h2>
@@ -218,8 +219,15 @@
                 <th>Course Title</th>
                 <th>Section</th>
                 <th>Faculty</th>
+                <th>Seat Status</th>
                 <th>Final Exam</th>
-                <th>Routine</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+
 
 
             </tr>
@@ -230,6 +238,7 @@
                 <td th:text="${course.courseTitle}"></td>
                 <td th:text="${course.section}"></td>
                 <td th:text="${course.faculty}"></td>
+                <td th:text="${course.seat}"></td>
                 <td th:text="${course.examTime}"></td>
                 <td th:text="${course.saturday}"></td>
                 <td th:text="${course.sunday}"></td>
