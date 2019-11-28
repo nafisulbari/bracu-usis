@@ -29,6 +29,11 @@
     <input type="text" th:field="*{faculty}" id="faculty" placeholder="Faculty"><br>
     <span th:if="${#fields.hasErrors('faculty')}" th:errors="*{faculty}"></span>
 
+
+    <input type="radio" th:field="${course.lab}" name="lab" value="1">Lab<br>
+    <input type="radio" th:field="${course.lab}" name="lab" value="0">Theory<br>
+
+
     <label for="examTime">Exam Day</label><br>
     <input type="radio" th:field="*{examTime}" id="Day 1" name="examTime" value="Day 1">Day 1<br>
     <input type="radio" th:field="*{examTime}" id="Day 2" name="examTime" value="Day 2">Day 2<br>

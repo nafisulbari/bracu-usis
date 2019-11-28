@@ -27,6 +27,7 @@
                 <th>Section</th>
                 <th>Faculty</th>
                 <th>Exam Day</th>
+                <th>Class Type</th>
                 <th>SATURDAY</th>
                 <th>SUNDAY</th>
                 <th>MONDAY</th>
@@ -44,6 +45,8 @@
                 <td th:text="${course.section}"></td>
                 <td th:text="${course.faculty}"></td>
                 <td th:text="${course.examTime}"></td>
+                <td th:if="${course.lab == 0}">Theory</td>
+                <td th:if="${course.lab == 1}">Lab</td>
                 <td th:text="${course.saturday}"></td>
                 <td th:text="${course.sunday}"></td>
                 <td th:text="${course.monday}"></td>

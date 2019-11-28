@@ -8,17 +8,17 @@ public interface CourseService {
 
     Course findCourseById(int theID);
 
+    List<Course> findAllTheoryCourses();
+
     List<Course> findAllCourses();
 
-    List<Course> searchCourses(String searchKey);
+    Course getMatchingLabCourse(Course theoryCourse);
+
+    List<Course> searchTheoryCourses(String searchKey);
 
     void saveOrUpdateCourse(Course theCourse);
 
     void deleteCourse(int theID);
-
-
-
-
 
 
 }

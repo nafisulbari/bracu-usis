@@ -30,7 +30,9 @@
     <label for="faculty">Faculty</label><br>
     <input type="text" th:field="${course.faculty}" id="faculty" placeholder="Faculty" required><br>
 
-    <p th:if="${garbageMobile}" class="error">Garbage Mobile</p>
+    <input type="radio" th:field="${course.lab}" name="lab" value="1">Lab<br>
+    <input type="radio" th:field="${course.lab}" name="lab" value="0">Theory<br>
+
 
     <label for="examTime">Final Exam</label><br>
     <input type="radio" th:field="${course.examTime}" name="examTime" value="Day 1">Day 1<br>

@@ -25,6 +25,8 @@ public class Course {
 
     private String examTime;
 
+    private int lab;
+
     private String saturday;
 
     private String sunday;
@@ -96,6 +98,14 @@ public class Course {
         this.courseTitle = courseTitle;
     }
 
+    public int getLab() {
+        return lab;
+    }
+
+    public void setLab(int lab) {
+        this.lab = lab;
+    }
+
     public String getSaturday() {
         return saturday;
     }
@@ -155,6 +165,7 @@ public class Course {
                 ", seat=" + seat +
                 ", faculty='" + faculty + '\'' +
                 ", examTime='" + examTime + '\'' +
+                ", lab=" + lab +
                 ", saturday='" + saturday + '\'' +
                 ", sunday='" + sunday + '\'' +
                 ", monday='" + monday + '\'' +

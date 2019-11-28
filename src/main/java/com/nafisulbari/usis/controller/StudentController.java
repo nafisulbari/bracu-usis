@@ -71,9 +71,9 @@ public class StudentController {
 //------Update Advising panel and live routine ---------------------------------------
 //------Searches courses or returns all courses---------------------------------------
         if (searchKey == null) {
-            theModel.addAttribute("courses", courseService.findAllCourses());
+            theModel.addAttribute("courses", courseService.findAllTheoryCourses());
         } else {
-            theModel.addAttribute("courses", courseService.searchCourses(searchKey));
+            theModel.addAttribute("courses", courseService.searchTheoryCourses(searchKey));
         }
         theModel.addAttribute("routine", routine);
 
@@ -90,83 +90,106 @@ public class StudentController {
         int stdId = student.getId();
         int totalAdvisedCourse = 0;
 
-        Course courseToAdvice = courseService.findCourseById(id);
-        String courseCodeToAdvice = courseToAdvice.getCourseCode();
+        Course theoryCourse = courseService.findCourseById(id);
+        Course labCourse = courseService.getMatchingLabCourse(theoryCourse);
+        String courseCodeToAdvice = theoryCourse.getCourseCode();
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
 
 
 //--------Generate routine(AKA Advised Course's list)--------------------------------------
         List<Course> routine = new ArrayList<>();
+        Course tempCourse;
         for (Advising advising : advisedCourses) {
-            routine.add(courseService.findCourseById(advising.getCourseId()));
+            tempCourse = courseService.findCourseById(advising.getCourseId());
+            routine.add(tempCourse);
+            if (tempCourse.getLab() == 0) {
+                totalAdvisedCourse++;
+            }
         }
 
-
-//------Checking Student's advising limit-------------------------------------------------------
-        for (Advising course : advisedCourses) {
-            totalAdvisedCourse++;
-        }
+//------Checking Student's advising credit limit-------------------------------------------------------
         if (totalAdvisedCourse >= student.getCourseLimit()) {
             model.addAttribute("courseLimit", true);
-            model.addAttribute("courses", courseService.findAllCourses());
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("routine", routine);
             return new ModelAndView("/student/advising-panel");
         }
 
-
 //------Checking if the course is already taken--------------------------------------------
         for (Advising course : advisedCourses) {
-            if (courseService.findCourseById(course.getCourseId()).getCourseCode().equals(courseCodeToAdvice)) {
 
+            if (courseService.findCourseById(course.getCourseId()).getCourseCode().equals(courseCodeToAdvice)) {
                 model.addAttribute("courseAlreadyTaken", true);
-                model.addAttribute("courses", courseService.findAllCourses());
+                model.addAttribute("courses", courseService.findAllTheoryCourses());
                 model.addAttribute("routine", routine);
-//------Course already taken flag enabled and returned updated ModelAndView----------------
+                //--Course already taken flag enabled and returned updated ModelAndView----------------
                 return new ModelAndView("/student/advising-panel");
             }
         }
 //------Checking course available seat limit, here 5 is hard coded-------------------------------
-        if (courseToAdvice.getSeat() >= 5) {
+        if (theoryCourse.getSeat() >= 5) {
 
             model.addAttribute("seatLimit", true);
-            model.addAttribute("courses", courseService.findAllCourses());
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("routine", routine);
             return new ModelAndView("/student/advising-panel");
         }
 //-------Course can be advised now---------------------------------------------------------------
-        //----course seat status updated with +1-----
-        courseToAdvice.setSeat(courseToAdvice.getSeat() + 1);
-        courseService.saveOrUpdateCourse(courseToAdvice);
+        //----theory and lab seat status updated with +1-----
+        theoryCourse.setSeat(theoryCourse.getSeat() + 1);
+        courseService.saveOrUpdateCourse(theoryCourse);
 
-        Advising advising = new Advising();
-        advising.setCourseId(id);
-        advising.setStdId(stdId);
-        advisingService.saveAdvisedCourse(advising);
+        if (labCourse.getCourseCode() != null) {
+            labCourse.setSeat(labCourse.getSeat() + 1);
+            courseService.saveOrUpdateCourse(labCourse);
+        }
 
+//-------Theory and lab course advised----------------------------------------------------------
+        Advising advisingTheory = new Advising();
+        advisingTheory.setCourseId(id);
+        advisingTheory.setStdId(stdId);
+        advisingService.saveAdvisedCourse(advisingTheory);
+
+        if (labCourse.getCourseCode() != null) {
+            Advising advisingLab = new Advising();
+            advisingLab.setCourseId(labCourse.getId());
+            advisingLab.setStdId(stdId);
+            advisingService.saveAdvisedCourse(advisingLab);
+        }
         return new ModelAndView("redirect:/student/advising-panel");
     }
 
     @GetMapping("student/advising-panel/drop-course/{id}")
     public ModelAndView dropCourseFromAdvise(@PathVariable("id") int id, Principal principal, Model model) {
 
+        Course theoryCourse = courseService.findCourseById(id);
+        Course labCourse = courseService.getMatchingLabCourse(theoryCourse);
+
         User student = new User();
         student.setEmail(principal.getName());
         int stdId = userService.findUserByEmail(student).getId();
 
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
-        int deleteAdvising = 0;
+        int deleteTheoryAdvising = 0;
+        int deleteLabAdvising = 0;
         for (Advising advising : advisedCourses) {
-            if (advising.getCourseId() == id) {
-                deleteAdvising = advising.getId();
-                break;
+            if (advising.getCourseId() == theoryCourse.getId()) {
+                deleteTheoryAdvising = advising.getId();
+            }
+            if (advising.getCourseId() == labCourse.getId()) {
+                deleteLabAdvising = advising.getId();
             }
         }
-        //-------Removing course by advisingID and course seat status updating---------
-        Course theCourse = courseService.findCourseById(id);
-        theCourse.setSeat(theCourse.getSeat() - 1);
-        courseService.saveOrUpdateCourse(theCourse);
-        advisingService.deleteAdvicedCourse(deleteAdvising);
+        //-------Removing course by advisingID and course seat updating---------
+        theoryCourse.setSeat(theoryCourse.getSeat() - 1);
+        courseService.saveOrUpdateCourse(theoryCourse);
+        advisingService.deleteAdvicedCourse(deleteTheoryAdvising);
 
+        if (labCourse.getCourseCode() != null) {
+            labCourse.setSeat(labCourse.getSeat() - 1);
+            courseService.saveOrUpdateCourse(labCourse);
+            advisingService.deleteAdvicedCourse(deleteLabAdvising);
+        }
         return new ModelAndView("redirect:/student/advising-panel");
     }
 

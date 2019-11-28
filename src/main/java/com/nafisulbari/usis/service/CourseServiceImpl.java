@@ -48,17 +48,34 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findAllCourses() {
-        return (List<Course>) courseRepository.findAll();
+    public List<Course> findAllTheoryCourses() {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query theQuery = currentSession.createQuery("Select c from Course c where c.lab=:lab");
+        theQuery.setParameter("lab", 0);
+
+        List courses = null;
+        try {
+            courses = theQuery.getResultList();
+
+        } catch (NoResultException nre) {
+            System.out.println("No courses found");
+        }
+        return (List<Course>) courses;
     }
 
 
     @Override
-    public List<Course> searchCourses(String searchKey) {
+    public List<Course> findAllCourses() {
+        return (List<Course>) courseRepository.findAll();
+    }
 
-        searchKey="%"+searchKey+"%";
+    @Override
+    public List<Course> searchTheoryCourses(String searchKey) {
+
+        searchKey = "%" + searchKey + "%";
         Session currentSession = entityManager.unwrap(Session.class);
-        Query theQuery = currentSession.createQuery("Select c from Course c where c.courseCode like :searchKey");
+        Query theQuery = currentSession.createQuery("Select c from Course c where c.lab=:lab and c.courseCode like :searchKey");
+        theQuery.setParameter("lab", 0);
         theQuery.setParameter("searchKey", searchKey);
 
         List courses = null;
@@ -68,14 +85,35 @@ public class CourseServiceImpl implements CourseService {
         } catch (NoResultException nre) {
             System.out.println("No courses found");
         }
-        return (List<Course>)courses;
-
+        return (List<Course>) courses;
 
     }
 
     @Override
+    public Course getMatchingLabCourse(Course theoryCourse) {
+
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query theQuery = currentSession.createQuery("Select c from Course c where c.courseCode=:courseCode and c.section=:section and c.lab=:lab");
+        theQuery.setParameter("courseCode", theoryCourse.getCourseCode());
+        theQuery.setParameter("section", theoryCourse.getSection());
+        theQuery.setParameter("lab", 1);
+
+        Course labCourse = new Course();
+
+        try {
+            labCourse = (Course) theQuery.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("ignoring NoResultException, because course has no lab, message from:CourseServiceImpl,GetMatchingLabcourse()");
+        } finally {
+            return labCourse;
+        }
+    }
+
+
+    @Override
     public void saveOrUpdateCourse(Course theCourse) {
         courseRepository.save(theCourse);
+
     }
 
     @Override
