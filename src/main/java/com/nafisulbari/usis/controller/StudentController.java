@@ -61,8 +61,8 @@ public class StudentController {
         User student = new User();
         student.setEmail(principal.getName());
         int stdId = userService.findUserByEmail(student).getId();
-        List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
 //--------Generate routine(A Course's list)----------------------------------------------
+        List<Advising> advisedCourses = advisingService.findAdvisedCourses(stdId);
         List<Course> routine = new ArrayList<>();
         for (Advising advising : advisedCourses) {
             routine.add(courseService.findCourseById(advising.getCourseId()));

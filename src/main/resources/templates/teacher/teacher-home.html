@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE HTML>
 
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
@@ -12,7 +9,16 @@
 
 
 <h1>TEACHER HOME</h1>
-<p>teacher login success</p>
+
+
+<form th:action="@{/teacher/teacher-home}" th:object="${stdEmail}">
+    <input type="text" name="stdEmail"/>
+    <input type="submit" value="Find Student"/>
+</form>
+
+
+<p th:if="${flagStudentPresent == 'notFound'}" style="color: red">incorrect email</p>
+
 
 
 </body>

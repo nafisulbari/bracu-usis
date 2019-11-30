@@ -5,7 +5,6 @@ import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.service.PasswordRequestService;
 import com.nafisulbari.usis.service.PreviousPasswordService;
 import com.nafisulbari.usis.service.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
 
 
 @Controller
@@ -39,13 +37,8 @@ public class LoginController {
 
     @GetMapping("/login")
     public ModelAndView login(User theUser, BindingResult result, Model theModel) {
-
-        System.out.println(result.toString());
     theModel.addAttribute(theModel);
-
     return new ModelAndView("login", String.valueOf(theModel), theUser);
-
-
     }
 
     @PostMapping("/home-detector")
@@ -74,7 +67,6 @@ public class LoginController {
 
     @GetMapping("/forgot-password")
     public String forgotPasswordPage(PasswordRequest thePasswordRequest) {
-
         return "forgot-password";
     }
 
@@ -96,7 +88,6 @@ public class LoginController {
             return "/forgot-password";
         }
 
-
         if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
             themodel.addAttribute("messagePasswordUsed", true);
             return "/forgot-password";
@@ -107,32 +98,6 @@ public class LoginController {
 
     }
 
-//--------------------------------------------------------------------------------
-
-
-
-//
-//    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
-//    public ModelAndView loginPage(@RequestParam(value = "error",required = false) String error,
-//                                  @RequestParam(value = "logout",	required = false) String logout) {
-//
-//        ModelAndView model = new ModelAndView();
-//        if (error != null) {
-//            model.addObject("error", "Invalid Credentials provided.");
-//        }
-//
-//        if (logout != null) {
-//            model.addObject("message", "Logged out from JournalDEV successfully.");
-//        }
-//
-//        model.setViewName("loginPage");
-//        return model;
-//    }
-//
-//
-//
-//
-//
 
 
 }

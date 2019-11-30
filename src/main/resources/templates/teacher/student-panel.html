@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:insert="fragments.html :: headerfiles">
+</head>
+<body>
+<header th:insert="fragments.html :: nav"></header>
+
+
+<h1>STUDENT PANEL</h1>
+<span th:text="${student.name}"></span> <span> &nbsp; &nbsp;</span>
+<span th:text="${student.dept}"></span> <span> &nbsp; &nbsp;</span>
+<span th:text="${student.email}"></span>
+
+<H1>ROUTINE</H1>
+<table border="2" cellspacing="3">
+    <tr>
+        <td>
+        <td>SATURDAY
+        <td>SUNDAY
+        <td>MONDAY
+        <td>TUESDAY
+        <td>WEDNESDAY
+        <td>THURSDAY
+
+    </tr>
+
+    <tr>
+        <td>8.00 AM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '8.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '8.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '8.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '8.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '8.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '8.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+
+    </tr>
+    <tr>
+        <td>9.30 AM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '9.30 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '9.30 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '9.30 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '9.30 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '9.30 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '9.30 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+
+    </tr>
+    <tr>
+        <td>11.00 AM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '11.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '11.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '11.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '11.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '11.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '11.00 AM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+
+    </tr>
+    <tr>
+        <td>12.30 PM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '12.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '12.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '12.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '12.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '12.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '12.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+
+    </tr>
+    <tr>
+        <td>2.00 PM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '2.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '2.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '2.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '2.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '2.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '2.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+
+    </tr>
+    <tr>
+        <td>3.30 PM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '3.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '3.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '3.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '3.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '3.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '3.30 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+
+    </tr>
+    <tr>
+        <td>5.00 PM
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.saturday, '5.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.sunday, '5.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.monday, '5.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.tuesday, '5.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.wednesday, '5.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+        <td><span th:each="rou: ${routine}"><p th:if="${#strings.contains(rou.thursday, '5.00 PM')}"
+                                               th:text="${rou.courseCode +'-'+ rou.section +'-'+ rou.faculty}"></span>
+            <br>
+    </tr>
+</table>
+<br/>
+<br/>
+<form th:action="@{/teacher/student-panel}">
+    <input type="text" th:object="${courseCode}" name="courseCode"/>
+    <input type="radio" th:object="${courseType}" name="courseType" value="0">Theory<br>
+    <input type="radio" th:object="${courseType}" name="courseType" value="1">Lab<br>
+    <input type="radio" th:object="${courseType}" name="courseType" value="2">Both<br>
+    <input type="submit" value="Find Course"/>
+</form>
+
+
+</body>
+
+
+</html>
