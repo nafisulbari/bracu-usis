@@ -182,12 +182,13 @@
 </table>
 <br/>
 <br/>
-<form th:action="@{/teacher/student-panel}">
+<h3>Find Non Clashing Section</h3>
+<form th:action="@{/teacher/student-panel/{id}(id=${student.id})}">
     <input type="text" th:object="${courseCode}" name="courseCode"/>
-    <input type="radio" th:object="${courseType}" name="courseType" value="0">Theory<br>
-    <input type="radio" th:object="${courseType}" name="courseType" value="1">Lab<br>
-    <input type="radio" th:object="${courseType}" name="courseType" value="2">Both<br>
-    <input type="submit" value="Find Course"/>
+    <input type="radio" th:object="${courseType}" name="courseType" value="0">Theory
+    <input type="radio" th:object="${courseType}" name="courseType" value="1">Lab
+    <input type="radio" th:object="${courseType}" name="courseType" value="2">Both
+    <input type="submit" value="Find"/>
 </form>
 
 
