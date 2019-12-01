@@ -67,17 +67,83 @@ public class TeacherController {
     public ModelAndView studentPanel(@PathVariable("id") int studentId, String courseCode, String courseType, Model model) {
 
         User student = userService.findUserById(studentId);
-        System.out.println(student);
+        List<Course> routine = getRoutine(studentId);
+        List<Course> searchedCourse = courseService.getSpecificCourseList(courseCode);
+
+//------ Did not input course type flag----------------------------------------------
+        if (!courseCode.equals("") && courseType == null) {
+            model.addAttribute("student", student);
+            model.addAttribute("routine", routine);
+            model.addAttribute("flagCourseSearch", "inputCourseType");
+            return new ModelAndView("/teacher/student-panel");
+        }
+//------Narrowing down searchedCourse---------------------------------------------------
+        List<Course> narrowedSearchedCourse = new ArrayList<>();
+        if (courseType != null && Integer.parseInt(courseType) != 2) {
+            for (Course course : searchedCourse) {
+                if (course.getLab() == Integer.parseInt(courseType)) {
+                    narrowedSearchedCourse.add(course);
+                }
+            }
+        }
+//------- Searched Course not Found flag----------------------------------------------
+        if (!courseCode.equals("") && narrowedSearchedCourse.isEmpty()) {
+            model.addAttribute("student", student);
+            model.addAttribute("routine", routine);
+            model.addAttribute("flagCourseSearch", "notFound");
+            return new ModelAndView("/teacher/student-panel");
+        }
+//-------When nothing is searched----------------------------------------------------
+        if (courseCode.equals("")) {
+            model.addAttribute("student", student);
+            model.addAttribute("routine", routine);
+            return new ModelAndView("/teacher/student-panel");
+        }
+
+//------Can Detect advisableCourses from narrowedDown list-------------------------------------------------------------------------------------------------
+        List<Course> advisableCourse = new ArrayList<>();
+        for (Course course : narrowedSearchedCourse) {
+            boolean flag = true;
+            for (Course rou : routine) {
+
+                if (!course.getSaturday().equals("") && !rou.getSaturday().equals("") && course.getSaturday().equals(rou.getSaturday())) {
+                    flag = false;
+                }
+                if (!course.getSunday().equals("") && !rou.getSunday().equals("") && course.getSunday().equals(rou.getSunday())) {
+                    flag = false;
+                }
+                if (!course.getMonday().equals("") && !rou.getMonday().equals("") && course.getMonday().equals(rou.getMonday())) {
+                    flag = false;
+                }
+                if (!course.getTuesday().equals("") && !rou.getTuesday().equals("") && course.getTuesday().equals(rou.getTuesday())) {
+                    flag = false;
+                }
+                if (!course.getWednesday().equals("") && !rou.getWednesday().equals("") && course.getWednesday().equals(rou.getWednesday())) {
+                    flag = false;
+                }
+                if (!course.getThursday().equals("") && !rou.getThursday().equals("") && course.getThursday().equals(rou.getThursday())) {
+                    flag = false;
+                }
+
+            }
+            if (flag) {
+                advisableCourse.add(course);
+            }
+        }
         System.out.println("CC: " + courseCode);
         System.out.println("CT:" + courseType);
+        System.out.println("searched course: " + searchedCourse);
+        System.out.println("narrow searched course: " + narrowedSearchedCourse);
+        System.out.println("advisible course: " + advisableCourse);
 
 
         model.addAttribute("student", student);
-        model.addAttribute("routine", getRoutine(studentId));
+        model.addAttribute("routine", routine);
         return new ModelAndView("/teacher/student-panel");
     }
 
-//------Generates routine from studentId------------------------------------------------------------------------------------
+
+    //------Generates routine from studentId------------------------------------------------------------------------------------
     private List<Course> getRoutine(int studentId) {
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(studentId);
         List<Course> routine = new ArrayList<>();

@@ -108,7 +108,23 @@ public class CourseServiceImpl implements CourseService {
             return labCourse;
         }
     }
+    @Override
+    public List<Course> getSpecificCourseList(String courseCode) {
 
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query theQuery = currentSession.createQuery("Select c from Course c where c.courseCode=:courseCode");
+        theQuery.setParameter("courseCode", courseCode);
+
+        List courses = null;
+        try {
+            courses = theQuery.getResultList();
+
+        } catch (NoResultException nre) {
+            System.out.println("No courses found");
+        }
+        return (List<Course>) courses;
+
+    }
 
     @Override
     public void saveOrUpdateCourse(Course theCourse) {

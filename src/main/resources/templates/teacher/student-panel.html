@@ -191,8 +191,11 @@
     <input type="submit" value="Find"/>
 </form>
 
+<p th:if="${flagCourseSearch == 'notFound'}" style="color: red">Course Not Found</p>
+<p th:if="${flagCourseSearch == 'inputCourseType'}" style="color: red">Please Input Course Type</p>
+
+
+
 
 </body>
-
-
 </html>

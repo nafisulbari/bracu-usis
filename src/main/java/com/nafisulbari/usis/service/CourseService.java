@@ -16,6 +16,8 @@ public interface CourseService {
 
     List<Course> searchTheoryCourses(String searchKey);
 
+    public List<Course> getSpecificCourseList(String courseCode);
+
     void saveOrUpdateCourse(Course theCourse);
 
     void deleteCourse(int theID);
