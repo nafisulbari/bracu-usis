@@ -62,7 +62,7 @@ public class TeacherController {
     }
 
 
-    //-------------on dev-------------------------------------------------------------------------------------------------------
+
     @GetMapping("/teacher/student-panel/{id}")
     public ModelAndView studentPanel(@PathVariable("id") int studentId, String courseCode, String courseType, Model model) {
 
@@ -70,14 +70,14 @@ public class TeacherController {
         List<Course> routine = getRoutine(studentId);
         List<Course> searchedCourse = courseService.getSpecificCourseList(courseCode);
 
-//------ Did not input course type flag----------------------------------------------
+//------Did not input course type flag----------------------------------------------
         if (!courseCode.equals("") && courseType == null) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
             model.addAttribute("flagCourseSearch", "inputCourseType");
             return new ModelAndView("/teacher/student-panel");
         }
-//------Narrowing down searchedCourse---------------------------------------------------
+//------Narrowing down searchedCourse-----------------------------------------------
         List<Course> narrowedSearchedCourse = new ArrayList<>();
         if (courseType != null && Integer.parseInt(courseType) != 2) {
             for (Course course : searchedCourse) {
@@ -86,7 +86,7 @@ public class TeacherController {
                 }
             }
         }
-//------- Searched Course not Found flag----------------------------------------------
+//-------Searched Course not Found flag----------------------------------------------
         if (!courseCode.equals("") && narrowedSearchedCourse.isEmpty()) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
@@ -99,8 +99,8 @@ public class TeacherController {
             model.addAttribute("routine", routine);
             return new ModelAndView("/teacher/student-panel");
         }
-
-//------Can Detect advisableCourses from narrowedDown list-------------------------------------------------------------------------------------------------
+//ON DEV, works only for lab or theory, not both
+//------Detect advisableCourses from narrowedDown list----------------------------------------------------------------------------=
         List<Course> advisableCourse = new ArrayList<>();
         for (Course course : narrowedSearchedCourse) {
             boolean flag = true;
