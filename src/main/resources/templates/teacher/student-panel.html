@@ -9,7 +9,7 @@
 
 
 <h1>STUDENT PANEL</h1>
-<span th:text="${student.id}"></span> <span> &nbsp; &nbsp;</span>
+<span th:text="${student.name}"></span> <span> &nbsp; &nbsp;</span>
 <span th:text="${student.dept}"></span> <span> &nbsp; &nbsp;</span>
 <span th:text="${student.email}"></span>
 
@@ -203,6 +203,7 @@
             <th>Course Code</th>
             <th>Course Title</th>
             <th>Section</th>
+            <th>Class Type</th>
             <th>Faculty</th>
             <th>Seat Status</th>
             <th>Final Exam</th>
@@ -221,6 +222,7 @@
             <td th:text="${course.courseCode}"></td>
             <td th:text="${course.courseTitle}"></td>
             <td th:text="${course.section}"></td>
+            <td th:text="${course.lab}"></td>
             <td th:text="${course.faculty}"></td>
             <td th:text="${course.seat}"></td>
             <td th:text="${course.examTime}"></td>

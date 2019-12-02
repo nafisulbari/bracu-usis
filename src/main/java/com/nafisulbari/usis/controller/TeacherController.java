@@ -22,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -84,11 +85,20 @@ public class TeacherController {
             model.addAttribute("flagCourseSearch", "inputCourseType");
             return new ModelAndView("/teacher/student-panel");
         }
-//------Narrowing down searchedCourse as lab or theory -------------------------------
+//------Narrowing down searchedCourse as only lab or only theory, and excluding pre advised section--
         List<Course> narrowedSearchedCourse = new ArrayList<>();
+
         if (courseType != null && Integer.parseInt(courseType) != 2) {
             for (Course course : searchedCourse) {
                 if (course.getLab() == Integer.parseInt(courseType) && !routine.contains(course)) {
+                    narrowedSearchedCourse.add(course);
+                }
+            }
+        }
+//------Narrowing down searchedCourse as both, excluding pre advised section-------------------------
+        if (courseType != null && Integer.parseInt(courseType) == 2) {
+            for (Course course : searchedCourse) {
+                if (!routine.contains(course)) {
                     narrowedSearchedCourse.add(course);
                 }
             }
@@ -107,7 +117,7 @@ public class TeacherController {
             return new ModelAndView("/teacher/student-panel");
         }
 //ON DEV, works only for lab or theory, not both
-//------Detect advisableCourses from narrowedDown list----------------------------------------------------------------------------=
+//------Detect advisableCourses from narrowedDown list----------------------------------------------------------------
         List<Course> advisableCourse = new ArrayList<>();
         for (Course course : narrowedSearchedCourse) {
             boolean flag = true;
@@ -138,8 +148,29 @@ public class TeacherController {
             }
         }
 
+        List<Course> bothAdvisableCourse = new ArrayList<>();
+        if (Integer.parseInt(courseType) == 2) {
+            for (int i = 0; i < advisableCourse.size(); i++) {
+                int count = 0;
+                for (int j = i; j < advisableCourse.size(); j++) {
+                    if (advisableCourse.get(i).getSection() == advisableCourse.get(j).getSection()) {
+                        count++;
+                        if (count == 2) {
+                            bothAdvisableCourse.add(advisableCourse.get(i));
+                            break;
+                        }
+                    }
+                }
+            }
+            if (bothAdvisableCourse.isEmpty()) {
+                model.addAttribute("flagAvailableCourse", "notFound");
+            } else {
 
-        if (advisableCourse.isEmpty()) {
+                advisableCourse = bothAdvisableCourse;
+            }
+        }
+
+        if (Integer.parseInt(courseType) != 2 && advisableCourse.isEmpty()) {
             model.addAttribute("flagAvailableCourse", "notFound");
         }
         model.addAttribute("advisableCourse", advisableCourse);
@@ -153,7 +184,6 @@ public class TeacherController {
     public RedirectView studentPanelSwapSection(@PathVariable("id") String stdId,
                                                 @PathVariable("courseId") String crId,
                                                 @PathVariable("courseType") String crType, Model model) {
-        System.out.println(stdId);
 
         int studentId = Integer.parseInt(stdId);
         int courseId = Integer.parseInt(crId);
