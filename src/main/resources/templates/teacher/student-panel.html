@@ -9,7 +9,7 @@
 
 
 <h1>STUDENT PANEL</h1>
-<span th:text="${student.name}"></span> <span> &nbsp; &nbsp;</span>
+<span th:text="${student.id}"></span> <span> &nbsp; &nbsp;</span>
 <span th:text="${student.dept}"></span> <span> &nbsp; &nbsp;</span>
 <span th:text="${student.email}"></span>
 
@@ -193,8 +193,51 @@
 
 <p th:if="${flagCourseSearch == 'notFound'}" style="color: red">Course Not Found</p>
 <p th:if="${flagCourseSearch == 'inputCourseType'}" style="color: red">Please Input Course Type</p>
+<p th:if="${flagCourseSearch == 'swapSuccessful'}" style="color: green">Swap Successful</p>
+<p th:if="${flagAvailableCourse == 'notFound'}" style="color: red" class="error">Non clashing section unavailable</p>
+
+<div th:if="${not #lists.isEmpty(advisableCourse)}">
+    <table>
+        <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Section</th>
+            <th>Faculty</th>
+            <th>Seat Status</th>
+            <th>Final Exam</th>
+            <th>Saturday</th>
+            <th>Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
 
 
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${advisableCourse}">
+            <td th:text="${course.courseCode}"></td>
+            <td th:text="${course.courseTitle}"></td>
+            <td th:text="${course.section}"></td>
+            <td th:text="${course.faculty}"></td>
+            <td th:text="${course.seat}"></td>
+            <td th:text="${course.examTime}"></td>
+            <td th:text="${course.saturday}"></td>
+            <td th:text="${course.sunday}"></td>
+            <td th:text="${course.monday}"></td>
+            <td th:text="${course.tuesday}"></td>
+            <td th:text="${course.wednesday}"></td>
+            <td th:text="${course.thursday}"></td>
+            <td>
+                <a th:href="@{'/teacher/student-panel/' + ${student.id} +'/'+ ${course.id} +'/'+ ${course.lab}}">SWAP</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 
 </body>

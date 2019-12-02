@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -62,7 +63,6 @@ public class TeacherController {
     }
 
 
-
     @GetMapping("/teacher/student-panel/{id}")
     public ModelAndView studentPanel(@PathVariable("id") int studentId, String courseCode, String courseType, Model model) {
 
@@ -70,6 +70,13 @@ public class TeacherController {
         List<Course> routine = getRoutine(studentId);
         List<Course> searchedCourse = courseService.getSpecificCourseList(courseCode);
 
+//------studentPanelSwapSection() success gives courseCode=null---------------------
+        if (courseCode == null) {
+            model.addAttribute("student", student);
+            model.addAttribute("routine", routine);
+            model.addAttribute("flagCourseSearch", "swapSuccessful");
+            return new ModelAndView("/teacher/student-panel");
+        }
 //------Did not input course type flag----------------------------------------------
         if (!courseCode.equals("") && courseType == null) {
             model.addAttribute("student", student);
@@ -77,23 +84,23 @@ public class TeacherController {
             model.addAttribute("flagCourseSearch", "inputCourseType");
             return new ModelAndView("/teacher/student-panel");
         }
-//------Narrowing down searchedCourse-----------------------------------------------
+//------Narrowing down searchedCourse as lab or theory -------------------------------
         List<Course> narrowedSearchedCourse = new ArrayList<>();
         if (courseType != null && Integer.parseInt(courseType) != 2) {
             for (Course course : searchedCourse) {
-                if (course.getLab() == Integer.parseInt(courseType)) {
+                if (course.getLab() == Integer.parseInt(courseType) && !routine.contains(course)) {
                     narrowedSearchedCourse.add(course);
                 }
             }
         }
-//-------Searched Course not Found flag----------------------------------------------
+//------Searched Course not Found flag----------------------------------------------
         if (!courseCode.equals("") && narrowedSearchedCourse.isEmpty()) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
             model.addAttribute("flagCourseSearch", "notFound");
             return new ModelAndView("/teacher/student-panel");
         }
-//-------When nothing is searched----------------------------------------------------
+//------When nothing is searched----------------------------------------------------
         if (courseCode.equals("")) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
@@ -130,16 +137,56 @@ public class TeacherController {
                 advisableCourse.add(course);
             }
         }
-        System.out.println("CC: " + courseCode);
-        System.out.println("CT:" + courseType);
-        System.out.println("searched course: " + searchedCourse);
-        System.out.println("narrow searched course: " + narrowedSearchedCourse);
-        System.out.println("advisible course: " + advisableCourse);
 
 
+        if (advisableCourse.isEmpty()) {
+            model.addAttribute("flagAvailableCourse", "notFound");
+        }
+        model.addAttribute("advisableCourse", advisableCourse);
         model.addAttribute("student", student);
         model.addAttribute("routine", routine);
         return new ModelAndView("/teacher/student-panel");
+    }
+
+
+    @GetMapping("/teacher/student-panel/{id}/{courseId}/{courseType}")
+    public RedirectView studentPanelSwapSection(@PathVariable("id") String stdId,
+                                                @PathVariable("courseId") String crId,
+                                                @PathVariable("courseType") String crType, Model model) {
+        System.out.println(stdId);
+
+        int studentId = Integer.parseInt(stdId);
+        int courseId = Integer.parseInt(crId);
+        int courseType = Integer.parseInt(crType);
+
+        List<Advising> studentAdvising = advisingService.findAdvisedCourses(studentId);
+        Course addCourse = courseService.findCourseById(courseId);
+        List<Course> routine = getRoutine(studentId);
+
+        for (Course course : routine) {
+            if (course.getCourseCode().equals(addCourse.getCourseCode()) && course.getLab() == courseType) {
+                course.setSeat(course.getSeat() - 1);
+                courseService.saveOrUpdateCourse(course);
+
+                addCourse.setSeat(addCourse.getSeat() + 1);
+                courseService.saveOrUpdateCourse(addCourse);
+
+                for (Advising advising : studentAdvising) {
+                    if (advising.getCourseId() == course.getId()) {
+                        advisingService.deleteAdvicedCourse(advising.getId());
+
+                        Advising add = new Advising();
+                        add.setStdId(studentId);
+                        add.setCourseId(courseId);
+                        advisingService.saveAdvisedCourse(add);
+                    }
+                }
+            }
+        }
+        model.addAttribute("student", userService.findUserById(studentId));
+        model.addAttribute("routine", getRoutine(studentId));
+        return new RedirectView("/teacher/student-panel/" + studentId);
+
     }
 
 
