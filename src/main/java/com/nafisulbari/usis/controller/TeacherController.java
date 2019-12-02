@@ -117,7 +117,7 @@ public class TeacherController {
             return new ModelAndView("/teacher/student-panel");
         }
 //ON DEV, works only for lab or theory, not both
-//------Detect advisableCourses from narrowedDown list----------------------------------------------------------------
+//------Detect advisableCourses which do no clash, from narrowedDown list------------
         List<Course> advisableCourse = new ArrayList<>();
         for (Course course : narrowedSearchedCourse) {
             boolean flag = true;
@@ -147,7 +147,7 @@ public class TeacherController {
                 advisableCourse.add(course);
             }
         }
-
+//------Detects available sections where both theory and lab doesnt clash--------------
         List<Course> bothAdvisableCourse = new ArrayList<>();
         if (Integer.parseInt(courseType) == 2) {
             for (int i = 0; i < advisableCourse.size(); i++) {
@@ -162,24 +162,27 @@ public class TeacherController {
                     }
                 }
             }
+            //--Could not find both non clashing section---------------------------------
             if (bothAdvisableCourse.isEmpty()) {
                 model.addAttribute("flagAvailableCourse", "notFound");
             } else {
-
                 advisableCourse = bothAdvisableCourse;
             }
         }
-
+        //--Could not find non clashing section---------------------------------
         if (Integer.parseInt(courseType) != 2 && advisableCourse.isEmpty()) {
             model.addAttribute("flagAvailableCourse", "notFound");
         }
+
+
+        model.addAttribute("courseType", courseType);
         model.addAttribute("advisableCourse", advisableCourse);
         model.addAttribute("student", student);
         model.addAttribute("routine", routine);
         return new ModelAndView("/teacher/student-panel");
     }
 
-
+    //---------Swap sections-------------------------------------------------------------------
     @GetMapping("/teacher/student-panel/{id}/{courseId}/{courseType}")
     public RedirectView studentPanelSwapSection(@PathVariable("id") String stdId,
                                                 @PathVariable("courseId") String crId,
@@ -192,24 +195,24 @@ public class TeacherController {
         List<Advising> studentAdvising = advisingService.findAdvisedCourses(studentId);
         Course addCourse = courseService.findCourseById(courseId);
         List<Course> routine = getRoutine(studentId);
+//-------Both theory and lab swap----------------------------------------------------
+        if (courseType == 2) {
+            Course labCourse = courseService.getMatchingLabCourse(addCourse);
+            for (Course course : routine) {
+                if (course.getCourseCode().equals(addCourse.getCourseCode()) && course.getLab() == 0) {
+                    swapAdvising(studentAdvising, course, studentId, addCourse);
+                }
+                if (course.getCourseCode().equals(labCourse.getCourseCode()) && course.getLab() == 1) {
+                    swapAdvising(studentAdvising, course, studentId, labCourse);
+                }
+            }
 
-        for (Course course : routine) {
-            if (course.getCourseCode().equals(addCourse.getCourseCode()) && course.getLab() == courseType) {
-                course.setSeat(course.getSeat() - 1);
-                courseService.saveOrUpdateCourse(course);
+//-------Theory or lab swap-----------------------------------------------------------
+        } else {
+            for (Course course : routine) {
+                if (course.getCourseCode().equals(addCourse.getCourseCode()) && course.getLab() == courseType) {
 
-                addCourse.setSeat(addCourse.getSeat() + 1);
-                courseService.saveOrUpdateCourse(addCourse);
-
-                for (Advising advising : studentAdvising) {
-                    if (advising.getCourseId() == course.getId()) {
-                        advisingService.deleteAdvicedCourse(advising.getId());
-
-                        Advising add = new Advising();
-                        add.setStdId(studentId);
-                        add.setCourseId(courseId);
-                        advisingService.saveAdvisedCourse(add);
-                    }
+                    swapAdvising(studentAdvising, course, studentId, addCourse);
                 }
             }
         }
@@ -219,8 +222,8 @@ public class TeacherController {
 
     }
 
-
-    //------Generates routine from studentId------------------------------------------------------------------------------------
+    //----------Methods--------------------------------------------------------------------------------------------
+    //------Generates routine from studentId-------------------------------------------------------------------
     private List<Course> getRoutine(int studentId) {
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(studentId);
         List<Course> routine = new ArrayList<>();
@@ -228,5 +231,26 @@ public class TeacherController {
             routine.add(courseService.findCourseById(advising.getCourseId()));
         }
         return routine;
+    }
+
+    //------Swap course in Advising Table  &  Update seat status--------------------------------------------------
+    private void swapAdvising(List<Advising> studentAdvising, Course rouCourse, int studentId, Course newCourse) {
+
+        rouCourse.setSeat(rouCourse.getSeat() - 1);
+        courseService.saveOrUpdateCourse(rouCourse);
+
+        newCourse.setSeat(newCourse.getSeat() + 1);
+        courseService.saveOrUpdateCourse(newCourse);
+
+        for (Advising advising : studentAdvising) {
+            if (advising.getCourseId() == rouCourse.getId()) {
+                advisingService.deleteAdvicedCourse(advising.getId());
+
+                Advising add = new Advising();
+                add.setStdId(studentId);
+                add.setCourseId(newCourse.getId());
+                advisingService.saveAdvisedCourse(add);
+            }
+        }
     }
 }

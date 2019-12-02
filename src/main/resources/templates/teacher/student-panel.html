@@ -196,7 +196,7 @@
 <p th:if="${flagCourseSearch == 'swapSuccessful'}" style="color: green">Swap Successful</p>
 <p th:if="${flagAvailableCourse == 'notFound'}" style="color: red" class="error">Non clashing section unavailable</p>
 
-<div th:if="${not #lists.isEmpty(advisableCourse)}">
+<div th:if="${not #lists.isEmpty(advisableCourse) and flagAvailableCourse != 'notFound'}">
     <table>
         <thead>
         <tr>
@@ -233,7 +233,7 @@
             <td th:text="${course.wednesday}"></td>
             <td th:text="${course.thursday}"></td>
             <td>
-                <a th:href="@{'/teacher/student-panel/' + ${student.id} +'/'+ ${course.id} +'/'+ ${course.lab}}">SWAP</a>
+                <a th:href="@{'/teacher/student-panel/' + ${student.id} +'/'+ ${course.id} +'/'+ ${courseType}}">SWAP</a>
             </td>
         </tr>
         </tbody>
