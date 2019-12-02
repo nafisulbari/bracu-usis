@@ -116,7 +116,22 @@ public class TeacherController {
             model.addAttribute("routine", routine);
             return new ModelAndView("/teacher/student-panel");
         }
-//ON DEV, works only for lab or theory, not both
+//------Searched course is Not in routine----------------------------------------------
+        boolean flagCourseNotAdvised=true;
+        for (Course course: routine){
+            if (course.getCourseCode().equals(courseCode)){
+                flagCourseNotAdvised=false;
+            }
+        }
+        if (flagCourseNotAdvised) {
+            model.addAttribute("flagCourseSearch", "courseNotAdvised");
+            model.addAttribute("student", student);
+            model.addAttribute("routine", routine);
+            return new ModelAndView("/teacher/student-panel");
+        }
+
+
+
 //------Detect advisableCourses which do no clash, from narrowedDown list------------
         List<Course> advisableCourse = new ArrayList<>();
         for (Course course : narrowedSearchedCourse) {
@@ -173,7 +188,6 @@ public class TeacherController {
         if (Integer.parseInt(courseType) != 2 && advisableCourse.isEmpty()) {
             model.addAttribute("flagAvailableCourse", "notFound");
         }
-
 
         model.addAttribute("courseType", courseType);
         model.addAttribute("advisableCourse", advisableCourse);

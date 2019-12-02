@@ -183,6 +183,7 @@
 <br/>
 <br/>
 <h3>Find Non Clashing Section</h3>
+
 <form th:action="@{/teacher/student-panel/{id}(id=${student.id})}">
     <input type="text" th:object="${courseCode}" name="courseCode"/>
     <input type="radio" th:object="${courseType}" name="courseType" value="0">Theory
@@ -193,8 +194,9 @@
 
 <p th:if="${flagCourseSearch == 'notFound'}" style="color: red">Course Not Found</p>
 <p th:if="${flagCourseSearch == 'inputCourseType'}" style="color: red">Please Input Course Type</p>
+<p th:if="${flagCourseSearch == 'courseNotAdvised'}" style="color: red">Course Not Advised</p>
 <p th:if="${flagCourseSearch == 'swapSuccessful'}" style="color: green">Swap Successful</p>
-<p th:if="${flagAvailableCourse == 'notFound'}" style="color: red" class="error">Non clashing section unavailable</p>
+<p th:if="${flagAvailableCourse == 'notFound'}" style="color: red" >Non clashing section unavailable</p>
 
 <div th:if="${not #lists.isEmpty(advisableCourse) and flagAvailableCourse != 'notFound'}">
     <table>
