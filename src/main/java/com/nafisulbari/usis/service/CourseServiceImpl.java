@@ -1,16 +1,15 @@
 package com.nafisulbari.usis.service;
 
-import com.nafisulbari.usis.entity.Advising;
 import com.nafisulbari.usis.entity.Course;
 import com.nafisulbari.usis.repo.CourseRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +49,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findAllTheoryCourses() {
         Session currentSession = entityManager.unwrap(Session.class);
-        Query theQuery = currentSession.createQuery("Select c from Course c where c.lab=:lab");
+        Query theQuery = currentSession.createQuery("Select c from Course c where c.lab=:lab ORDER BY c.courseCode");
         theQuery.setParameter("lab", 0);
 
         List courses = null;
@@ -66,7 +65,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> findAllCourses() {
-        return (List<Course>) courseRepository.findAll();
+        return (List<Course>) courseRepository.findAll(Sort.by(Sort.Direction.ASC, "courseCode"));
     }
 
     @Override
