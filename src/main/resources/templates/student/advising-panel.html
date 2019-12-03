@@ -222,7 +222,7 @@
 <p th:if="${#lists.isEmpty(courses)}" style="color: red" class="error">No courses found</p>
 
 <div th:if="${not #lists.isEmpty(courses)}">
-    <table>
+    <table id="customers">
         <thead>
         <tr>
             <th>Course Code</th>
@@ -237,7 +237,7 @@
             <th>Tuesday</th>
             <th>Wednesday</th>
             <th>Thursday</th>
-
+            <th>Action</th>
 
         </tr>
         </thead>

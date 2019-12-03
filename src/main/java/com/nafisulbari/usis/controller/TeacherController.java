@@ -89,12 +89,12 @@ public class TeacherController {
             model.addAttribute("flagCourseSearch", "inputCourseType");
             return new ModelAndView("/teacher/student-panel");
         }
-//------Narrowing down searchedCourse as only lab or only theory, and excluding pre advised section--
+//------Narrowing down searchedCourse as only lab or only theory, also excluding pre advised section and seat limit--
         List<Course> narrowedSearchedCourse = new ArrayList<>();
 
         if (courseType != null && Integer.parseInt(courseType) != 2) {
             for (Course course : searchedCourse) {
-                if (course.getLab() == Integer.parseInt(courseType) && !routine.contains(course)) {
+                if (course.getLab() == Integer.parseInt(courseType) && !routine.contains(course) && course.getSeat()<=6) {
                     narrowedSearchedCourse.add(course);
                 }
             }
@@ -102,7 +102,7 @@ public class TeacherController {
 //------Narrowing down searchedCourse as both, excluding pre advised section-------------------------
         if (courseType != null && Integer.parseInt(courseType) == 2) {
             for (Course course : searchedCourse) {
-                if (!routine.contains(course)) {
+                if (!routine.contains(course) && course.getSeat()<=6) {
                     narrowedSearchedCourse.add(course);
                 }
             }
@@ -291,8 +291,8 @@ public class TeacherController {
                 return new ModelAndView("/teacher/student-panel");
             }
         }
-//------Checking course available seat limit, here 5 is hard coded-------------------------------
-        if (theoryCourse.getSeat() >= 5) {
+//------Checking course available seat limit, here 6 is hard coded for teacher-------------------------------
+        if (theoryCourse.getSeat() >= 6) {
 
             model.addAttribute("seatLimit", true);
             model.addAttribute("courses", courseService.findAllTheoryCourses());

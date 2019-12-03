@@ -7,19 +7,42 @@
 <head th:fragment="headerfiles">
     <title>USIS</title>
     <meta charset="UTF-8"/>
+    <style>
+        #customers {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
 
-
-
-
 <!-- Fragment #2 : Navbar contains nav links -->
 <div th:fragment="nav">
-    <nav >
+    <nav>
         <div>
-           <div> <p>Hello, </p><span sec:authentication="principal.username"></span></div>
+            <div><p>Hello, </p><span sec:authentication="principal.username"></span></div>
             <form th:action="@{/logout}" method="post">
                 <button type="submit">Logout</button>
             </form>
