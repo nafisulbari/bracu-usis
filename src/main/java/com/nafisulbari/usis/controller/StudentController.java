@@ -149,6 +149,7 @@ public class StudentController {
         User student = getUserByEmail(principal.getName());
 
         List<Advising> stdAdvising = advisingService.findAdvisedCourses(student.getId());
+
         List<Course> routine = getRoutine(student.getId());
 //------If the theory course is dropped, its lab course is also dropped-------------------------------
         for (Course course : routine) {

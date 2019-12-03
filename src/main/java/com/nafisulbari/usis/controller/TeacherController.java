@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +61,7 @@ public class TeacherController {
 
         model.addAttribute("student", student);
         model.addAttribute("routine", getRoutine(student.getId()));
+        model.addAttribute("courses", courseService.findAllTheoryCourses());
         return new ModelAndView("/teacher/student-panel");
     }
 
@@ -75,6 +77,7 @@ public class TeacherController {
         if (courseCode == null) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("flagCourseSearch", "swapSuccessful");
             return new ModelAndView("/teacher/student-panel");
         }
@@ -82,6 +85,7 @@ public class TeacherController {
         if (!courseCode.equals("") && courseType == null) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("flagCourseSearch", "inputCourseType");
             return new ModelAndView("/teacher/student-panel");
         }
@@ -107,6 +111,7 @@ public class TeacherController {
         if (!courseCode.equals("") && narrowedSearchedCourse.isEmpty()) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("flagCourseSearch", "notFound");
             return new ModelAndView("/teacher/student-panel");
         }
@@ -114,22 +119,23 @@ public class TeacherController {
         if (courseCode.equals("")) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             return new ModelAndView("/teacher/student-panel");
         }
 //------Searched course is Not in routine----------------------------------------------
-        boolean flagCourseNotAdvised=true;
-        for (Course course: routine){
-            if (course.getCourseCode().equals(courseCode)){
-                flagCourseNotAdvised=false;
+        boolean flagCourseNotAdvised = true;
+        for (Course course : routine) {
+            if (course.getCourseCode().equals(courseCode)) {
+                flagCourseNotAdvised = false;
             }
         }
         if (flagCourseNotAdvised) {
             model.addAttribute("flagCourseSearch", "courseNotAdvised");
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
             return new ModelAndView("/teacher/student-panel");
         }
-
 
 
 //------Detect advisableCourses which do no clash, from narrowedDown list------------
@@ -193,6 +199,7 @@ public class TeacherController {
         model.addAttribute("advisableCourse", advisableCourse);
         model.addAttribute("student", student);
         model.addAttribute("routine", routine);
+        model.addAttribute("courses", courseService.findAllTheoryCourses());
         return new ModelAndView("/teacher/student-panel");
     }
 
@@ -236,7 +243,126 @@ public class TeacherController {
 
     }
 
-    //----------Methods--------------------------------------------------------------------------------------------
+
+    @GetMapping("/teacher/student-panel/add-course/{studentId}/{id}")
+    public ModelAndView teachAddCourseToAdvise(@PathVariable("id") int id,
+                                               @PathVariable("studentId") int studentId,
+                                               Model model) {
+
+        User student = userService.findUserById(studentId);
+
+        int totalAdvisedCourse = 0;
+
+        Course theoryCourse = courseService.findCourseById(id);
+        Course labCourse = courseService.getMatchingLabCourse(theoryCourse);
+        String courseCodeToAdvice = theoryCourse.getCourseCode();
+        List<Advising> advisedCourses = advisingService.findAdvisedCourses(student.getId());
+
+
+//--------Generate routine(AKA Advised Course's list)--------------------------------------
+        List<Course> routine = new ArrayList<>();
+        Course tempCourse;
+        for (Advising advising : advisedCourses) {
+            tempCourse = courseService.findCourseById(advising.getCourseId());
+            routine.add(tempCourse);
+            if (tempCourse.getLab() == 0) {
+                totalAdvisedCourse++;
+            }
+        }
+
+//------Checking Student's advising credit limit-------------------------------------------------------
+        if (totalAdvisedCourse >= student.getCourseLimit()) {
+            model.addAttribute("courseLimit", true);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
+            model.addAttribute("routine", getRoutine(studentId));
+            model.addAttribute("student", student);
+            return new ModelAndView("/teacher/student-panel");
+        }
+
+//------Checking if the course is already taken--------------------------------------------
+        for (Advising course : advisedCourses) {
+
+            if (courseService.findCourseById(course.getCourseId()).getCourseCode().equals(courseCodeToAdvice)) {
+                model.addAttribute("courseAlreadyTaken", true);
+                model.addAttribute("courses", courseService.findAllTheoryCourses());
+                model.addAttribute("routine", getRoutine(studentId));
+                model.addAttribute("student", student);
+                //--Course already taken flag enabled and returned updated ModelAndView----------------
+                return new ModelAndView("/teacher/student-panel");
+            }
+        }
+//------Checking course available seat limit, here 5 is hard coded-------------------------------
+        if (theoryCourse.getSeat() >= 5) {
+
+            model.addAttribute("seatLimit", true);
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
+            model.addAttribute("routine", getRoutine(studentId));
+            model.addAttribute("student", student);
+            return new ModelAndView("/teacher/student-panel");
+        }
+//------Course can be advised now---------------------------------------------------------------
+        //----theory and lab seat status updated with +1-----
+        theoryCourse.setSeat(theoryCourse.getSeat() + 1);
+        courseService.saveOrUpdateCourse(theoryCourse);
+
+        if (labCourse.getCourseCode() != null) {
+            labCourse.setSeat(labCourse.getSeat() + 1);
+            courseService.saveOrUpdateCourse(labCourse);
+        }
+
+//------Theory and lab course advised----------------------------------------------------------
+        Advising advisingTheory = new Advising();
+        advisingTheory.setCourseId(id);
+        advisingTheory.setStdId(student.getId());
+        advisingService.saveAdvisedCourse(advisingTheory);
+
+        if (labCourse.getCourseCode() != null) {
+            Advising advisingLab = new Advising();
+            advisingLab.setCourseId(labCourse.getId());
+            advisingLab.setStdId(student.getId());
+            advisingService.saveAdvisedCourse(advisingLab);
+        }
+        model.addAttribute("courses", courseService.findAllTheoryCourses());
+        model.addAttribute("routine", getRoutine(studentId));
+        model.addAttribute("student", student);
+        return new ModelAndView("/teacher/student-panel");
+    }
+
+
+    @GetMapping("teacher/student-panel/drop-course/{studentId}/{id}")
+    public ModelAndView teachDropCourseFromAdvise(@PathVariable("id") int id,
+                                                  @PathVariable("studentId") int studentId,
+                                                  Model model) {
+
+        Course theoryCourse = courseService.findCourseById(id);
+
+        User student = userService.findUserById(studentId);
+
+        List<Advising> stdAdvising = advisingService.findAdvisedCourses(student.getId());
+        List<Course> routine = getRoutine(student.getId());
+//------If the theory course is dropped, its lab course is also dropped-------------------------------
+        for (Course course : routine) {
+            if (course.getCourseCode().equals(theoryCourse.getCourseCode())) {
+                for (Advising advising : stdAdvising) {
+                    if (advising.getCourseId() == course.getId()) {
+
+                        course.setSeat(course.getSeat() - 1);
+                        courseService.saveOrUpdateCourse(course);
+                        advisingService.deleteAdvicedCourse(advising.getId());
+                    }
+                }
+            }
+        }
+
+
+        model.addAttribute("student", student);
+        model.addAttribute("routine", getRoutine(studentId));
+        model.addAttribute("courses", courseService.findAllTheoryCourses());
+        return new ModelAndView("/teacher/student-panel");
+    }
+
+
+    //----------Methods-------------------------------------------------------------------------------------------------------------------------------
     //------Generates routine from studentId-------------------------------------------------------------------
     private List<Course> getRoutine(int studentId) {
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(studentId);
@@ -246,6 +372,7 @@ public class TeacherController {
         }
         return routine;
     }
+
 
     //------Swap course in Advising Table  &  Update seat status--------------------------------------------------
     private void swapAdvising(List<Advising> studentAdvising, Course rouCourse, int studentId, Course newCourse) {
@@ -266,5 +393,13 @@ public class TeacherController {
                 advisingService.saveAdvisedCourse(add);
             }
         }
+    }
+
+
+    private User getUserByEmail(String email) {
+        User student = new User();
+        student.setEmail(email);
+        student = userService.findUserByEmail(student);
+        return student;
     }
 }
