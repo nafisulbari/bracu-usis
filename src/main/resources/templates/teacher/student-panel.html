@@ -7,7 +7,9 @@
 </head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
-
+<form action="/teacher/teacher-home">
+    <button type="submit">Home</button>
+</form>
 
 <h1>STUDENT PANEL</h1>
 <span th:text="${student.name}"></span> <span> &nbsp; &nbsp;</span>
