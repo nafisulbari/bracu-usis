@@ -6,24 +6,15 @@ import com.nafisulbari.usis.entity.User;
 import com.nafisulbari.usis.service.AdvisingService;
 import com.nafisulbari.usis.service.CourseService;
 import com.nafisulbari.usis.service.UserService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.validation.Valid;
-import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -94,7 +85,7 @@ public class TeacherController {
 
         if (courseType != null && Integer.parseInt(courseType) != 2) {
             for (Course course : searchedCourse) {
-                if (course.getLab() == Integer.parseInt(courseType) && !routine.contains(course) && course.getSeat()<=6) {
+                if (course.getLab() == Integer.parseInt(courseType) && !routine.contains(course) && course.getSeat() <= 6) {
                     narrowedSearchedCourse.add(course);
                 }
             }
@@ -102,7 +93,7 @@ public class TeacherController {
 //------Narrowing down searchedCourse as both, excluding pre advised section-------------------------
         if (courseType != null && Integer.parseInt(courseType) == 2) {
             for (Course course : searchedCourse) {
-                if (!routine.contains(course) && course.getSeat()<=6) {
+                if (!routine.contains(course) && course.getSeat() <= 6) {
                     narrowedSearchedCourse.add(course);
                 }
             }
@@ -127,6 +118,7 @@ public class TeacherController {
         for (Course course : routine) {
             if (course.getCourseCode().equals(courseCode)) {
                 flagCourseNotAdvised = false;
+                break;
             }
         }
         if (flagCourseNotAdvised) {
@@ -358,6 +350,27 @@ public class TeacherController {
         model.addAttribute("student", student);
         model.addAttribute("routine", getRoutine(studentId));
         model.addAttribute("courses", courseService.findAllTheoryCourses());
+        return new ModelAndView("/teacher/student-panel");
+    }
+
+
+    //---------Search-------------------------------------------------------------------------
+    @GetMapping("/teacher/student-panel/search/{id}")
+    public ModelAndView showCourseList(@PathVariable("id") int studentId,
+                                       @RequestParam(value = "searchKey", required = false) String searchKey,
+                                       Model model) {
+
+        User student = userService.findUserById(studentId);
+        List<Course> routine = getRoutine(studentId);
+
+//------Searches courses or returns all courses---------------------------------------
+        if (searchKey == null) {
+            model.addAttribute("courses", courseService.findAllTheoryCourses());
+        } else {
+            model.addAttribute("courses", courseService.searchTheoryCourses(searchKey));
+        }
+        model.addAttribute("routine", routine);
+        model.addAttribute("student", student);
         return new ModelAndView("/teacher/student-panel");
     }
 

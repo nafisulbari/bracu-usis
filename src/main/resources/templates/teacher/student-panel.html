@@ -231,7 +231,7 @@
 <p th:if="${flagAvailableCourse == 'notFound'}" style="color: red" >Non clashing section unavailable</p>
 
 <div th:if="${not #lists.isEmpty(advisableCourse) and flagAvailableCourse != 'notFound'}">
-    <table>
+    <table id="customers">
         <thead>
         <tr>
             <th>Course Code</th>
@@ -247,7 +247,7 @@
             <th>Tuesday</th>
             <th>Wednesday</th>
             <th>Thursday</th>
-
+            <th>Action</th>
 
         </tr>
         </thead>
@@ -277,11 +277,11 @@
 
 <h2>Advising</h2>
 
-<form th:action="@{/student/advising-panel} +'/'+${student.id}" th:object="${searchKey}">
+<form th:action="@{/teacher/student-panel/search} +'/'+${student.id}" th:object="${searchKey}">
     <input type="text" name="searchKey"/>
     <input type="submit" value="Search"/>
 </form>
-
+</br>
 <p style="color: red" th:if="${courseAlreadyTaken}" class="error">Course already taken</p>
 <p style="color: red" th:if="${courseLimit}" class="error">Credit limit reached</p>
 <p style="color: red" th:if="${seatLimit}" class="error">Seats not available</p>
