@@ -8,13 +8,10 @@ import com.nafisulbari.usis.service.CourseService;
 import com.nafisulbari.usis.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -70,15 +67,15 @@ public class StudentController {
 
         User student = getUserByEmail(principal.getName());
 
-        int totalAdvisedCourse = 0;
-
         Course theoryCourse = courseService.findCourseById(id);
         Course labCourse = courseService.getMatchingLabCourse(theoryCourse);
+
         String courseCodeToAdvice = theoryCourse.getCourseCode();
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(student.getId());
 
 
-//--------Generate routine(AKA Advised Course's list)--------------------------------------
+//------Check total advised course, from routine to know Student's credit limit--------------------
+        int totalAdvisedCourse = 0;
         List<Course> routine = new ArrayList<>();
         Course tempCourse;
         for (Advising advising : advisedCourses) {
@@ -120,7 +117,7 @@ public class StudentController {
         //----theory and lab seat status updated with +1-----
         theoryCourse.setSeat(theoryCourse.getSeat() + 1);
         courseService.saveOrUpdateCourse(theoryCourse);
-
+//------If theory's lab exist it ll advise the lab course too----------------------------------
         if (labCourse.getCourseCode() != null) {
             labCourse.setSeat(labCourse.getSeat() + 1);
             courseService.saveOrUpdateCourse(labCourse);

@@ -206,14 +206,14 @@ public class TeacherController {
         int courseType = Integer.parseInt(crType);
 
         List<Advising> studentAdvising = advisingService.findAdvisedCourses(studentId);
-        Course addCourse = courseService.findCourseById(courseId);
+        Course theoryCourse = courseService.findCourseById(courseId);
         List<Course> routine = getRoutine(studentId);
 //-------Both theory and lab swap----------------------------------------------------
         if (courseType == 2) {
-            Course labCourse = courseService.getMatchingLabCourse(addCourse);
+            Course labCourse = courseService.getMatchingLabCourse(theoryCourse);
             for (Course course : routine) {
-                if (course.getCourseCode().equals(addCourse.getCourseCode()) && course.getLab() == 0) {
-                    swapAdvising(studentAdvising, course, studentId, addCourse);
+                if (course.getCourseCode().equals(theoryCourse.getCourseCode()) && course.getLab() == 0) {
+                    swapAdvising(studentAdvising, course, studentId, theoryCourse);
                 }
                 if (course.getCourseCode().equals(labCourse.getCourseCode()) && course.getLab() == 1) {
                     swapAdvising(studentAdvising, course, studentId, labCourse);
@@ -223,9 +223,9 @@ public class TeacherController {
 //-------Theory or lab swap-----------------------------------------------------------
         } else {
             for (Course course : routine) {
-                if (course.getCourseCode().equals(addCourse.getCourseCode()) && course.getLab() == courseType) {
+                if (course.getCourseCode().equals(theoryCourse.getCourseCode()) && course.getLab() == courseType) {
 
-                    swapAdvising(studentAdvising, course, studentId, addCourse);
+                    swapAdvising(studentAdvising, course, studentId, theoryCourse);
                 }
             }
         }
@@ -326,7 +326,7 @@ public class TeacherController {
                                                   @PathVariable("studentId") int studentId,
                                                   Model model) {
 
-        Course theoryCourse = courseService.findCourseById(id);
+        Course dropCourse = courseService.findCourseById(id);
 
         User student = userService.findUserById(studentId);
 
@@ -334,7 +334,7 @@ public class TeacherController {
         List<Course> routine = getRoutine(student.getId());
 //------If the theory course is dropped, its lab course is also dropped-------------------------------
         for (Course course : routine) {
-            if (course.getCourseCode().equals(theoryCourse.getCourseCode())) {
+            if (course.getCourseCode().equals(dropCourse.getCourseCode())) {
                 for (Advising advising : stdAdvising) {
                     if (advising.getCourseId() == course.getId()) {
 
@@ -404,6 +404,7 @@ public class TeacherController {
                 add.setStdId(studentId);
                 add.setCourseId(newCourse.getId());
                 advisingService.saveAdvisedCourse(add);
+                break;
             }
         }
     }
