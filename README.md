@@ -22,6 +22,7 @@ Tested in **IntelliJ IDEA** and **XAMPP**
 7. Import the **usisbk.sql** into your SQL server
 
 8. Run the UsisApplication
+9. Open a web browser and goto http://localhost:7070
 
 
 ## Build
