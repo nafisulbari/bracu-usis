@@ -32,3 +32,15 @@ Tested in **IntelliJ IDEA** and **XAMPP**
 3. Wait for the JAR build
 4. To Run, type **java -jar target/usis-0.1.jar**
 
+
+## Dummy Data For Testing
+
+Email: reg@bracu.ac.bd
+Pass:  123
+
+Email: teach1@bracu.ac.bd
+Pass:  111
+
+Email: std1@gmail.com
+Pass:  000
+
