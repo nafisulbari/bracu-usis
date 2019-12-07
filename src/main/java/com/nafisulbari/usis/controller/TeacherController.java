@@ -84,6 +84,7 @@ public class TeacherController {
             return new ModelAndView("/teacher/student-panel");
         }
 //------Narrowing down searchedCourse as only lab or only theory, also excluding pre advised section and seat limit--
+//----------------------NARROW DOWN------------------------------------------------------------------
         List<Course> narrowedSearchedCourse = new ArrayList<>();
 
         if (courseType != null && Integer.parseInt(courseType) != 2) {
@@ -140,22 +141,28 @@ public class TeacherController {
             boolean flag = true;
             for (Course rou : routine) {
 
-                if (!course.getSaturday().equals("") && !rou.getSaturday().equals("") && course.getSaturday().equals(rou.getSaturday())) {
+                if (!course.getSaturday().equals("") && !rou.getSaturday().equals("") &&
+                        (course.getSaturday().contains(rou.getSaturday()) || rou.getSaturday().contains(course.getSaturday()))) {
                     flag = false;
                 }
-                if (!course.getSunday().equals("") && !rou.getSunday().equals("") && course.getSunday().equals(rou.getSunday())) {
+                if (!course.getSunday().equals("") && !rou.getSunday().equals("") &&
+                        (course.getSunday().contains(rou.getSunday()) || rou.getSunday().contains(course.getSunday()))) {
                     flag = false;
                 }
-                if (!course.getMonday().equals("") && !rou.getMonday().equals("") && course.getMonday().equals(rou.getMonday())) {
+                if (!course.getMonday().equals("") && !rou.getMonday().equals("") &&
+                        (course.getMonday().contains(rou.getMonday()) || rou.getMonday().contains(course.getMonday()))) {
                     flag = false;
                 }
-                if (!course.getTuesday().equals("") && !rou.getTuesday().equals("") && course.getTuesday().equals(rou.getTuesday())) {
+                if (!course.getTuesday().equals("") && !rou.getTuesday().equals("") &&
+                        (course.getTuesday().contains(rou.getTuesday()) || rou.getTuesday().contains(course.getTuesday()))) {
                     flag = false;
                 }
-                if (!course.getWednesday().equals("") && !rou.getWednesday().equals("") && course.getWednesday().equals(rou.getWednesday())) {
+                if (!course.getWednesday().equals("") && !rou.getWednesday().equals("") &&
+                        (course.getWednesday().contains(rou.getWednesday()) || rou.getWednesday().contains(course.getWednesday()))) {
                     flag = false;
                 }
-                if (!course.getThursday().equals("") && !rou.getThursday().equals("") && course.getThursday().equals(rou.getThursday())) {
+                if (!course.getThursday().equals("") && !rou.getThursday().equals("") &&
+                        (course.getThursday().contains(rou.getThursday()) || rou.getThursday().contains(course.getThursday()))) {
                     flag = false;
                 }
 
