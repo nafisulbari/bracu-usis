@@ -72,6 +72,9 @@ public class TeacherController {
             model.addAttribute("flagCourseSearch", "swapSuccessful");
             return new ModelAndView("/teacher/student-panel");
         }
+
+        //--------------Making upercase coz in db things are in uppercase-------------
+        // courseCode=courseCode.toUpperCase();
 //------Did not input course type flag----------------------------------------------
         if (!courseCode.equals("") && courseType == null) {
             model.addAttribute("student", student);
@@ -91,6 +94,7 @@ public class TeacherController {
             }
         }
 //------Narrowing down searchedCourse as both, excluding pre advised section-------------------------
+//----------------------NARROW DOWN------------------------------------------------------------------
         if (courseType != null && Integer.parseInt(courseType) == 2) {
             for (Course course : searchedCourse) {
                 if (!routine.contains(course) && course.getSeat() <= 6) {
@@ -237,8 +241,8 @@ public class TeacherController {
 
 
     @GetMapping("/teacher/student-panel/add-course/{studentId}/{id}")
-    public ModelAndView teachAddCourseToAdvise(@PathVariable("id") int id,
-                                               @PathVariable("studentId") int studentId,
+    public ModelAndView teachAddCourseToAdvise(@PathVariable("studentId") int studentId,
+                                               @PathVariable("id") int id,
                                                Model model) {
 
         User student = userService.findUserById(studentId);

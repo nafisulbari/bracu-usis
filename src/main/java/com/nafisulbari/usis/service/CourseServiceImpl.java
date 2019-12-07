@@ -101,6 +101,7 @@ public class CourseServiceImpl implements CourseService {
 
         try {
             labCourse = (Course) theQuery.getSingleResult();
+
         } catch (NoResultException e) {
             System.out.println("ignoring NoResultException, because course has no lab, message from:CourseServiceImpl,GetMatchingLabcourse()");
         } finally {
