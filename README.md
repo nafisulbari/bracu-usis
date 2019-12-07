@@ -36,11 +36,14 @@ Tested in **IntelliJ IDEA** and **XAMPP**
 ## Dummy Data For Testing
 
 Email: reg@bracu.ac.bd
+
 Pass:  123
 
 Email: teach1@bracu.ac.bd
+
 Pass:  111
 
 Email: std1@gmail.com
+
 Pass:  000
 
