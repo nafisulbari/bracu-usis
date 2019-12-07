@@ -1,25 +1,25 @@
 package com.nafisulbari.usis.dev;
 
 import com.nafisulbari.usis.entity.Course;
-import com.nafisulbari.usis.repo.CourseRepository;
+import com.nafisulbari.usis.service.CourseService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DBInit implements CommandLineRunner {
 
-    private CourseRepository courseRepository;
+    private CourseService courseService;
 
-    public DBInit(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public DBInit(CourseService courseService) {
+        this.courseService = courseService;
     }
 
     private static void labOnlyCourseSave(String courseCode, String section, String labFaculty, String labRoom,
-                                          String labTimeDay, CourseRepository courseRepository) {
+                                          String labTimeDay, CourseService courseService) {
 
         Course labOnlyCourse = new Course();
         labOnlyCourse.setCourseCode(courseCode);
-        labOnlyCourse.setSection(Integer.parseInt(section.substring(0, 1)));
+        labOnlyCourse.setSection((int) Double.parseDouble(section));
         labOnlyCourse.setFaculty(labFaculty);
         labOnlyCourse.setCourseTitle(labRoom);
         labOnlyCourse.setSeat(0);
@@ -58,7 +58,7 @@ public class DBInit implements CommandLineRunner {
         }
         //=====Save labonly course in db======================================================================================
         System.out.println("lab only course:" + labOnlyCourse);
-        courseRepository.save(labOnlyCourse);
+        courseService.saveOrUpdateCourse(labOnlyCourse);
 
 
     }
@@ -66,10 +66,10 @@ public class DBInit implements CommandLineRunner {
     private static void theoryAndLabCourseSave(String courseCode, String section, String theoryFaculty,
                                                String theoryRoom, String theoryDay, String theoryTime,
                                                String labFaculty, String labTimeDay, String labRoom,
-                                               CourseRepository courseRepository) {
+                                               CourseService courseService) {
         Course mainCourse = new Course();
         mainCourse.setCourseCode(courseCode);
-        mainCourse.setSection(Integer.parseInt(section.substring(0, 1)));
+        mainCourse.setSection((int) Double.parseDouble(section));
         mainCourse.setFaculty(theoryFaculty);
         mainCourse.setCourseTitle(theoryRoom);
 
@@ -124,23 +124,22 @@ public class DBInit implements CommandLineRunner {
 
 
         //----------theory's lab------------------------
+        Course labCourse = new Course();
+        labCourse.setCourseCode(courseCode);
+        labCourse.setCourseTitle(labRoom);
+        labCourse.setFaculty(labFaculty);
+        labCourse.setSection((int) Double.parseDouble(section));
+        labCourse.setLab(1);
+        labCourse.setExamTime("");
+        labCourse.setSeat(0);
+
+        labCourse.setSaturday("");
+        labCourse.setSunday("");
+        labCourse.setMonday("");
+        labCourse.setTuesday("");
+        labCourse.setWednesday("");
+        labCourse.setThursday("");
         if (!labFaculty.equals("")) {
-            Course labCourse = new Course();
-
-            labCourse.setCourseCode(courseCode);
-            labCourse.setCourseTitle(labRoom);
-            labCourse.setFaculty(labFaculty);
-            labCourse.setSection(Integer.parseInt(section.substring(0, 1)));
-            labCourse.setLab(1);
-            labCourse.setExamTime("");
-            labCourse.setSeat(0);
-
-            labCourse.setSaturday("");
-            labCourse.setSunday("");
-            labCourse.setMonday("");
-            labCourse.setTuesday("");
-            labCourse.setWednesday("");
-            labCourse.setThursday("");
 
 
             if (labTimeDay.substring(12, 15).equals("SAT")) {
@@ -167,22 +166,26 @@ public class DBInit implements CommandLineRunner {
                 labCourse.setThursday(labTimeDay.substring(0, 11).replace('-', ','));
             }
 
-            //===============Save Lab course in db==============================================================================
-            System.out.println("lab of theory: " + labCourse);
-            courseRepository.save(labCourse);
 
         }
-        //===============Save theory or theoryOnly course in db ================================================================
+//===============Save theory or theoryOnly course in db ================================================================
         System.out.println("theory: " + mainCourse);
-        courseRepository.save(mainCourse);
+        courseService.saveOrUpdateCourse(mainCourse);
+
+        if (!labFaculty.equals("")) {
+//===============Save Lab course in db==================================================================================
+            System.out.println("lab of theory: " + labCourse);
+            courseService.saveOrUpdateCourse(labCourse);
+        }
 
     }
 
     @Override
     public void run(String... args) throws Exception {
-
 /*
 
+
+//COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------
 //------------RUNS EVERYTIME SERVER RUNS--------------------------------------------
 
         //  System.out.println(System.getProperty("user.dir"));
@@ -254,7 +257,7 @@ public class DBInit implements CommandLineRunner {
             if (theoryDay.equals("")) {
 
                 System.out.println("labOnlyCourse--------------------------------");
-                labOnlyCourseSave(courseCode, section, labFaculty, labRoom, labTimeDay,courseRepository);
+                labOnlyCourseSave(courseCode, section, labFaculty, labRoom, labTimeDay, courseService);
 
 
             } else {
@@ -263,7 +266,7 @@ public class DBInit implements CommandLineRunner {
                 if (theoryDay.length() == 7) {
                     System.out.println("theory and lab or just theory--------------------------");
                     theoryAndLabCourseSave(courseCode, section, theoryFaculty, theoryRoom, theoryDay, theoryTime,
-                            labFaculty, labTimeDay, labRoom,courseRepository);
+                            labFaculty, labTimeDay, labRoom, courseService);
 
                 }
                 //-THEORY DAY LENGTH 3---could be just theory on different day, can have lab-------------------
@@ -324,7 +327,7 @@ public class DBInit implements CommandLineRunner {
                     if (section.equals(section2) && courseCode.equals(courseCode2) && theoryFaculty.equals(theoryFaculty2)) {
                         Course mainCourse = new Course();
                         mainCourse.setCourseCode(courseCode);
-                        mainCourse.setSection(Integer.parseInt(section.substring(0, 1)));
+                        mainCourse.setSection((int) Double.parseDouble(section));
                         mainCourse.setFaculty(theoryFaculty);
 
                         if (theoryRoom.equals(theoryRoom2)) {
@@ -409,23 +412,24 @@ public class DBInit implements CommandLineRunner {
                             }
                         }
                         //-different day different time course has lab
+                        Course labCourse2 = new Course();
+                        labCourse2.setCourseCode(courseCode);
+                        labCourse2.setSection((int) Double.parseDouble(section));
+                        labCourse2.setFaculty(labFaculty2);
+                        labCourse2.setCourseTitle(labRoom2);
+
+                        labCourse2.setSeat(0);
+                        labCourse2.setExamTime("");
+                        labCourse2.setLab(1);
+
+                        labCourse2.setSaturday("");
+                        labCourse2.setSunday("");
+                        labCourse2.setMonday("");
+                        labCourse2.setTuesday("");
+                        labCourse2.setWednesday("");
+                        labCourse2.setThursday("");
                         if (!labFaculty2.equals("")) {
-                            Course labCourse2 = new Course();
-                            labCourse2.setCourseCode(courseCode);
-                            labCourse2.setSection(Integer.parseInt(section.substring(0, 1)));
-                            labCourse2.setFaculty(labFaculty2);
-                            labCourse2.setCourseTitle(labRoom2);
 
-                            labCourse2.setSeat(0);
-                            labCourse2.setExamTime("");
-                            labCourse2.setLab(1);
-
-                            labCourse2.setSaturday("");
-                            labCourse2.setSunday("");
-                            labCourse2.setMonday("");
-                            labCourse2.setTuesday("");
-                            labCourse2.setWednesday("");
-                            labCourse2.setThursday("");
 
                             if (labTimeDay2.substring(12, 15).equals("SAT")) {
                                 labCourse2.setSaturday(labTimeDay2.substring(0, 11).replace('-', ','));
@@ -452,15 +456,18 @@ public class DBInit implements CommandLineRunner {
                             }
 
 
-                            //===========Save lab in db============================================================================
-                            System.out.println("=================================================================================================");
-                            System.out.println(labCourse2);
-                            courseRepository.save(labCourse2);
                         }
-                        //===========Save theory in db=============================================================================
+//===========Save theory in db=============================================================================
                         System.out.println("=================================================================================================");
                         System.out.println(mainCourse);
-                        courseRepository.save(mainCourse);
+                        courseService.saveOrUpdateCourse(mainCourse);
+
+//===========Save lab in db============================================================================
+                        if (!labFaculty2.equals("")) {
+                            System.out.println("=================================================================================================");
+                            System.out.println(labCourse2);
+                            courseService.saveOrUpdateCourse(labCourse2);
+                        }
                     }
                 }
 
@@ -468,8 +475,8 @@ public class DBInit implements CommandLineRunner {
 
             System.out.println("");
         }
-        */
-
+//COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------COMMENT--------------
+*/
 
     }
 }
