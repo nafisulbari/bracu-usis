@@ -2,12 +2,14 @@
 Where teachers can easily find non-clasing theory/lab or both section for students.
 
 This is a project for CSE310, Fall 2019
+
 Name: Ahmed Nafisul Bari
+
 ID:   16101237
 
 ## Setup And Run
 
-Tested in IntelliJ IDEA and XAMPP
+Tested in **IntelliJ IDEA** and **XAMPP**
 
 1. Clone
 2. Import project in your favourite IDE
