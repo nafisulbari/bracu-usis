@@ -1,11 +1,11 @@
-#USIS's advising system
+# USIS's Advising System
 Where teachers can easily find non-clasing theory/lab or both section for students.
 
 This is a project for CSE310, Fall 2019
 Name: Ahmed Nafisul Bari
 ID:   16101237
 
-##Setup steps
+## Setup And Run
 
 Tested in IntelliJ IDEA and XAMPP
 
@@ -22,7 +22,7 @@ Tested in IntelliJ IDEA and XAMPP
 8. Run the UsisApplication
 
 
-##Build
+## Build
 
 1. In root folder open CMD
 2. Type **mvn package** and hit Enter
