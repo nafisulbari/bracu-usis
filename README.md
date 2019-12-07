@@ -16,10 +16,10 @@ Tested in **IntelliJ IDEA** and **XAMPP**
 3. Download the dependencies
 
 4. Open **application.properties**
-5. Under JDBC properties, use your SQL server's username and password
+5. Under JDBC properties, use your MySQL server's username and password
 
 6. Goto **Database Backup** folder
-7. Import the **usisbk.sql** into your SQL server
+7. Import the **usisbk.sql** into your MySQL server
 
 8. Run the UsisApplication
 9. Open a web browser and goto http://localhost:7070
