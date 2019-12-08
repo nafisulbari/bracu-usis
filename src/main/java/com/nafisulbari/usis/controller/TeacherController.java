@@ -72,6 +72,7 @@ public class TeacherController {
             model.addAttribute("flagCourseSearch", "swapSuccessful");
             return new ModelAndView("/teacher/student-panel");
         }
+        courseCode = courseCode.toUpperCase();
 
         //--------------Making upercase coz in db things are in uppercase-------------
         // courseCode=courseCode.toUpperCase();

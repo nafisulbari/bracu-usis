@@ -59,6 +59,7 @@ public class AdminController {
     @PostMapping("/admin/add-user-account")
     public String addUserAccount(@Valid User user, BindingResult result, Model model) {
         //garbage email checker
+        //Regex reference: https://emailregex.com/
         String email = user.getEmail();
         if (!email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)" +
                 "*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09" +
