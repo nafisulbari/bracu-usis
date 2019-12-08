@@ -220,8 +220,8 @@
 
 <form th:action="@{/teacher/student-panel/{id}(id=${student.id})}">
     <input name="courseCode" th:object="${courseCode}" type="text"/>
-    <input type="radio" th:object="${courseType}" name="courseType" value="0">Theory
-    <input type="radio" th:object="${courseType}" name="courseType" value="1">Lab
+    <input name="courseType" th:object="${courseType}" type="radio" value="0">Main Course
+    <input name="courseType" th:object="${courseType}" type="radio" value="1">Sub Course
     <input type="radio" th:object="${courseType}" name="courseType" value="2">Both
     <input type="submit" value="Find"/>
 </form>

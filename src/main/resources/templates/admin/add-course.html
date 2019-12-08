@@ -35,7 +35,7 @@
 
 
     <label for="examTime">Final Exam</label><br>
-    <input name="examTime" selected th:field="${course.examTime}" type="radio" value="Day 1">Day 1<br>
+    <input name="examTime" required th:field="${course.examTime}" type="radio" value="Day 1">Day 1<br>
     <input type="radio" th:field="${course.examTime}" name="examTime" value="Day 2">Day 2<br>
     <input type="radio" th:field="${course.examTime}" name="examTime" value="Day 3">Day 3<br>
     <input type="radio" th:field="${course.examTime}" name="examTime" value="Day 4">Day 4<br>
