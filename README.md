@@ -1,7 +1,7 @@
 # USIS's Advising System
 Where teachers can easily find non-clasing theory/lab or both section for students.
 
-This is a project for CSE310, Fall 2019
+This is a project for CSE310, Fall 2019, Brac University
 
 Name: Ahmed Nafisul Bari
 
