@@ -101,11 +101,11 @@ public class StudentController {
                 model.addAttribute("courseAlreadyTaken", true);
                 model.addAttribute("courses", courseService.findAllTheoryCourses());
                 model.addAttribute("routine", routine);
-                //--Course already taken flag enabled and returned updated ModelAndView----------------
+                //--Course already taken flag enabled and returned updated ModelAndView--------
                 return new ModelAndView("student/advising-panel");
             }
         }
-//------Checking course available seat limit, here 5 is hard coded-------------------------------
+//------Checking course available seat limit, here 5 is hard coded-----------------------------
         if (theoryCourse.getSeat() >= 5) {
 
             model.addAttribute("seatLimit", true);
@@ -113,7 +113,7 @@ public class StudentController {
             model.addAttribute("routine", routine);
             return new ModelAndView("student/advising-panel");
         }
-//------Course can be advised now---------------------------------------------------------------
+//------Course can be advised now--------------------------------------------------------------
         //----theory and lab seat status updated with +1-----
         theoryCourse.setSeat(theoryCourse.getSeat() + 1);
         courseService.saveOrUpdateCourse(theoryCourse);
@@ -167,7 +167,7 @@ public class StudentController {
     }
 
 
-    //------Generates routine from studentId------------------------------------------------------------------------------------
+    //------Generates routine from studentId--------------------------------------------------------------
     private List<Course> getRoutine(int studentId) {
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(studentId);
         List<Course> routine = new ArrayList<>();

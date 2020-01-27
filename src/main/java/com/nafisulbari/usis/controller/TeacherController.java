@@ -47,6 +47,11 @@ public class TeacherController {
             model.addAttribute("flagStudentPresent", "notFound");
             return new ModelAndView("teacher/teacher-home");
         }
+//------if user not a student------------------------------------------------------------
+        if (!student.getRole().equals("STUDENT")) {
+            model.addAttribute("flagStudentPresent", "notStudent");
+            return new ModelAndView("teacher/teacher-home");
+        }
 
 //--------Student FOUND in db------------------------------------------------------------
 
@@ -387,7 +392,7 @@ public class TeacherController {
     }
 
 
-    //----------Methods-------------------------------------------------------------------------------------------------------------------------------
+    //----------Methods----------------------------------------------------------------------------------------
     //------Generates routine from studentId-------------------------------------------------------------------
     private List<Course> getRoutine(int studentId) {
         List<Advising> advisedCourses = advisingService.findAdvisedCourses(studentId);
