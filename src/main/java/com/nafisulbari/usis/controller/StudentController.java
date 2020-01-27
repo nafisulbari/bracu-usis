@@ -40,7 +40,7 @@ public class StudentController {
 
 //-------Update  live routine ------------------------------------------
         theModel.addAttribute("routine", routine);
-        return new ModelAndView("/student/student-home");
+        return new ModelAndView("student/student-home");
     }
 
 
@@ -58,7 +58,7 @@ public class StudentController {
         }
         theModel.addAttribute("routine", routine);
 
-        return new ModelAndView("/student/advising-panel");
+        return new ModelAndView("student/advising-panel");
     }
 
 
@@ -91,7 +91,7 @@ public class StudentController {
             model.addAttribute("courseLimit", true);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("routine", routine);
-            return new ModelAndView("/student/advising-panel");
+            return new ModelAndView("student/advising-panel");
         }
 
 //------Checking if the course is already taken--------------------------------------------
@@ -102,7 +102,7 @@ public class StudentController {
                 model.addAttribute("courses", courseService.findAllTheoryCourses());
                 model.addAttribute("routine", routine);
                 //--Course already taken flag enabled and returned updated ModelAndView----------------
-                return new ModelAndView("/student/advising-panel");
+                return new ModelAndView("student/advising-panel");
             }
         }
 //------Checking course available seat limit, here 5 is hard coded-------------------------------
@@ -111,7 +111,7 @@ public class StudentController {
             model.addAttribute("seatLimit", true);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("routine", routine);
-            return new ModelAndView("/student/advising-panel");
+            return new ModelAndView("student/advising-panel");
         }
 //------Course can be advised now---------------------------------------------------------------
         //----theory and lab seat status updated with +1-----

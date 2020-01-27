@@ -9,9 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
@@ -31,8 +32,8 @@ public class LoginController {
 
 
     @GetMapping("/")
-    public String homeToLoginPage() {
-        return "redirect:/login";
+    public RedirectView homeToLoginPage() {
+        return new RedirectView("/login");
     }
 
     @GetMapping("/login")
@@ -56,22 +57,22 @@ public class LoginController {
             return new ModelAndView("redirect:/student/student-home", String.valueOf(theModel), theUser);
         }
 
-        return new ModelAndView("/login", String.valueOf(theModel), theUser);
+        return new ModelAndView("login", String.valueOf(theModel), theUser);
     }
 
 
     @GetMapping("/logout")
-    public String logout() {
-        return "/logout";
+    public ModelAndView logout() {
+        return new ModelAndView("logout");
     }
 
     @GetMapping("/forgot-password")
-    public String forgotPasswordPage(PasswordRequest thePasswordRequest) {
-        return "forgot-password";
+    public ModelAndView forgotPasswordPage(PasswordRequest thePasswordRequest) {
+        return new ModelAndView("forgot-password");
     }
 
     @PostMapping("/request-password")
-    public String passwordRequestService(PasswordRequest thePasswordRequest, Model themodel, BindingResult result) {
+    public ModelAndView passwordRequestService(PasswordRequest thePasswordRequest, Model themodel, BindingResult result) {
 
         User tempUser = new User();
         tempUser.setEmail(thePasswordRequest.getEmail());
@@ -79,21 +80,21 @@ public class LoginController {
         if (!password.matches("[a-zA-Z0-9]{8,}")) {
             themodel.addAttribute("messagePasswordPattern", true);
             themodel.addAttribute(thePasswordRequest);
-            return "/forgot-password";
+            return new ModelAndView("forgot-password");
         }
 
         if (userService.findUserByEmail(tempUser) == null || userService.findUserByEmail(tempUser).getEmail().isEmpty()) {
             themodel.addAttribute("messageEmailDoesNotExists", true);
             themodel.addAttribute(thePasswordRequest);
-            return "/forgot-password";
+            return new ModelAndView("forgot-password");
         }
 
         if (previousPasswordService.findPreviousPasswordByEmail(thePasswordRequest)) {
             themodel.addAttribute("messagePasswordUsed", true);
-            return "/forgot-password";
+            return new ModelAndView("forgot-password");
         } else {
             passwordRequestService.savePasswordRequest(thePasswordRequest);
-            return "/redirects/password-requested";
+            return new ModelAndView("redirects/password-requested");
         }
 
     }

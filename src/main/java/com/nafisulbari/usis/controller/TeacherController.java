@@ -37,7 +37,7 @@ public class TeacherController {
 //------if empty string or null is searched-----------------------------------------------
         if (stdEmail == null || stdEmail.equals("")) {
             model.addAttribute("flagStudentPresent", "no message");
-            return new ModelAndView("/teacher/teacher-home");
+            return new ModelAndView("teacher/teacher-home");
         }
         User student = new User();
         student.setEmail(stdEmail);
@@ -45,7 +45,7 @@ public class TeacherController {
 //------if student not found in db ------------------------------------------------------
         if (student == null) {
             model.addAttribute("flagStudentPresent", "notFound");
-            return new ModelAndView("/teacher/teacher-home");
+            return new ModelAndView("teacher/teacher-home");
         }
 
 //--------Student FOUND in db------------------------------------------------------------
@@ -53,7 +53,7 @@ public class TeacherController {
         model.addAttribute("student", student);
         model.addAttribute("routine", getRoutine(student.getId()));
         model.addAttribute("courses", courseService.findAllTheoryCourses());
-        return new ModelAndView("/teacher/student-panel");
+        return new ModelAndView("teacher/student-panel");
     }
 
 
@@ -70,7 +70,7 @@ public class TeacherController {
             model.addAttribute("routine", routine);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("flagCourseSearch", "swapSuccessful");
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
         courseCode = courseCode.toUpperCase();
 
@@ -82,7 +82,7 @@ public class TeacherController {
             model.addAttribute("routine", routine);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("flagCourseSearch", "inputCourseType");
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
 //------Narrowing down searchedCourse as only lab or only theory, also excluding pre advised section and seat limit--
 //----------------------NARROW DOWN------------------------------------------------------------------
@@ -110,14 +110,14 @@ public class TeacherController {
             model.addAttribute("routine", routine);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("flagCourseSearch", "notFound");
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
 //------When nothing is searched----------------------------------------------------
         if (courseCode.equals("")) {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
 //------Searched course is Not in routine----------------------------------------------
         boolean flagCourseNotAdvised = true;
@@ -132,7 +132,7 @@ public class TeacherController {
             model.addAttribute("student", student);
             model.addAttribute("routine", routine);
             model.addAttribute("courses", courseService.findAllTheoryCourses());
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
 
 
@@ -204,7 +204,7 @@ public class TeacherController {
         model.addAttribute("student", student);
         model.addAttribute("routine", routine);
         model.addAttribute("courses", courseService.findAllTheoryCourses());
-        return new ModelAndView("/teacher/student-panel");
+        return new ModelAndView("teacher/student-panel");
     }
 
     //---------Swap sections-------------------------------------------------------------------
@@ -280,7 +280,7 @@ public class TeacherController {
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("routine", getRoutine(studentId));
             model.addAttribute("student", student);
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
 
 //------Checking if the course is already taken--------------------------------------------
@@ -292,7 +292,7 @@ public class TeacherController {
                 model.addAttribute("routine", getRoutine(studentId));
                 model.addAttribute("student", student);
                 //--Course already taken flag enabled and returned updated ModelAndView----------------
-                return new ModelAndView("/teacher/student-panel");
+                return new ModelAndView("teacher/student-panel");
             }
         }
 //------Checking course available seat limit, here 6 is hard coded for teacher-------------------------------
@@ -302,7 +302,7 @@ public class TeacherController {
             model.addAttribute("courses", courseService.findAllTheoryCourses());
             model.addAttribute("routine", getRoutine(studentId));
             model.addAttribute("student", student);
-            return new ModelAndView("/teacher/student-panel");
+            return new ModelAndView("teacher/student-panel");
         }
 //------Course can be advised now---------------------------------------------------------------
         //----theory and lab seat status updated with +1-----
@@ -329,7 +329,7 @@ public class TeacherController {
         model.addAttribute("courses", courseService.findAllTheoryCourses());
         model.addAttribute("routine", getRoutine(studentId));
         model.addAttribute("student", student);
-        return new ModelAndView("/teacher/student-panel");
+        return new ModelAndView("teacher/student-panel");
     }
 
 
@@ -362,7 +362,7 @@ public class TeacherController {
         model.addAttribute("student", student);
         model.addAttribute("routine", getRoutine(studentId));
         model.addAttribute("courses", courseService.findAllTheoryCourses());
-        return new ModelAndView("/teacher/student-panel");
+        return new ModelAndView("teacher/student-panel");
     }
 
 
@@ -383,7 +383,7 @@ public class TeacherController {
         }
         model.addAttribute("routine", routine);
         model.addAttribute("student", student);
-        return new ModelAndView("/teacher/student-panel");
+        return new ModelAndView("teacher/student-panel");
     }
 
 

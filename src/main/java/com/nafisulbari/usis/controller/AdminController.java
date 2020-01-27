@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 
 @Controller
@@ -37,27 +36,27 @@ public class AdminController {
 
 
     @GetMapping("/admin/admin-home")
-    public String adminHome() {
+    public ModelAndView adminHome() {
 
-        return "/admin/admin-home";
+        return new ModelAndView("admin/admin-home");
     }
 //----------------------------USER MANAGEMENT----------------------------------
 
     @GetMapping("/admin/user-portal")
-    public String showUsersPage(Model model) {
+    public ModelAndView showUsersPage(Model model) {
         model.addAttribute("users", userService.findAllUsers());
-        return "/admin/user-portal";
+        return new ModelAndView("admin/user-portal");
     }
 
 
     @GetMapping("/admin/add-user")
-    public String addUserPage(User theUser) {
+    public ModelAndView addUserPage(User theUser) {
         //returning the add user form
-        return "admin/add-user";
+        return new ModelAndView("admin/add-user");
     }
 
     @PostMapping("/admin/add-user-account")
-    public String addUserAccount(@Valid User user, BindingResult result, Model model) {
+    public ModelAndView addUserAccount(@Valid User user, BindingResult result, Model model) {
         //garbage email checker
         //Regex reference: https://emailregex.com/
         String email = user.getEmail();
@@ -69,14 +68,14 @@ public class AdminController {
                 "\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])")) {
             model.addAttribute(user);
             model.addAttribute("garbageEmail", true);
-            return "/admin/add-user";
+            return new ModelAndView("admin/add-user");
         }
         //garbage mobile checker
         String mobile = user.getMobile();
         if (!mobile.matches("^(\\+8801|8801|01)(\\d){9}")) {
             model.addAttribute(user);
             model.addAttribute("garbageMobile", true);
-            return "/admin/add-user";
+            return new ModelAndView("admin/add-user");
         }
 
         try {
@@ -84,14 +83,14 @@ public class AdminController {
             User tempUser = userService.findUserByEmail(user);
             if (tempUser != null) {
                 model.addAttribute("emailExists", true);
-                return "/admin/add-user";
+                return new ModelAndView("admin/add-user");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         if (result.hasErrors()) {
-            return "admin/add-user";
+            return new ModelAndView("admin/add-user");
         }
         //encoding password with Bcrypt
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -102,23 +101,23 @@ public class AdminController {
 
         //after successful operation we will be returned to user-portal page
         model.addAttribute("users", userService.findAllUsers());
-        return "admin/user-portal";
+        return new ModelAndView("admin/user-portal");
     }
 
     // Fetch the edit user page with user details
     @GetMapping("/admin/edit-user/{id}")
-    public String editUserPage(@PathVariable("id") int id, Model model) {
+    public ModelAndView editUserPage(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
-        return "/admin/edit-user";
+        return new ModelAndView("admin/edit-user");
     }
 
     // operation of edit page
     @PostMapping("/admin/update-user/{id}")
-    public String updateUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
+    public ModelAndView updateUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             theUser.setId(id);
-            return "admin/edit-user";
+            return new ModelAndView("admin/edit-user");
         }
 
         //encoding with bcrypt
@@ -128,12 +127,12 @@ public class AdminController {
         userService.saveOrUpdateUser(theUser);
 
         model.addAttribute("users", userService.findAllUsers());
-        return "admin/edit-user";
+        return new ModelAndView("admin/edit-user");
     }
 
     //deletes the user
     @GetMapping("/admin/delete-user/{id}")
-    public String deleteUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
+    public ModelAndView deleteUser(@PathVariable("id") int id, User theUser, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             throw new RuntimeException("no user found with id :" + id);
@@ -142,20 +141,20 @@ public class AdminController {
         userService.deleteUserById(id);
 
         model.addAttribute("users", userService.findAllUsers());
-        return "admin/user-portal";
+        return new ModelAndView("admin/user-portal");
     }
 
     //----------------------------PASSWORD RESET MANAGEMENT----------------------------------
     //fetches the password request page with all password requests
     @GetMapping("/admin/password-request")
-    public String passwordRequestPage(Model model) {
+    public ModelAndView passwordRequestPage(Model model) {
         model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
-        return "/admin/password-request";
+        return new ModelAndView("admin/password-request");
     }
 
     //admin accepts the password request
     @GetMapping("/admin/password-accept/{id}")
-    public String passwordAccept(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
+    public ModelAndView passwordAccept(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             throw new RuntimeException("no user found with id :" + id);
@@ -163,12 +162,12 @@ public class AdminController {
         passwordRequestService.acceptByPasswordEmail(id);
 
         model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
-        return "admin/password-request";
+        return new ModelAndView("admin/password-request");
     }
 
     //admin rejects the password request
     @GetMapping("/admin/password-reject/{id}")
-    public String passwordReject(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
+    public ModelAndView passwordReject(@PathVariable("id") int id, PasswordRequest thePasswordRequest, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             throw new RuntimeException("no user found with id :" + id);
@@ -176,7 +175,7 @@ public class AdminController {
         passwordRequestService.rejectByPasswordId(id);
 
         model.addAttribute("passwordrequests", passwordRequestService.findAllPasswordRequest());
-        return "admin/password-request";
+        return new ModelAndView("admin/password-request");
     }
 
 
@@ -187,14 +186,14 @@ public class AdminController {
 
         theModel.addAttribute("courses", courseService.findAllCourses());
 
-        return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theUser);
+        return new ModelAndView("admin/course-portal", String.valueOf(theModel), theUser);
     }
 
 
     @GetMapping("/admin/add-course")
-    public String addCoursePage(Course theCourse) {
+    public ModelAndView addCoursePage(Course theCourse) {
 
-        return "admin/add-course";
+        return new ModelAndView("admin/add-course");
     }
 
     @PostMapping("/admin/add-new-course")
@@ -212,13 +211,13 @@ public class AdminController {
         courseService.saveOrUpdateCourse(theCourse);
 
         theModel.addAttribute("courses", courseService.findAllCourses());
-        return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theCourse);
+        return new ModelAndView("admin/course-portal", String.valueOf(theModel), theCourse);
     }
 
     @GetMapping("/admin/edit-course/{id}")
     public ModelAndView editCoursePage(@PathVariable("id") int id, Model theModel, Course theCourse) {
         theModel.addAttribute("course", courseService.findCourseById(id));
-        return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
+        return new ModelAndView("admin/edit-course", String.valueOf(theModel), theCourse);
     }
 
     @PostMapping("/admin/update-course/{id}")
@@ -226,7 +225,7 @@ public class AdminController {
 
         if (result.hasErrors()) {
             theCourse.setId(id);
-            return new ModelAndView("/admin/edit-course", String.valueOf(theModel), theCourse);
+            return new ModelAndView("admin/edit-course", String.valueOf(theModel), theCourse);
         }
 
         if (theCourse.getSaturday() == null) theCourse.setSaturday("");
@@ -239,7 +238,7 @@ public class AdminController {
         courseService.saveOrUpdateCourse(theCourse);
 
         theModel.addAttribute("courses", courseService.findAllCourses());
-        return new ModelAndView("/admin/course-portal", String.valueOf(theModel), theCourse);
+        return new ModelAndView("admin/course-portal", String.valueOf(theModel), theCourse);
     }
 
     @GetMapping("/admin/delete-course/{id}")
