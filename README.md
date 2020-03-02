@@ -47,3 +47,4 @@ Email: std1@gmail.com
 
 Pass:  000
 
+This site is hosted on https://usis.nafisulbari.com/ for you to play with. Cheers !
