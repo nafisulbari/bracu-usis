@@ -8,11 +8,12 @@
         <version>2.1.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.nafisulbari</groupId>
+
+    <groupId>com.nafisulbari.usis</groupId>
     <artifactId>usis</artifactId>
     <version>0.1</version>
     <name>usis</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Brac University's course clash resolver for teachers</description>
 
     <properties>
         <java.version>1.8</java.version>
